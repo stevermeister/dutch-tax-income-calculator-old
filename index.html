@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html ng-app="dit-calculator">
+<head>
+    <meta charset="utf-8">
+    <title>Dutch Income Tax Calculator</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<!--[if lt IE 8]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<div class="container" ng-controller="mainController">
+    <div class="center-block">
+
+        <h1>Dutch Income Tax Calculator <small>makes your work easy</small></h1>
+
+        <div class="well form-actions">
+            description description description description description description
+        </div>
+
+<form role="form">
+    <div class="control-group radio_buttons optional article_content_type">
+
+        <label class="radio_buttons optional control-label">Age</label>
+        [<label><input type="radio" name="years[]" checked> < 65</label>]
+        [<label>    <input type="radio" name="years[]"> 65 - 70</label>]
+        [<label>    <input type="radio" name="years[]"> > 70</label>]
+
+    </div>
+
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" name="ruling" ng-model="salary.ruling"> I have 30% ruling
+
+        </label>
+    </div>
+    <div class="form-group">
+        <label for="gross_year">Annual gross income</label>
+        <input type="number" class="form-control" id="gross_year" placeholder="36000" ng-model="salary.grossYear">
+    </div>
+    <div class="form-group">
+        <label for="tax_rate">Approximate Tax Rate</label>
+        <input type="text" class="form-control" id="tax_rate" placeholder="42%" ng-model="salary.taxRate" disabled>
+    </div>
+    <div class="form-group">
+        <label for="gross_month">Monthly gross income</label>
+        <input type="number" class="form-control" id="gross_month" placeholder="3000" ng-model="salary.grossMonth" disabled>
+    </div>
+    <div class="form-group">
+        <label for="net_month">Monthly net income</label>
+        <input type="number" class="form-control" id="net_month" placeholder="3000" ng-model="salary.netMonth" disabled>
+    </div>
+</form>
+
+    </div>
+</div>
+
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script src="app.js"></script>
+
+<!-- Google Analytics -->
+<script>
+    (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+        e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+        e.src='//www.google-analytics.com/analytics.js';
+        r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+    ga('create','UA-12112718-4');ga('send','pageview');
+</script>
+</body>
+</html>
