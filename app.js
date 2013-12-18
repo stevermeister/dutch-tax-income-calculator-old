@@ -5,25 +5,26 @@ app.controller('mainController', ['$scope', function($scope){
     $scope.salary = {
         grossYear: 36000,
         grossMonth: 3000,
+        netYear: 19200,
         netMonth: 1600,
         taxRate: 42,
-        ruling: false
+        ruling: false,
+        age: false
     }
 
-    $scope.$watch('salary.ruling', function(){
-        $scope.salary.netMonth = ~~(($scope.salary.grossYear-getTaxAmount($scope.salary.grossYear, $scope.salary.ruling))/12);
-        $scope.salary.taxRate = getTaxRate($scope.salary.netMonth, $scope.salary.grossMonth) + '%';
-    });
+    $scope.$watch('salary.age', reCalculate);
+    $scope.$watch('salary.ruling', reCalculate);
+    $scope.$watch('salary.grossYear', reCalculate);
 
-    $scope.$watch('salary.grossYear', function(grossYear){
-        grossYear = grossYear || 0;
+    function reCalculate(){
+        grossYear = $scope.salary.grossYear || 0;
         $scope.salary.grossMonth = ~~(grossYear/12);
-        $scope.salary.netMonth = ~~((grossYear-getTaxAmount(grossYear, $scope.salary.ruling))/12);
-        $scope.salary.taxRate = getTaxRate($scope.salary.netMonth, $scope.salary.grossMonth) + '%';
-    });
+        $scope.salary.netYear = grossYear - getTaxAmount(grossYear, $scope.salary.ruling, $scope.salary.age);
+        $scope.salary.netMonth = ~~($scope.salary.netYear/12);
+        $scope.salary.taxRate = getTaxRate($scope.salary.netYear, grossYear) + '%';
+    }
 
-
-    function getTaxAmount(salary, isRuling){
+    function getTaxAmount(salary, isRuling, age){
         isRuling = isRuling || false;
 
         var taxAmountPeriods = [
@@ -34,16 +35,19 @@ app.controller('mainController', ['$scope', function($scope){
         ];
 
         var taxRates = [.37 , .42 ,  .42 ,  .52 ];
-        var taxRates64 = [.37 , .42 ,  .42 ,  .52 ];
+        var taxRates64 = [0.1575 , 0.235 ,  .42 ,  .52 ];
+
+        if(age){
+            taxRates = taxRates64;
+        }
 
         var taxAmount = 0;
-        var salaryLeft = 0;
-        var taxableAmount = salary;
+        var salaryLeft = salary;
 
         if( isRuling ){
-            taxableAmount = salary * 0.7;
+            salaryLeft = salary * 0.7;
         }
-        salaryLeft = taxableAmount;
+
         for(var i=0; i<taxRates.length; i++){
 
             if(salaryLeft - taxAmountPeriods[i] < 0){
@@ -54,11 +58,14 @@ app.controller('mainController', ['$scope', function($scope){
                 salaryLeft = salaryLeft - taxAmountPeriods[i];
             }
         }
-
+        console.log(taxAmount);
         return taxAmount;
     }
 
     function getTaxRate(net, gross){
+        if(!gross){
+            return 0;
+        }
         return ((1 - net/gross) * 100).toFixed(2);
     }
 

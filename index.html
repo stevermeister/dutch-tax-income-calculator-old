@@ -6,7 +6,6 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
-    <link rel="stylesheet" href="main.css">
 </head>
 <body>
 <!--[if lt IE 8]>
@@ -18,18 +17,18 @@
 
         <h1>Dutch Income Tax Calculator <small>makes your work easy</small></h1>
 
-        <div class="well form-actions">
-            description description description description description description
+        <div class="well form-actions small">
+            Once I came to conclusion that salary calculations took much time. I'd tried to find online tool but fould only spreadsheet that did not work for me.
+            Being AngularJS lover I decided to spend several hours and create such tool based on this framework. You can see code on <a href="https://github.com/stevermeister/dutch-tax-income-calculator">github</a>, welcome for propositions.
+            I've run through many sites with tax explanations, but most useful for me was <a href="http://www.iamexpat.nl/expat-page/official-issues/taxation/dutch-tax-system" title="iamexpat.nl">this</a> one.
+
         </div>
 
 <form role="form">
-    <div class="control-group radio_buttons optional article_content_type">
-
-        <label class="radio_buttons optional control-label">Age</label>
-        [<label><input type="radio" name="years[]" checked> < 65</label>]
-        [<label>    <input type="radio" name="years[]"> 65 - 70</label>]
-        [<label>    <input type="radio" name="years[]"> > 70</label>]
-
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" name="age" ng-model="salary.age"> I'm 65+ years old
+        </label>
     </div>
 
     <div class="checkbox">
@@ -40,32 +39,41 @@
     </div>
     <div class="form-group">
         <label for="gross_year">Annual gross income</label>
-        <input type="number" class="form-control" id="gross_year" placeholder="36000" ng-model="salary.grossYear">
+        <input type="number" class="form-control" id="gross_year" placeholder="0" ng-model="salary.grossYear">
     </div>
     <div class="form-group">
         <label for="tax_rate">Approximate Tax Rate</label>
-        <input type="text" class="form-control" id="tax_rate" placeholder="42%" ng-model="salary.taxRate" disabled>
+        <input type="text" class="form-control" id="tax_rate" placeholder="0%" ng-model="salary.taxRate" disabled>
     </div>
     <div class="form-group">
         <label for="gross_month">Monthly gross income</label>
-        <input type="number" class="form-control" id="gross_month" placeholder="3000" ng-model="salary.grossMonth" disabled>
+        <input type="text" class="form-control" id="gross_month" placeholder="0" ng-model="salary.grossMonth" disabled>
     </div>
     <div class="form-group">
         <label for="net_month">Monthly net income</label>
-        <input type="number" class="form-control" id="net_month" placeholder="3000" ng-model="salary.netMonth" disabled>
+        <input type="text" class="form-control" id="net_month" placeholder="0" ng-model="salary.netMonth" disabled>
     </div>
 </form>
 
     </div>
 </div>
 
-
+<footer class="footer">
+    <div class="container text-center small grey">
+        <p>
+            Created by
+            <a href="http://stepansuvorov.com">Stepan Suvorov</a>
+        </p>
+        <p>
+            <a href="https://github.com/stevermeister/dutch-tax-income-calculator">GitHub Page</a>
+        </p>
+    </div>
+</footer>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <script src="app.js"></script>
-
 <!-- Google Analytics -->
 <script>
     (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
