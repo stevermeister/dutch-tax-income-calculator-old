@@ -30,11 +30,11 @@ app.controller('mainController', ['$scope', function($scope){
         var taxAmountPeriods = [
             19645,
             13718, // 33363 - 19645
-            22628, //55991 - 33363
+            23168, //56531 - 33363
             Infinity
         ];
 
-        var taxRates = [.37 , .42 ,  .42 ,  .52 ];
+        var taxRates = [.3625 , .42 ,  .42 ,  .52 ];
         var taxRates64 = [0.1575 , 0.235 ,  .42 ,  .52 ];
 
         if(age){
