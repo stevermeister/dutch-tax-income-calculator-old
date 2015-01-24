@@ -1,73 +1,103 @@
 <!DOCTYPE html>
 <html ng-app="dit-calculator">
 <head>
-    <meta charset="utf-8">
-    <title>Dutch Income Tax Calculator</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+  <meta charset="utf-8">
+  <title>Dutch Income Tax Calculator</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
 </head>
 <body>
 <!--[if lt IE 8]>
-<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+  your browser</a> to improve your experience.</p>
 <![endif]-->
 
 <div class="container" ng-controller="mainController">
-    <div class="center-block">
+  <div class="center-block">
 
-        <h1>Dutch Income Tax Calculator <small>makes your work easy, actual for 2014</small></h1>
+    <h1>Dutch Income Tax Calculator
+      <small>makes your work easy, actual for 2015</small>
+    </h1>
 
-        <div class="well form-actions small">
-            Once I came to conclusion that salary calculations took much time. I'd tried to find online tool but fould only spreadsheet that did not work for me.
-            Being AngularJS lover I decided to spend several hours and create such tool based on this framework. You can see code on <a href="https://github.com/stevermeister/dutch-tax-income-calculator">github</a>, welcome for propositions.
-            I've run through many sites with tax explanations, but most useful for me was <a href="http://www.iamexpat.nl/expat-page/official-issues/taxation/dutch-tax-system" title="iamexpat.nl">this</a> one.
+    <div class="well form-actions small">
+      Once I came to conclusion that salary calculations took much time. I'd tried to find online tool but fould only
+      spreadsheet that did not work for me.
+      Being AngularJS lover I decided to spend several hours and create such tool based on this framework. You can see
+      code on <a href="https://github.com/stevermeister/dutch-tax-income-calculator">github</a>, welcome for
+      propositions.
+      I've run through many sites with tax explanations, but most useful for me was <a
+      href="http://www.iamexpat.nl/expat-page/official-issues/taxation/dutch-tax-system" title="iamexpat.nl">this</a>
+      one.
 
-        </div>
+    </div>
 
-<form role="form">
-    <div class="checkbox">
+    <form role="form">
+      <div class="checkbox">
         <label>
-            <input type="checkbox" name="age" ng-model="salary.age"> I'm 65+ years old
+          <input type="checkbox" name="age" ng-model="salary.age"> I'm 65+ years old
         </label>
-    </div>
+      </div>
 
-    <div class="checkbox">
+      <div class="checkbox">
         <label>
-            <input type="checkbox" name="ruling" ng-model="salary.ruling"> I have 30% ruling
+          <input type="checkbox" name="ruling" ng-model="salary.ruling"> I have 30% ruling <sup>*</sup>
 
         </label>
-    </div>
-    <div class="form-group">
-        <label for="gross_year">Annual gross income</label>
-        <input type="number" class="form-control" id="gross_year" placeholder="0" ng-model="salary.grossYear">
-    </div>
-    <div class="form-group">
-        <label for="tax_rate">Approximate Tax Rate</label>
-        <input type="text" class="form-control" id="tax_rate" placeholder="0%" ng-model="salary.taxRate" disabled>
-    </div>
-    <div class="form-group">
-        <label for="gross_month">Monthly gross income</label>
-        <input type="text" class="form-control" id="gross_month" placeholder="0" ng-model="salary.grossMonth" disabled>
-    </div>
-    <div class="form-group">
-        <label for="net_month">Monthly net income</label>
-        <input type="text" class="form-control" id="net_month" placeholder="0" ng-model="salary.netMonth" disabled>
-    </div>
-</form>
+      </div>
+      <div class="form-group">
+        <label>Annual gross income</label>
+        <input type="number" class="form-control" placeholder="0" ng-model="salary.grossYear">
+      </div>
 
-    </div>
+      <div class="form-group">
+        <label>Taxable Income</label>
+        <input type="number" class="form-control" placeholder="0" ng-model="salary.taxableYear">
+      </div>
+
+      <!--<div class="form-group">-->
+        <!--<label>Approximate Tax Rate</label>-->
+        <!--<input type="text" class="form-control" placeholder="0%" ng-model="salary.taxRate" disabled>-->
+      <!--</div>-->
+
+      <div class="form-group">
+        <label>Monthly gross income</label>
+        <input type="text" class="form-control" placeholder="0" ng-model="salary.grossMonth" disabled>
+      </div>
+      <div class="form-group">
+        <label>Monthly net income</label>
+        <input type="text" class="form-control" placeholder="0" ng-model="salary.netMonth" disabled>
+      </div>
+    </form>
+
+  </div>
+
+  <div class="small">
+    <br><br>
+    <sup>*</sup> The salary criteria for the <b>30%-ruling</b> as per January 2015 are as follows:<br>
+    <ul>
+      <li>The annual taxable salary for an employee must be more than <b>EUR 36,705</b> (2014: EUR 36,378).</li>
+      <li>The taxable salary for an employee with a master’s degree and who is younger than 30 years, must be more than
+        <b>EUR 27,901</b> (2014: EUR 27,653).
+      </li>
+    </ul>
+  </div>
+
 </div>
 
+
+
 <footer class="footer">
-    <div class="container text-center small grey">
-        <p>
-            Created by
-            <a href="http://stepansuvorov.com">Stepan Suvorov</a>
-        </p>
-        <p>
-            <a href="https://github.com/stevermeister/dutch-tax-income-calculator">GitHub Page</a>
-        </p>
-    </div>
+  <div class="container text-center small grey">
+    <p>
+      Created by
+      <a href="http://stepansuvorov.com">Stepan Suvorov</a>
+    </p>
+
+    <p>
+      <a href="https://github.com/stevermeister/dutch-tax-income-calculator">GitHub Page</a>
+    </p>
+  </div>
 </footer>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -76,12 +106,20 @@
 <script src="app.js"></script>
 <!-- Google Analytics -->
 <script>
-    (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-        e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-        e.src='//www.google-analytics.com/analytics.js';
-        r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-    ga('create','UA-12112718-4');ga('send','pageview');
+  (function(b, o, i, l, e, r) {
+    b.GoogleAnalyticsObject = l;
+    b[l] || (b[l] =
+      function() {
+        (b[l].q = b[l].q || []).push(arguments)
+      });
+    b[l].l = +new Date;
+    e = o.createElement(i);
+    r = o.getElementsByTagName(i)[0];
+    e.src = '//www.google-analytics.com/analytics.js';
+    r.parentNode.insertBefore(e, r)
+  }(window, document, 'script', 'ga'));
+  ga('create', 'UA-12112718-4');
+  ga('send', 'pageview');
 </script>
 </body>
 </html>
