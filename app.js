@@ -2,123 +2,132 @@ var app = angular.module('dit-calculator', []);
 
 app.controller('mainController', ['$scope', function($scope) {
 
-  var taxAmountPeriods = [
-    19822, // 0 - 19,822
-    13767, // 33,589 - 19,822
-    23996, // 57,585 - 33,589
-    Infinity
-  ];
+	var taxRates = [0.365, 0.42, 0.42, 0.52],
+		taxRates64 = [0.1575, 0.235, 0.42, 0.52],
+		coefficient = 0.7,
+		months = 12;
 
-  // * 0.7
-  var taxAmountPeriodsRuling = [
-    (taxAmountPeriods[0] * 0.7),
-    ((taxAmountPeriods[1] - taxAmountPeriods[0]) * 0.7),
-    ((taxAmountPeriods[2] - taxAmountPeriods[1]) * 0.7),
-    Infinity
-  ];
+	var taxAmountPeriods = [
+		19822, // 0 - 19,822
+		13767, // 33,589 - 19,822
+		23996, // 57,585 - 33,589
+		Infinity
+	];
 
-  var taxRates = [.365, .42, .42, .52];
-  var taxRates64 = [0.1575, 0.235, .42, .52];
+	// * 0.7
+	var taxAmountPeriodsRuling = [
+		(taxAmountPeriods[0] * coefficient),
+		((taxAmountPeriods[1] - taxAmountPeriods[0]) * coefficient),
+		((taxAmountPeriods[2] - taxAmountPeriods[1]) * coefficient),
+		Infinity
+	];
 
-  $scope.salary = {
-    grossYear: 36000,
-    taxableYear: 36000,
-    grossMonth: 3000,
-    netYear: 19200,
-    netMonth: 1600,
-    ruling: false,
-    age: false
-  }
+	$scope.salary = {
+		grossYear: 36000,
+		taxableYear: 36000,
+		grossMonth: 3000,
+		netYear: 19200,
+		netMonth: 1600,
+		ruling: false,
+		age: false
+	};
 
-  $scope.$watch('salary.age', reCalculateFromGross);
-  $scope.$watch('salary.ruling', reCalculateFromGross);
+	// Private functions
 
-  function reCalculateFromGross() {
-    var grossYear = $scope.salary.grossYear || 0;
-    $scope.salary.taxableYear = getTaxableIncome(grossYear, $scope.salary.ruling)
-    $scope.salary.grossMonth = ~~(grossYear / 12);
-    $scope.salary.netYear = grossYear - getTaxAmount($scope.salary.taxableYear, $scope.salary.age);
-    $scope.salary.netMonth = ~~($scope.salary.netYear / 12);
-  }
+	function reCalculateFromGross() {
+		var grossYear = $scope.salary.grossYear || 0;
 
-  $scope.reCalculateFromGross = reCalculateFromGross;
+		$scope.salary.taxableYear = getTaxableIncome(grossYear, $scope.salary.ruling);
+		$scope.salary.grossMonth = ~~(grossYear / months);
+		$scope.salary.netYear = grossYear - getTaxAmount($scope.salary.taxableYear, $scope.salary.age);
+		$scope.salary.netMonth = ~~($scope.salary.netYear / months);
+	}
 
-  $scope.reCalculateFromGrossMonth = function() {
-    $scope.salary.grossYear = $scope.salary.grossMonth * 12;
-    $scope.salary.taxableYear = getTaxableIncome($scope.salary.grossYear, $scope.salary.ruling)
-    $scope.salary.netYear = $scope.salary.grossYear - getTaxAmount($scope.salary.taxableYear, $scope.salary.age);
-    $scope.salary.netMonth = ~~($scope.salary.netYear / 12);
-  }
+	function getTaxableIncome(grossYear, isRuling) {
+		isRuling = isRuling || false;
 
-  $scope.reCalculateFromNetMonth = function() {
-    var netYear = $scope.salary.netMonth * 12;
-    $scope.salary.grossYear = getGrossFromNet(netYear, $scope.salary.ruling);
-    $scope.salary.taxableYear = getTaxableIncome($scope.salary.grossYear, $scope.salary.ruling)
-    $scope.salary.grossMonth = ~~($scope.salary.grossYear / 12);
-    $scope.salary.netYear = grossYear - getTaxAmount($scope.salary.taxableYear, $scope.salary.age);
-  }
+		if (isRuling) {
+			return grossYear * coefficient;
+		}
 
-  function getTaxableIncome(grossYear, isRuling) {
-    isRuling = isRuling || false;
+		return grossYear;
+	}
 
-    if (isRuling) {
-      return grossYear * 0.7;
-    }
+	function getTaxAmount(taxableIncome, age) {
+		var currentTaxRates = taxRates,
+			taxAmount = 0;
 
-    return grossYear;
-  }
+		if (age) {
+			currentTaxRates = taxRates64;
+		}
 
-  function getTaxAmount(taxableIncome, age) {
+		for (var i = 0; i < currentTaxRates.length; i++) {
 
-    var currentTaxRates = taxRates;
+			if (taxableIncome - taxAmountPeriods[i] < 0) {
+				taxAmount += taxableIncome * currentTaxRates[i];
+				break;
+			} else {
+				taxAmount += taxAmountPeriods[i] * currentTaxRates[i];
+				taxableIncome = taxableIncome - taxAmountPeriods[i];
+			}
+		}
+		return taxAmount;
+	}
 
-    if (age) {
-      currentTaxRates = taxRates64;
-    }
+	function getGrossFromNet(netYear, ruling, age) {
+		var taxableIncome = netYear,
+			grossYear = 0,
+			currentTaxRates = taxRates,
+			currentTaxAmountPeriods = taxAmountPeriods;
 
-    var taxAmount = 0;
+		ruling = ruling || false;
+		age = age || false;
 
-    for (var i = 0; i < currentTaxRates.length; i++) {
+		if (age) {
+			currentTaxRates = taxRates64;
+		}
 
-      if (taxableIncome - taxAmountPeriods[i] < 0) {
-        taxAmount += taxableIncome * currentTaxRates[i];
-        break;
-      } else {
-        taxAmount += taxAmountPeriods[i] * currentTaxRates[i];
-        taxableIncome = taxableIncome - taxAmountPeriods[i];
-      }
-    }
-    return taxAmount;
-  }
+		if(ruling){
+			currentTaxAmountPeriods = taxAmountPeriodsRuling;
+		}
 
-  function getGrossFromNet(netYear, ruling, age) {
-    var taxableIncome = netYear,
-      grossYear = 0,
-      currentTaxRates = taxRates,
-      currentTaxAmountPeriods = taxAmountPeriods;
-    ruling = ruling || false;
-    age = age || false;
+		var i = 0;
+		while(taxableIncome > 0) {
+			if(taxableIncome < currentTaxAmountPeriods[i]) {
+				grossYear += taxableIncome / currentTaxRates[i];
+				break;
+			}
+			grossYear += currentTaxAmountPeriods[i];
+			taxableIncome -= currentTaxAmountPeriods[i];
+			i++;
+		}
 
-    if (age) {
-      currentTaxRates = taxRates64;
-    }
+		return Math.floor(grossYear);
+	}
 
-    if(ruling){
-      currentTaxAmountPeriods = taxAmountPeriodsRuling;
-    }
+	// Public methods
 
-    var i = 0;
-    while(taxableIncome > 0) {
-      if(taxableIncome < currentTaxAmountPeriods[i]) {
-        grossYear += taxableIncome / currentTaxRates[i];
-        break;
-      }
-      grossYear += currentTaxAmountPeriods[i];
-      taxableIncome -= currentTaxAmountPeriods[i];
-      i++;
-    }
+	$scope.reCalculateFromGross = reCalculateFromGross;
 
-    return Math.floor(grossYear);
-  }
+	$scope.reCalculateFromGrossMonth = function() {
+		$scope.salary.grossYear = $scope.salary.grossMonth * months;
+		$scope.salary.taxableYear = getTaxableIncome($scope.salary.grossYear, $scope.salary.ruling);
+		$scope.salary.netYear = $scope.salary.grossYear - getTaxAmount($scope.salary.taxableYear, $scope.salary.age);
+		$scope.salary.netMonth = ~~($scope.salary.netYear / months);
+	};
+
+	$scope.reCalculateFromNetMonth = function() {
+		var netYear = $scope.salary.netMonth * months;
+
+		$scope.salary.grossYear = getGrossFromNet(netYear, $scope.salary.ruling);
+		$scope.salary.taxableYear = getTaxableIncome($scope.salary.grossYear, $scope.salary.ruling);
+		$scope.salary.grossMonth = ~~($scope.salary.grossYear / months);
+		$scope.salary.netYear = $scope.salary.grossYear - getTaxAmount($scope.salary.taxableYear, $scope.salary.age);
+	};
+
+	// Watchers
+
+	$scope.$watch('salary.age', reCalculateFromGross);
+	$scope.$watch('salary.ruling', reCalculateFromGross);
 
 }]);
