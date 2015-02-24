@@ -12,9 +12,7 @@ app.controller('mainController', ['$scope', function($scope) {
     age: false
   }
 
-  $scope.$watch('salary.age', reCalculate);
-  $scope.$watch('salary.ruling', reCalculate);
-  $scope.$watch('salary.grossYear', reCalculate);
+  $scope.$watchCollection('[salary.age, salary.ruling, salary.grossYear]', reCalculate);
 
   function reCalculate() {
     grossYear = $scope.salary.grossYear || 0;
