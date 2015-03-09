@@ -47,21 +47,26 @@
       </div>
       <div class="form-group">
         <label>Annual gross income</label>
-        <input type="number" class="form-control" placeholder="0" ng-change="reCalculateFromGross()" ng-model="salary.grossYear">
+        <input type="number" class="form-control" placeholder="0" ng-model="salary.grossYear">
       </div>
 
       <div class="form-group">
         <label>Taxable Income</label>
-        <input type="number" class="form-control" placeholder="0" value="{{ salary.taxableYear }}" disabled>
+        <input type="number" class="form-control" placeholder="0" ng-model="salary.taxableYear">
       </div>
+
+      <!--<div class="form-group">-->
+        <!--<label>Approximate Tax Rate</label>-->
+        <!--<input type="text" class="form-control" placeholder="0%" ng-model="salary.taxRate" disabled>-->
+      <!--</div>-->
 
       <div class="form-group">
         <label>Monthly gross income</label>
-        <input type="text" class="form-control" placeholder="0" ng-change="reCalculateFromGrossMonth()"  ng-model="salary.grossMonth">
+        <input type="text" class="form-control" placeholder="0" ng-model="salary.grossMonth" disabled>
       </div>
       <div class="form-group">
         <label>Monthly net income</label>
-        <input type="text" class="form-control" placeholder="0" ng-change="reCalculateFromNetMonth()"  ng-model="salary.netMonth">
+        <input type="text" class="form-control" placeholder="0" ng-model="salary.netMonth" disabled>
       </div>
     </form>
 
