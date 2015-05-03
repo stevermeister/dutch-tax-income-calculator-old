@@ -18,24 +18,19 @@ app.controller('mainController', ['$scope', function($scope) {
 
   function reCalculate() {
     grossYear = $scope.salary.grossYear || 0;
-    $scope.salary.taxableYear = getTaxableIncome(grossYear, $scope.salary.ruling)
+    $scope.salary.taxableYear = $scope.salary.ruling?grossYear * 0.7:grossYear;
+    $scope.salary.generalCredit = getCredits(grossYear).lk;
+    $scope.salary.labourCredit = getCredits(grossYear).ak;
     $scope.salary.grossMonth = ~~(grossYear / 12);
     $scope.salary.netYear = grossYear - getTaxAmount($scope.salary.taxableYear, $scope.salary.age);
     $scope.salary.netMonth = ~~($scope.salary.netYear / 12);
-    $scope.salary.taxRate = getTaxRate($scope.salary.netYear, grossYear) + '%';
+    $scope.salary.incomeTax = getTaxAmount($scope.salary.taxableYear, $scope.salary.age);
   }
 
-  function getTaxableIncome(grossYear, isRuling) {
-    isRuling = isRuling || false;
+  function getTaxAmount(grossYear, isRuling, age) {
 
-    if (isRuling) {
-      return grossYear * 0.7;
-    }
-
-    return grossYear;
-  }
-
-  function getTaxAmount(taxableIncome, age) {
+		var taxableIncome = isRuling?grossYear*0.7:grossYear;
+		//var taxCredits = getCredits(grossYear);
 
     var taxAmountPeriods = [
       19822, // 0 - 19,822
@@ -63,14 +58,17 @@ app.controller('mainController', ['$scope', function($scope) {
         taxableIncome = taxableIncome - taxAmountPeriods[i];
       }
     }
+    //return taxAmount - taxCredits.lk - taxCredits.ak;
     return taxAmount;
   }
 
-  function getTaxRate(net, gross) {
-    if (!gross) {
-      return 0;
-    }
-    return ((1 - net / gross) * 100).toFixed(2);
-  }
+	function getCredits(salary){
+		for(var index = 0; index < creditRates.length; index++){
+			if(creditRates[index].salary > salary){
+				break;
+			}
+		}
+		return index?creditRates[index-1]:creditRates[0];
+	}
 
 }]);
