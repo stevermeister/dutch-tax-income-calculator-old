@@ -18,11 +18,11 @@ app.controller('mainController', ['$scope', function($scope) {
 
   function reCalculate() {
     grossYear = $scope.salary.grossYear || 0;
-    $scope.salary.taxableYear = $scope.salary.ruling?grossYear * 0.7:grossYear;
+    $scope.salary.taxableYear = ~~$scope.salary.ruling?grossYear * 0.7:grossYear;
     $scope.salary.generalCredit = getCredits(grossYear).lk;
     $scope.salary.labourCredit = getCredits(grossYear).ak;
     $scope.salary.grossMonth = ~~(grossYear / 12);
-    $scope.salary.netYear = grossYear - getTaxAmount($scope.salary.taxableYear, $scope.salary.age);
+    $scope.salary.netYear = grossYear - getTaxAmount($scope.salary.taxableYear, $scope.salary.age) + $scope.salary.generalCredit + $scope.salary.labourCredit;
     $scope.salary.netMonth = ~~($scope.salary.netYear / 12);
     $scope.salary.incomeTax = getTaxAmount($scope.salary.taxableYear, $scope.salary.age);
   }
@@ -39,7 +39,9 @@ app.controller('mainController', ['$scope', function($scope) {
       Infinity
     ];
 
-    var taxRates = [.365, .42, .42, .52];
+   	//var taxRates = [.365, .42, .42, .52];
+    //var taxRates = [.0835, .1385, .42, .52]; //2015
+    var taxRates = [.051, .1085, .42, .52]; //2014
     var taxRates64 = [0.1575, 0.235, .42, .52];
 
     if (age) {
@@ -52,9 +54,11 @@ app.controller('mainController', ['$scope', function($scope) {
 
       if (taxableIncome - taxAmountPeriods[i] < 0) {
         taxAmount += taxableIncome * taxRates[i];
+				console.log(taxableIncome , taxRates[i]);
         break;
       } else {
         taxAmount += taxAmountPeriods[i] * taxRates[i];
+				console.log(taxableIncome , taxRates[i]);
         taxableIncome = taxableIncome - taxAmountPeriods[i];
       }
     }
