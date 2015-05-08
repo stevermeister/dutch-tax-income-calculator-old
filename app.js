@@ -18,24 +18,19 @@ app.controller('mainController', ['$scope', function($scope) {
 
   function reCalculate() {
     grossYear = $scope.salary.grossYear || 0;
-    $scope.salary.taxableYear = getTaxableIncome(grossYear, $scope.salary.ruling)
+    $scope.salary.taxableYear = ~~$scope.salary.ruling?grossYear * 0.7:grossYear;
+    $scope.salary.generalCredit = getCredits(grossYear).lk;
+    $scope.salary.labourCredit = getCredits(grossYear).ak;
     $scope.salary.grossMonth = ~~(grossYear / 12);
-    $scope.salary.netYear = grossYear - getTaxAmount($scope.salary.taxableYear, $scope.salary.age);
+    $scope.salary.netYear = grossYear - getTaxAmount($scope.salary.taxableYear, $scope.salary.age) + $scope.salary.generalCredit + $scope.salary.labourCredit;
     $scope.salary.netMonth = ~~($scope.salary.netYear / 12);
-    $scope.salary.taxRate = getTaxRate($scope.salary.netYear, grossYear) + '%';
+    $scope.salary.incomeTax = getTaxAmount($scope.salary.taxableYear, $scope.salary.age);
   }
 
-  function getTaxableIncome(grossYear, isRuling) {
-    isRuling = isRuling || false;
+  function getTaxAmount(grossYear, isRuling, age) {
 
-    if (isRuling) {
-      return grossYear * 0.7;
-    }
-
-    return grossYear;
-  }
-
-  function getTaxAmount(taxableIncome, age) {
+		var taxableIncome = isRuling?grossYear*0.7:grossYear;
+		//var taxCredits = getCredits(grossYear);
 
     var taxAmountPeriods = [
       19822, // 0 - 19,822
@@ -44,7 +39,9 @@ app.controller('mainController', ['$scope', function($scope) {
       Infinity
     ];
 
-    var taxRates = [.365, .42, .42, .52];
+   	//var taxRates = [.365, .42, .42, .52];
+    //var taxRates = [.0835, .1385, .42, .52]; //2015
+    var taxRates = [.051, .1085, .42, .52]; //2014
     var taxRates64 = [0.1575, 0.235, .42, .52];
 
     if (age) {
@@ -57,20 +54,25 @@ app.controller('mainController', ['$scope', function($scope) {
 
       if (taxableIncome - taxAmountPeriods[i] < 0) {
         taxAmount += taxableIncome * taxRates[i];
+				console.log(taxableIncome , taxRates[i]);
         break;
       } else {
         taxAmount += taxAmountPeriods[i] * taxRates[i];
+				console.log(taxableIncome , taxRates[i]);
         taxableIncome = taxableIncome - taxAmountPeriods[i];
       }
     }
+    //return taxAmount - taxCredits.lk - taxCredits.ak;
     return taxAmount;
   }
 
-  function getTaxRate(net, gross) {
-    if (!gross) {
-      return 0;
-    }
-    return ((1 - net / gross) * 100).toFixed(2);
-  }
+	function getCredits(salary){
+		for(var index = 0; index < creditRates.length; index++){
+			if(creditRates[index].salary > salary){
+				break;
+			}
+		}
+		return index?creditRates[index-1]:creditRates[0];
+	}
 
 }]);
