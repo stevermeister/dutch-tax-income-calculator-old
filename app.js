@@ -9,12 +9,11 @@ app.controller('mainController', ['$scope', function($scope) {
     netMonth: 1600,
     taxRate: 42,
     ruling: false,
-    age: false
+    age: false,
+    socialSecurity: true
   }
 
-  $scope.$watch('salary.age', reCalculate);
-  $scope.$watch('salary.ruling', reCalculate);
-  $scope.$watch('salary.grossYear', reCalculate);
+  $scope.$watchGroup(['salary.age', 'salary.ruling', 'salary.socialSecurity', 'salary.grossYear'], reCalculate);
 
   function reCalculate() {
     grossYear = $scope.salary.grossYear || 0;
@@ -22,12 +21,12 @@ app.controller('mainController', ['$scope', function($scope) {
     $scope.salary.generalCredit = getCredits(grossYear).lk;
     $scope.salary.labourCredit = getCredits(grossYear).ak;
     $scope.salary.grossMonth = ~~(grossYear / 12);
-    $scope.salary.netYear = grossYear - getTaxAmount($scope.salary.taxableYear, $scope.salary.age) + $scope.salary.generalCredit + $scope.salary.labourCredit;
+    $scope.salary.netYear = grossYear - getTaxAmount($scope.salary.taxableYear, $scope.salary.age, $scope.salary.socialSecurity) + $scope.salary.generalCredit + $scope.salary.labourCredit;
     $scope.salary.netMonth = ~~($scope.salary.netYear / 12);
-    $scope.salary.incomeTax = getTaxAmount($scope.salary.taxableYear, $scope.salary.age);
+    $scope.salary.incomeTax = getTaxAmount($scope.salary.taxableYear, $scope.salary.age, $scope.salary.socialSecurity);
   }
 
-  function getTaxAmount(grossYear, isRuling, age) {
+  function getTaxAmount(grossYear, isRuling, age, socialSecurity) {
 
 		var taxableIncome = isRuling?grossYear*0.7:grossYear;
 		//var taxCredits = getCredits(grossYear);
@@ -39,10 +38,14 @@ app.controller('mainController', ['$scope', function($scope) {
       Infinity
     ];
 
-   	//var taxRates = [.365, .42, .42, .52];
-    //var taxRates = [.0835, .1385, .42, .52]; //2015
-    var taxRates = [.051, .1085, .42, .52]; //2014
+   	var taxRates = [.365, .42, .42, .52];//2015
+    var taxRatesUnSecure = [.0835, .1385, .42, .52]; //2015 without social security
+    //var taxRates = [.051, .1085, .42, .52]; //2014
     var taxRates64 = [0.1575, 0.235, .42, .52];
+
+    if(!socialSecurity){
+      taxRates = taxRatesUnSecure;
+    }
 
     if (age) {
       taxRates = taxRates64;
