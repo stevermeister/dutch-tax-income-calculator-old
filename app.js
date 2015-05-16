@@ -21,9 +21,9 @@ app.controller('mainController', ['$scope', function($scope) {
     $scope.salary.generalCredit = getCredits(grossYear).lk;
     $scope.salary.labourCredit = getCredits(grossYear).ak;
     $scope.salary.grossMonth = ~~(grossYear / 12);
-    $scope.salary.netYear = grossYear - getTaxAmount($scope.salary.taxableYear, $scope.salary.age, $scope.salary.socialSecurity) + $scope.salary.generalCredit + $scope.salary.labourCredit;
+    $scope.salary.netYear = grossYear - getTaxAmount($scope.salary.taxableYear, $scope.salary.ruling, $scope.salary.age, $scope.salary.socialSecurity) + $scope.salary.generalCredit + $scope.salary.labourCredit;
     $scope.salary.netMonth = ~~($scope.salary.netYear / 12);
-    $scope.salary.incomeTax = getTaxAmount($scope.salary.taxableYear, $scope.salary.age, $scope.salary.socialSecurity);
+    $scope.salary.incomeTax = getTaxAmount($scope.salary.taxableYear, $scope.salary.ruling, $scope.salary.age, $scope.salary.socialSecurity);
   }
 
   function getTaxAmount(grossYear, isRuling, age, socialSecurity) {
@@ -56,16 +56,15 @@ app.controller('mainController', ['$scope', function($scope) {
     for (var i = 0; i < taxRates.length; i++) {
 
       if (taxableIncome - taxAmountPeriods[i] < 0) {
-        taxAmount += taxableIncome * taxRates[i];
+        taxAmount += Math.floor(taxableIncome * taxRates[i]);
 				console.log(taxableIncome , taxRates[i]);
         break;
       } else {
-        taxAmount += taxAmountPeriods[i] * taxRates[i];
+        taxAmount += Math.floor(taxAmountPeriods[i] * taxRates[i]);
 				console.log(taxableIncome , taxRates[i]);
         taxableIncome = taxableIncome - taxAmountPeriods[i];
       }
     }
-    //return taxAmount - taxCredits.lk - taxCredits.ak;
     return taxAmount;
   }
 
