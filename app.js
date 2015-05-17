@@ -21,15 +21,12 @@ app.controller('mainController', ['$scope', function($scope) {
     $scope.salary.generalCredit = getCredits(grossYear).lk;
     $scope.salary.labourCredit = getCredits(grossYear).ak;
     $scope.salary.grossMonth = ~~(grossYear / 12);
-    $scope.salary.netYear = grossYear - getTaxAmount($scope.salary.taxableYear, $scope.salary.ruling, $scope.salary.age, $scope.salary.socialSecurity) + $scope.salary.generalCredit + $scope.salary.labourCredit;
+    $scope.salary.netYear = grossYear - getTaxAmount($scope.salary.taxableYear, $scope.salary.age, $scope.salary.socialSecurity) + $scope.salary.generalCredit + $scope.salary.labourCredit;
     $scope.salary.netMonth = ~~($scope.salary.netYear / 12);
-    $scope.salary.incomeTax = getTaxAmount($scope.salary.taxableYear, $scope.salary.ruling, $scope.salary.age, $scope.salary.socialSecurity);
+    $scope.salary.incomeTax = getTaxAmount($scope.salary.taxableYear, $scope.salary.age, $scope.salary.socialSecurity);
   }
 
-  function getTaxAmount(grossYear, isRuling, age, socialSecurity) {
-
-		var taxableIncome = isRuling?grossYear*0.7:grossYear;
-		//var taxCredits = getCredits(grossYear);
+  function getTaxAmount(taxableIncome, age, socialSecurity) {
 
     var taxAmountPeriods = [
       19822, // 0 - 19,822
