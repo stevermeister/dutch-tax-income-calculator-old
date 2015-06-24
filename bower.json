@@ -1,0 +1,19 @@
+{
+  "name": "dutch-tax-income-calculator",
+  "version": "1.0.0",
+  "homepage": "https://github.com/stevermeister/dutch-tax-income-calculator",
+  "authors": [
+    "Stepan Suvorov <stevermeister@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "angular": "~1.4.1"
+  }
+}
