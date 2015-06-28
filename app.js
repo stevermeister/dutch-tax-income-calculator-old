@@ -1,4 +1,4 @@
-var app = angular.module('dit-calculator', []);
+var app = angular.module('dit-calculator', ['ngMaterial']);
 
 app.controller('mainController', ['$scope', function($scope) {
 

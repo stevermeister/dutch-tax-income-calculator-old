@@ -14,6 +14,9 @@
     "tests"
   ],
   "devDependencies": {
-    "angular": "~1.4.1"
+    "angular": "~1.4.1",
+    "angular-animate": "~1.4.1",
+    "angular-aria": "~1.4.1",
+    "angular-material": "~0.10.0"
   }
 }
