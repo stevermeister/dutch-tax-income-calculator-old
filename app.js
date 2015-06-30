@@ -54,11 +54,9 @@ app.controller('mainController', ['$scope', '$mdDialog', function ($scope, $mdDi
 
       if (taxableIncome - taxAmountPeriods[i] < 0) {
         taxAmount += Math.floor(taxableIncome * taxRates[i]);
-        console.log(taxableIncome, taxRates[i]);
         break;
       } else {
         taxAmount += Math.floor(taxAmountPeriods[i] * taxRates[i]);
-        console.log(taxableIncome, taxRates[i]);
         taxableIncome = taxableIncome - taxAmountPeriods[i];
       }
     }
