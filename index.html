@@ -1,151 +1,158 @@
 <!DOCTYPE html>
 <html ng-app="dit-calculator">
 <head>
-    <meta charset="utf-8">
-    <title>Dutch Income Tax Calculator</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
-    <link rel="stylesheet" href="main.css">
+	<meta charset="utf-8">
+	<title>Dutch Income Tax Calculator</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
 <!--[if lt IE 8]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
-    your browser</a> to improve your experience.</p>
+	your browser</a> to improve your experience.</p>
 <![endif]-->
 
 <div class="container" ng-controller="mainController">
-    <md class="center-block">
+	<md class="center-block">
 
-        <md-toolbar class="md-active">
-            <h2 class="md-toolbar-tools">
-                <span flex="" class="md-display-1">Dutch Income Tax Calculator</span>
-                <span> - makes your work easy, actual for 2015</span>
-                <md-button class="md-fab md-accent" aria-label="about" ng-click="showAbout = !showAbout">
-                    <md-tooltip>
-                        About
-                    </md-tooltip>
-                    <span class="md-title">?</span>
+		<md-toolbar class="md-active header">
+			<h2 class="md-headline md-margin">
+				Dutch Income Tax Calculator
+			</h2>
+			<span class="motto md-subhead"> makes your work easy, actual for 2015</span>
+		</md-toolbar>
 
-            </h2>
-        </md-toolbar>
+		<md-content layout-padding="">
+			<form role="form" >
+				<md-input-container class="md-display-1">
+					<label>Annual gross income</label>
+					<input type="number" ng-model="salary.grossYear">
+				</md-input-container>
 
-        <md-content class="md-caption" ng-show="showAbout">
-            Once I came to conclusion that salary calculations took much time. I'd tried to find online tool but fould
-            only spreadsheet that did not work for me.
-            Being AngularJS lover I decided to spend several hours and create such tool based on this framework. You can
-            see code on <a href="https://github.com/stevermeister/dutch-tax-income-calculator">github</a>, welcome for
-            propositions.
-        </md-content>
+				<div layout="row" layout-margin layout-fill layout-padding>
+					<div flex>
+						<div layout="row" layout-margin>
+							<div flex flex-order="1">
+								Taxable Income
+							</div>
+							<div flex flex-order="2" class="report-value">
+								{{salary.taxableYear}}
+							</div>
+						</div>
 
-        <md-content layout-padding="">
-            <form role="form">
-                <div class="md-padding">
-                    <fieldset class="standard">
-                        <legend>Options</legend>
-                        <div layout="column" layout-wrap="">
-                            <div flex="50">
-                                <md-checkbox ng-model="salary.age" aria-label="I'm 65+ years old">
-                                    I'm 65+ years old
-                                </md-checkbox>
-                            </div>
-                            <div flex="50">
-                                <md-checkbox ng-model="salary.socialSecurity"
-                                             aria-label="Social security in the Netherlands">
-                                    Social security in the Netherlands
-                                </md-checkbox>
-                            </div>
-                            <div flex="50">
-                                <md-checkbox ng-model="salary.ruling" aria-label="I have 30% ruling">
-                                    I have 30% ruling
-                                </md-checkbox>
-                            </div>
-                        </div>
-                    </fieldset>
-                </div>
+						<div layout="row" layout-margin>
+							<div flex flex-order="1">
+								Income Tax
+							</div>
+							<div flex flex-order="2" class="report-value">
+								{{salary.incomeTax}}
+							</div>
+						</div>
 
-                <md-input-container>
-                    <label>Annual gross income</label>
-                    <input type="number" ng-model="salary.grossYear">
-                </md-input-container>
+						<div layout="row" layout-margin>
+							<div flex flex-order="1">
+								General Tax Credit
+							</div>
+							<div flex flex-order="2" class="report-value">
+								{{salary.generalCredit}}
+							</div>
+						</div>
 
+						<div layout="row" layout-margin>
+							<div flex flex-order="1">
+								Labour Tax Credit
+							</div>
+							<div flex flex-order="2" class="report-value">
+								{{salary.labourCredit}}
+							</div>
+						</div>
 
-                <div layout="row" layout-margin>
-                    <div flex="20" flex-order="1">
-                        Taxable Income
-                    </div>
-                    <div flex flex-order="2">
-                        {{salary.taxableYear}}
-                    </div>
-                </div>
+						<div layout="row" layout-margin>
+							<div flex flex-order="1">
+								Year net income
+							</div>
+							<div flex flex-order="2" class="report-value">
+								{{salary.netYear}}
+							</div>
+						</div>
 
-                <div layout="row" layout-margin>
-                    <div flex="20" flex-order="1">
-                        Income Tax
-                    </div>
-                    <div flex flex-order="2">
-                        {{salary.incomeTax}}
-                    </div>
-                </div>
+						<div layout="row" layout-margin>
+							<div flex flex-order="1">
+								Monthly net income
+							</div>
+							<div flex flex-order="2" class="report-value">
+								{{salary.netMonth}}
+							</div>
+						</div>
+					</div>
+					<div flex>
 
-                <div layout="row" layout-margin>
-                    <div flex="20" flex-order="1">
-                        General Tax Credit
-                    </div>
-                    <div flex flex-order="2">
-                        {{salary.generalCredit}}
-                    </div>
-                </div>
+						<div layout="column" layout-wrap="">
+							<div flex="50">
+								<md-switch ng-model="salary.age" aria-label="I'm 65+ years old">
+									I'm 65+ years old
+								</md-switch>
+							</div>
+							<div flex="50">
+								<md-switch ng-model="salary.socialSecurity"
+										aria-label="Social security in the Netherlands">
+									Social security in the Netherlands
+								</md-switch>
+							</div>
+							<div flex="50">
+								<md-switch ng-model="salary.ruling" aria-label="I have 30% ruling">
+									I have 30% ruling
+								</md-switch>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
 
-                <div layout="row" layout-margin>
-                    <div flex="20" flex-order="1">
-                        Labour Tax Credit
-                    </div>
-                    <div flex flex-order="2">
-                        {{salary.labourCredit}}
-                    </div>
-                </div>
-
-                <div layout="row" layout-margin>
-                    <div flex="20" flex-order="1">
-                        Year net income
-                    </div>
-                    <div flex flex-order="2">
-                        {{salary.netYear}}
-                    </div>
-                </div>
-
-                <div layout="row" layout-margin>
-                    <div flex="20" flex-order="1">
-                        Monthly net income
-                    </div>
-                    <div flex flex-order="2">
-                        {{salary.netMonth}}
-                    </div>
-                </div>
-            </form>
-        </md-content>
+			<md-fab-speed-dial md-direction="up">
+					<md-fab-trigger>
+						<md-button aria-label="menu" class="md-fab md-warn">
+							<md-icon>menu</md-icon>
+						</md-button>
+					</md-fab-trigger>
+					<md-fab-actions class="sub-buttons">
+						<md-button aria-label="author" class="md-fab md-raised md-mini" href="http://stepansuvorov.com/">
+							<md-icon>face</md-icon>
+							<md-tooltip>
+								Author
+							</md-tooltip>
+						</md-button>
+						<md-button
+								aria-label="about"
+								class="md-fab md-raised md-mini"
+								ng-click="showAboutDialog($event)">
+							<md-icon>help_outline</md-icon>
+							<md-tooltip>
+								About
+							</md-tooltip>
+						</md-button>
+						<md-button
+								aria-label="git"
+								class="md-fab md-raised md-mini"
+								href="https://github.com/stevermeister/dutch-tax-income-calculator">
+							<md-icon md-svg-src="images/github.svg"></md-icon>
+							<md-tooltip>
+								GitHub
+							</md-tooltip>
+						</md-button>
+					</md-fab-actions>
+			</md-fab-speed-dial>
+		</md-content>
 
 </div>
 
-<md-toolbar class="md-active md-caption">
-    <sup>*</sup> The salary criteria for the <b>30%-ruling</b> as per January 2015 are as follows:<br>
-    <ul>
-        <li>The annual taxable salary for an employee must be more than <b>EUR 36,705</b> (2014: EUR 36,378).</li>
-        <li>The taxable salary for an employee with a master’s degree and who is younger than 30 years, must be more
-            than
-            <b>EUR 27,901</b> (2014: EUR 27,653).
-        </li>
-    </ul>
-</md-toolbar>
-
 </div>
 
-<md-content class="md-caption" layout="column" layout-align="center center">
-    <p>Created by <a href="http://stepansuvorov.com">Stepan Suvorov</a></p>
-    <p><a href="https://github.com/stevermeister/dutch-tax-income-calculator">GitHub Page</a></p>
-</md-content>
+
 
 
 <script src="bower_components/angular/angular.js"></script>
@@ -156,20 +163,20 @@
 <script src="app.js"></script>
 <!-- Google Analytics -->
 <script>
-    (function (b, o, i, l, e, r) {
-        b.GoogleAnalyticsObject = l;
-        b[l] || (b[l] =
-                function () {
-                    (b[l].q = b[l].q || []).push(arguments)
-                });
-        b[l].l = +new Date;
-        e = o.createElement(i);
-        r = o.getElementsByTagName(i)[0];
-        e.src = '//www.google-analytics.com/analytics.js';
-        r.parentNode.insertBefore(e, r)
-    }(window, document, 'script', 'ga'));
-    ga('create', 'UA-12112718-4');
-    ga('send', 'pageview');
+	(function (b, o, i, l, e, r) {
+		b.GoogleAnalyticsObject = l;
+		b[l] || (b[l] =
+				function () {
+					(b[l].q = b[l].q || []).push(arguments)
+				});
+		b[l].l = +new Date;
+		e = o.createElement(i);
+		r = o.getElementsByTagName(i)[0];
+		e.src = '//www.google-analytics.com/analytics.js';
+		r.parentNode.insertBefore(e, r)
+	}(window, document, 'script', 'ga'));
+	ga('create', 'UA-12112718-4');
+	ga('send', 'pageview');
 </script>
 </body>
 </html>

@@ -1,0 +1,20 @@
+.report-value {
+	font-weight: bold;
+}
+.header {
+	position: relative;
+}
+.motto {
+	position: absolute;
+	bottom: 5px;
+	left: 50px;
+	font-style: italic;
+}
+.sub-buttons md-icon {
+	color: black !important;
+}
+md-fab-speed-dial {
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
+}
