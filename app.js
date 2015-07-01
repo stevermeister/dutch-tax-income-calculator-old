@@ -1,6 +1,6 @@
 var app = angular.module('dit-calculator', ['ngMaterial']);
 
-app.controller('mainController', ['$scope', '$mdDialog', function ($scope, $mdDialog) {
+app.controller('mainController', ['$scope', '$mdDialog', '$mdSidenav', '$mdUtil', function($scope, $mdDialog, $mdSidenav, $mdUtil) {
 
   $scope.salary = {
     grossYear: 36000,
@@ -72,16 +72,24 @@ app.controller('mainController', ['$scope', '$mdDialog', function ($scope, $mdDi
     return index ? creditRates[index - 1] : creditRates[0];
   }
 
-  $scope.showAboutDialog = function (event) {
-    $mdDialog.show({
-      controller: function ($scope, $mdDialog) {
-        $scope.hide = function () {
-          $mdDialog.hide();
-        };
-      },
-      templateUrl: 'templates/about.html',
-      parent: angular.element(document.body),
-      targetEvent: event
-    });
-  };
+
+	$scope.showAboutDialog = function(event) {
+		$mdDialog.show({
+			controller: function ($scope, $mdDialog) {
+				$scope.hide = function () {
+					$mdDialog.hide();
+				};
+			},
+			templateUrl: 'templates/about.html',
+			parent: angular.element(document.body),
+			targetEvent: event
+		});
+	};
+
+	$scope.toggleSideBar = (function () {
+		var debounceFn =  $mdUtil.debounce(function(){
+			$mdSidenav('left').toggle();
+		},300);
+		return debounceFn;
+	})();
 }]);

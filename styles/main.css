@@ -1,14 +1,15 @@
 .report-value {
 	font-weight: bold;
 }
-.header {
+.title {
 	position: relative;
 }
 .motto {
 	position: absolute;
-	bottom: 5px;
-	left: 50px;
+	bottom: -14px;
+	right: 0px;
 	font-style: italic;
+	opacity: 0.6;
 }
 .sub-buttons md-icon {
 	color: black !important;
@@ -17,4 +18,7 @@ md-fab-speed-dial {
 	position: absolute;
 	right: 10px;
 	bottom: 10px;
+}
+.toolbar-icon md-icon {
+	color: white !important;
 }
