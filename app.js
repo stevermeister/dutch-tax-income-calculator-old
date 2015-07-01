@@ -72,7 +72,7 @@ app.controller('mainController', ['$scope', '$mdDialog', '$mdSidenav', '$mdUtil'
     return index ? creditRates[index - 1] : creditRates[0];
   }
 
-<<<<<<< HEAD
+
 	$scope.showAboutDialog = function(event) {
 		$mdDialog.show({
 			controller: function ($scope, $mdDialog) {
