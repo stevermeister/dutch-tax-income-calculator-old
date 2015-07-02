@@ -1,6 +1,6 @@
-var app = angular.module('dit-calculator', []);
+var app = angular.module('dit-calculator', ['ngMaterial']);
 
-app.controller('mainController', ['$scope', function($scope) {
+app.controller('mainController', ['$scope', '$mdDialog', '$mdSidenav', '$mdUtil', function($scope, $mdDialog, $mdSidenav, $mdUtil) {
 
   $scope.salary = {
     grossYear: 36000,
@@ -17,7 +17,7 @@ app.controller('mainController', ['$scope', function($scope) {
 
   function reCalculate() {
     grossYear = $scope.salary.grossYear || 0;
-    $scope.salary.taxableYear = ~~$scope.salary.ruling?grossYear * 0.7:grossYear;
+    $scope.salary.taxableYear = ~~$scope.salary.ruling ? grossYear * 0.7 : grossYear;
     $scope.salary.generalCredit = getCredits(grossYear).lk;
     $scope.salary.labourCredit = getCredits(grossYear).ak;
     $scope.salary.grossMonth = ~~(grossYear / 12);
@@ -35,12 +35,12 @@ app.controller('mainController', ['$scope', function($scope) {
       Infinity
     ];
 
-   	var taxRates = [.365, .42, .42, .52];//2015
+    var taxRates = [.365, .42, .42, .52];//2015
     var taxRatesUnSecure = [.0835, .1385, .42, .52]; //2015 without social security
     //var taxRates = [.051, .1085, .42, .52]; //2014
     var taxRates64 = [0.1575, 0.235, .42, .52];
 
-    if(!socialSecurity){
+    if (!socialSecurity) {
       taxRates = taxRatesUnSecure;
     }
 
@@ -54,24 +54,42 @@ app.controller('mainController', ['$scope', function($scope) {
 
       if (taxableIncome - taxAmountPeriods[i] < 0) {
         taxAmount += Math.floor(taxableIncome * taxRates[i]);
-				console.log(taxableIncome , taxRates[i]);
         break;
       } else {
         taxAmount += Math.floor(taxAmountPeriods[i] * taxRates[i]);
-				console.log(taxableIncome , taxRates[i]);
         taxableIncome = taxableIncome - taxAmountPeriods[i];
       }
     }
     return taxAmount;
   }
 
-	function getCredits(salary){
-		for(var index = 0; index < creditRates.length; index++){
-			if(creditRates[index].salary > salary){
-				break;
-			}
-		}
-		return index?creditRates[index-1]:creditRates[0];
-	}
+  function getCredits(salary) {
+    for (var index = 0; index < creditRates.length; index++) {
+      if (creditRates[index].salary > salary) {
+        break;
+      }
+    }
+    return index ? creditRates[index - 1] : creditRates[0];
+  }
 
+
+	$scope.showAboutDialog = function(event) {
+		$mdDialog.show({
+			controller: function ($scope, $mdDialog) {
+				$scope.hide = function () {
+					$mdDialog.hide();
+				};
+			},
+			templateUrl: 'templates/about.html',
+			parent: angular.element(document.body),
+			targetEvent: event
+		});
+	};
+
+	$scope.toggleSideBar = (function () {
+		var debounceFn =  $mdUtil.debounce(function(){
+			$mdSidenav('left').toggle();
+		},300);
+		return debounceFn;
+	})();
 }]);

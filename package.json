@@ -1,0 +1,24 @@
+{
+  "name": "dutch-tax-income-calculator",
+  "version": "1.0.0",
+  "description": "dutch-tax-income-calculator ===========================",
+  "main": "app.js",
+  "scripts": {
+    "postinstall": "./node_modules/.bin/bower install",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stevermeister/dutch-tax-income-calculator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stevermeister/dutch-tax-income-calculator/issues"
+  },
+  "homepage": "https://github.com/stevermeister/dutch-tax-income-calculator",
+  "devDependencies": {
+    "bower": "^1.4.1",
+    "gulp": "^3.9.0"
+  }
+}
