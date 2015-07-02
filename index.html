@@ -17,7 +17,7 @@
 <![endif]-->
 
 <div class="container" ng-controller="mainController">
-	<md class="center-block">
+	<md class="center-block" md-swipe-right="toggleSideBar()">
 
 		<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-swipe-left="toggleSideBar()">
 			<md-toolbar class="md-theme-indigo">
@@ -31,30 +31,27 @@
 				</div>
 			</md-toolbar>
 			<md-content layout-padding class="md-body-1">
-
+				<md-subheader class="md-no-sticky">Calculation settings</md-subheader>
+				<div layout="column" layout-wrap="" >
+					<div flex="50">
+						<md-switch ng-model="salary.age" aria-label="I'm 65+ years old">
+							I'm 65+ years old
+						</md-switch>
+					</div>
+					<div flex="50">
+						<md-switch ng-model="salary.socialSecurity"
+								aria-label="Social security in the Netherlands">
+							Social security
+						</md-switch>
+					</div>
+					<div flex="50">
+						<md-switch ng-model="salary.ruling" aria-label="I have 30% ruling">
+							I have 30% ruling
+						</md-switch>
+					</div>
+				</div>
+				<md-divider ng-if="!$last"></md-divider>
 				<md-list>
-					<md-subheader class="md-no-sticky">Calculation settings</md-subheader>
-					<md-list-item>
-						<div layout="column" layout-wrap="" >
-							<div flex="50">
-								<md-switch ng-model="salary.age" aria-label="I'm 65+ years old">
-									I'm 65+ years old
-								</md-switch>
-							</div>
-							<div flex="50">
-								<md-switch ng-model="salary.socialSecurity"
-										aria-label="Social security in the Netherlands">
-									Social security
-								</md-switch>
-							</div>
-							<div flex="50">
-								<md-switch ng-model="salary.ruling" aria-label="I have 30% ruling">
-									I have 30% ruling
-								</md-switch>
-							</div>
-						</div>
-						<md-divider ng-if="!$last"></md-divider>
-					</md-list-item>
 					<md-subheader class="md-no-sticky">Other info</md-subheader>
 					<md-list-item>
 						<md-button
