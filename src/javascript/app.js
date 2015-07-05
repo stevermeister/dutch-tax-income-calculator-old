@@ -1,6 +1,6 @@
 var app = angular.module('dit-calculator', ['ngMaterial']);
 
-app.controller('mainController', ['$scope', '$mdDialog', '$mdSidenav', '$mdUtil', function($scope, $mdDialog, $mdSidenav, $mdUtil) {
+app.controller('mainController', function($scope, $mdDialog, $mdSidenav, $mdUtil) {
 
   $scope.salary = {
     grossYear: 36000,
@@ -80,7 +80,7 @@ app.controller('mainController', ['$scope', '$mdDialog', '$mdSidenav', '$mdUtil'
 					$mdDialog.hide();
 				};
 			},
-			templateUrl: 'templates/about.html',
+			templateUrl: 'src/templates/about.html',
 			parent: angular.element(document.body),
 			targetEvent: event
 		});
@@ -92,4 +92,4 @@ app.controller('mainController', ['$scope', '$mdDialog', '$mdSidenav', '$mdUtil'
 		},300);
 		return debounceFn;
 	})();
-}]);
+});

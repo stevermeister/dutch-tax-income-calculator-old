@@ -1,3 +1,7 @@
 .idea/
 node_modules
 bower_components
+src/css/angular-material.css
+src/javascript/libs
+src/index.html
+build/target
