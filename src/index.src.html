@@ -1,164 +1,174 @@
 <!DOCTYPE html>
 <html ng-app="dit-calculator">
 <head>
-	<meta charset="utf-8">
-	<title>Dutch Income Tax Calculator</title>
-	<meta name="description" content="">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<!-- inject:css -->
-	<link rel="stylesheet" href="/css/main.css">
-	<link rel="stylesheet" href="/css/angular-material.css">
-	<!-- endinject -->
-	<base href="/">
+  <meta charset="utf-8">
+  <title>Dutch Income Tax Calculator</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- inject:css -->
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/angular-material.css">
+  <!-- endinject -->
+  <base href="/">
 </head>
 <body>
 <!--[if lt IE 8]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
-	your browser</a> to improve your experience.</p>
+  your browser</a> to improve your experience.</p>
 <![endif]-->
 
 <div class="container" ng-controller="mainController">
-	<md class="center-block" md-swipe-right="toggleSideBar()">
+  <md class="center-block" md-swipe-right="toggleSideBar()">
 
-		<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-swipe-left="toggleSideBar()">
-			<md-toolbar class="md-theme-indigo">
-				<div class="md-toolbar-tools">
-					<md-button class="md-icon-button md-primary toolbar-icon" ng-click="toggleSideBar()" aria-label="hideSidePanel">
-						<md-icon>arrow_back</md-icon>
-					</md-button>
-					<h2 class="md-headline md-margin">
-						Settings
-					</h2>
-				</div>
-			</md-toolbar>
-			<md-content layout-padding class="md-body-1">
-				<md-subheader class="md-no-sticky">Calculation settings</md-subheader>
-				<div layout="column" layout-wrap="" >
-					<div flex="50">
-						<md-switch ng-model="salary.age" aria-label="I'm 65+ years old">
-							I'm 65+ years old
-						</md-switch>
-					</div>
-					<div flex="50">
-						<md-switch ng-model="salary.socialSecurity"
-								aria-label="Social security in the Netherlands">
-							Social security
-						</md-switch>
-					</div>
-					<div flex="50">
-						<md-switch ng-model="salary.ruling" aria-label="I have 30% ruling">
-							I have 30% ruling
-						</md-switch>
-					</div>
-				</div>
-				<md-divider ng-if="!$last"></md-divider>
-				<md-list>
-					<md-subheader class="md-no-sticky">Other info</md-subheader>
-					<md-list-item>
-						<md-button
-								aria-label="author"
-								href="http://stepansuvorov.com/">
-							<md-icon>face</md-icon> About author
-						</md-button>
-					</md-list-item>
-					<md-list-item>
-						<md-button
-								aria-label="about"
-								ng-click="showAboutDialog($event)">
-							<md-icon>help_outline</md-icon> About project
-						</md-button>
-					</md-list-item>
-					<md-list-item>
-						<md-button
-								aria-label="git"
-								href="https://github.com/stevermeister/dutch-tax-income-calculator">
-							<md-icon md-svg-src="images/github.svg"></md-icon> GitHub
-						</md-button>
-					</md-list-item>
-				</md-list>
-			</md-content>
-		</md-sidenav>
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-swipe-left="toggleSideBar()">
+      <md-toolbar class="md-theme-indigo">
+        <div class="md-toolbar-tools">
+          <md-button class="md-icon-button md-primary toolbar-icon" ng-click="toggleSideBar()"
+                     aria-label="hideSidePanel">
+            <md-icon>arrow_back</md-icon>
+          </md-button>
+          <h2 class="md-headline md-margin">
+            Settings
+          </h2>
+        </div>
+      </md-toolbar>
+      <md-content layout-padding class="md-body-1">
+        <md-subheader class="md-no-sticky">Calculation settings</md-subheader>
+        <div layout="column" layout-wrap="">
+          <div flex="50">
+            <md-switch ng-model="salary.age" aria-label="I'm 65+ years old">
+              I'm 65+ years old
+            </md-switch>
+          </div>
+          <div flex="50">
+            <md-switch ng-model="salary.socialSecurity"
+                       aria-label="Social security in the Netherlands">
+              Social security
+            </md-switch>
+          </div>
+          <div flex="50">
+            <md-switch ng-model="salary.ruling" aria-label="I have 30% ruling">
+              I have 30% ruling
+            </md-switch>
+          </div>
+        </div>
+        <md-divider ng-if="!$last"></md-divider>
+        <md-list>
+          <md-subheader class="md-no-sticky">About 30% Ruling</md-subheader>
+          <md-content>
+            <p>
+              The salary criteria for the <b>30%-ruling</b> as per January 2015 are as follows:<br>
+            <ul>
+              <li>The annual taxable salary for an employee must be more than <b>EUR 36,705</b> (2014: EUR 36,378).</li>
+              <li>The taxable salary for an employee with a master’s degree and who is younger than 30 years, must be
+                more
+                than
+                <b>EUR 27,901</b> (2014: EUR 27,653).
+              </li>
+            </ul>
+            </p>
+          </md-content>
+        </md-list>
+      </md-content>
+    </md-sidenav>
 
-		<md-toolbar class="md-active">
-			<div class="md-toolbar-tools">
-				<md-button class="md-icon-button md-primary toolbar-icon" ng-click="toggleSideBar()" aria-label="Settings">
-					<md-icon>menu</md-icon>
-				</md-button>
-				<h2 class="md-headline md-margin title">
-					Dutch Income Tax Calculator
-					<span class="motto md-caption">makes your work easy, actual for 2015</span>
-				</h2>
-			</div>
+    <md-toolbar class="md-active">
+      <div class="md-toolbar-tools">
+        <md-button class="md-icon-button md-primary toolbar-icon" ng-click="toggleSideBar()" aria-label="Settings">
+          <md-icon>menu</md-icon>
+        </md-button>
+        <h2 class="md-headline md-margin title">
+          Dutch Income Tax Calculator
+          <span class="motto md-caption">makes your work easy, actual for 2015</span>
+        </h2>
+      </div>
 
-		</md-toolbar>
+    </md-toolbar>
 
-		<md-content layout-padding="">
+    <main>
+      <md-content layout-padding="">
 
-			<form role="form" >
-				<md-input-container class="md-display-1">
-					<label>Annual gross income</label>
-					<input type="number" ng-model="salary.grossYear">
-				</md-input-container>
+        <form role="form">
+          <md-input-container class="md-display-1">
+            <label>Annual gross income</label>
+            <input type="number" ng-model="salary.grossYear">
+          </md-input-container>
 
 
-				<div layout="row" layout-margin>
-					<div flex flex-order="1">
-						Taxable Income
-					</div>
-					<div flex flex-order="2" class="report-value">
-						{{salary.taxableYear}}
-					</div>
-				</div>
+          <div layout="row" layout-margin>
+            <div flex flex-order="1">
+              Taxable Income
+            </div>
+            <div flex flex-order="2" class="report-value">
+              {{salary.taxableYear}}
+            </div>
+          </div>
 
-				<div layout="row" layout-margin>
-					<div flex flex-order="1">
-						Income Tax
-					</div>
-					<div flex flex-order="2" class="report-value">
-						{{salary.incomeTax}}
-					</div>
-				</div>
+          <div layout="row" layout-margin>
+            <div flex flex-order="1">
+              Income Tax
+            </div>
+            <div flex flex-order="2" class="report-value">
+              {{salary.incomeTax}}
+            </div>
+          </div>
 
-				<div layout="row" layout-margin>
-					<div flex flex-order="1">
-						General Tax Credit
-					</div>
-					<div flex flex-order="2" class="report-value">
-						{{salary.generalCredit}}
-					</div>
-				</div>
+          <div layout="row" layout-margin>
+            <div flex flex-order="1">
+              General Tax Credit
+            </div>
+            <div flex flex-order="2" class="report-value">
+              {{salary.generalCredit}}
+            </div>
+          </div>
 
-				<div layout="row" layout-margin>
-					<div flex flex-order="1">
-						Labour Tax Credit
-					</div>
-					<div flex flex-order="2" class="report-value">
-						{{salary.labourCredit}}
-					</div>
-				</div>
+          <div layout="row" layout-margin>
+            <div flex flex-order="1">
+              Labour Tax Credit
+            </div>
+            <div flex flex-order="2" class="report-value">
+              {{salary.labourCredit}}
+            </div>
+          </div>
 
-				<div layout="row" layout-margin>
-					<div flex flex-order="1">
-						Year net income
-					</div>
-					<div flex flex-order="2" class="report-value">
-						{{salary.netYear}}
-					</div>
-				</div>
+          <div layout="row" layout-margin>
+            <div flex flex-order="1">
+              Year net income
+            </div>
+            <div flex flex-order="2" class="report-value">
+              {{salary.netYear}}
+            </div>
+          </div>
 
-				<div layout="row" layout-margin>
-					<div flex flex-order="1">
-						Monthly net income
-					</div>
-					<div flex flex-order="2" class="report-value">
-						{{salary.netMonth}}
-					</div>
-				</div>
-			</form>
-		</md-content>
-	</md>
+          <div layout="row" layout-margin>
+            <div flex flex-order="1">
+              Monthly net income
+            </div>
+            <div flex flex-order="2" class="report-value">
+              {{salary.netMonth}}
+            </div>
+          </div>
+        </form>
+      </md-content>
+    </main>
+
+    <md-toolbar class="md-indent footer">
+      <div layout="row" layout-align="center center" flex>
+        <span class="md-caption">
+          Created by <a href="http://stepansuvorov.com">Stepan Suvorov</a>
+        & <a href="https://github.com/yevgeniyvaleyev">Yevgeniy Valeyev</a>
+        </span>
+      </div>
+      <div layout="row" layout-align="center center" flex>
+         <span class="md-caption">
+        <a href="https://github.com/stevermeister/dutch-tax-income-calculator">GitHub Page</a>
+           </span>
+      </div>
+    </md-toolbar>
+  </md>
+
 </div>
 <!-- inject:js -->
 <script src="/javascript/libs/angular.js"></script>
@@ -172,20 +182,20 @@
 <!-- endinject -->
 <!-- Google Analytics -->
 <script>
-	(function (b, o, i, l, e, r) {
-		b.GoogleAnalyticsObject = l;
-		b[l] || (b[l] =
-				function () {
-					(b[l].q = b[l].q || []).push(arguments)
-				});
-		b[l].l = +new Date;
-		e = o.createElement(i);
-		r = o.getElementsByTagName(i)[0];
-		e.src = '//www.google-analytics.com/analytics.js';
-		r.parentNode.insertBefore(e, r)
-	}(window, document, 'script', 'ga'));
-	ga('create', 'UA-12112718-4');
-	ga('send', 'pageview');
+  (function (b, o, i, l, e, r) {
+    b.GoogleAnalyticsObject = l;
+    b[l] || (b[l] =
+        function () {
+          (b[l].q = b[l].q || []).push(arguments)
+        });
+    b[l].l = +new Date;
+    e = o.createElement(i);
+    r = o.getElementsByTagName(i)[0];
+    e.src = '//www.google-analytics.com/analytics.js';
+    r.parentNode.insertBefore(e, r)
+  }(window, document, 'script', 'ga'));
+  ga('create', 'UA-12112718-4');
+  ga('send', 'pageview');
 </script>
 </body>
 </html>

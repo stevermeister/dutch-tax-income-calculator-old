@@ -72,20 +72,6 @@ app.controller('mainController', function($scope, $mdDialog, $mdSidenav, $mdUtil
     return index ? creditRates[index - 1] : creditRates[0];
   }
 
-
-	$scope.showAboutDialog = function(event) {
-		$mdDialog.show({
-			controller: function ($scope, $mdDialog) {
-				$scope.hide = function () {
-					$mdDialog.hide();
-				};
-			},
-			templateUrl: 'src/templates/about.html',
-			parent: angular.element(document.body),
-			targetEvent: event
-		});
-	};
-
 	$scope.toggleSideBar = (function () {
 		var debounceFn =  $mdUtil.debounce(function(){
 			$mdSidenav('left').toggle();
