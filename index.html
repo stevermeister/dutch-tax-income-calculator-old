@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.1.1/gh-fork-ribbon.min.css" />
 	<link rel="stylesheet" href="styles/main.css">
 </head>
-<body>
+<body ng-controller="mainController as main">
 <!--[if lt IE 8]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
 	your browser</a> to improve your experience.</p>
@@ -23,7 +23,7 @@
 	</div>
 </div>
 
-<div class="container" ng-controller="mainController">
+<div class="container">
 	<md-container class="center-block">
 
 		<md-toolbar class="md-active">
@@ -38,17 +38,17 @@
 		<md-content layout-padding="">
 				<md-input-container class="md-display-2">
 					<label>Annual gross income</label>
-					<input type="number" ng-model="salary.grossYear">
+					<input type="number" ng-model="main.salary.grossYear">
 				</md-input-container>
 
 				<div layout="row">
-					<div flex>
-						<div layout="row" layout-margin ng-repeat-start="(salaryOptionKey,  salaryOptionTitle) in salaryOutputOptions">
+					<div flex="30">
+						<div layout="row" layout-margin ng-repeat-start="(salaryOptionKey,  salaryOptionTitle) in main.salaryOutputOptions">
 							<div flex>
-								{{salaryOptionTitle}}
+								{{::salaryOptionTitle}}
 							</div>
 							<div flex class="report-value">
-								{{salary[salaryOptionKey]}}
+								{{main.salary[salaryOptionKey]}}
 							</div>
 						</div>
 						<md-divider ng-if="!$last" ng-repeat-end></md-divider>
@@ -57,9 +57,9 @@
 						<md-content layout-padding class="md-body-1">
 							<md-subheader>Calculation settings</md-subheader>
 							<div layout="column">
-									<md-checkbox ng-model="salary.age" aria-label="I'm 65+ years old">I'm 65+ years old</md-checkbox>
-									<md-checkbox ng-model="salary.socialSecurity" aria-label="Social security in the Netherlands">Social security</md-checkbox>
-									<md-checkbox ng-model="salary.ruling" aria-label="I have 30% ruling">I have 30% ruling</md-checkbox>
+									<md-checkbox ng-model="main.salary.age" aria-label="I'm 65+ years old">I'm 65+ years old</md-checkbox>
+									<md-checkbox ng-model="main.salary.socialSecurity" aria-label="Social security in the Netherlands">Social security</md-checkbox>
+									<md-checkbox ng-model="main.salary.ruling" aria-label="I have 30% ruling">I have 30% ruling</md-checkbox>
 							</div>
 						</md-content>
 					</div>

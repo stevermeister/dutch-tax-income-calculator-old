@@ -1,90 +1,87 @@
-var app = angular.module('dit-calculator', ['ngMaterial']);
+'use strict'
 
-app.controller('mainController', ['$scope', '$mdDialog', '$mdSidenav', '$mdUtil', function($scope, $mdDialog, $mdSidenav, $mdUtil) {
+angular.module('dit-calculator', ['ngMaterial'])
+  .controller('mainController', function($scope) {
 
-  $scope.salary = {
-    grossYear: 36000,
-    grossMonth: 3000,
-    netYear: 19200,
-    netMonth: 1600,
-    taxRate: 42,
-    ruling: false,
-    age: false,
-    socialSecurity: true
-  };
+    this.salary = {
+      grossYear: 0,
+      grossMonth: 0,
+      netYear: 0,
+      netMonth: 0,
+      taxRate: 0,
+      ruling: false,
+      age: false,
+      socialSecurity: true
+    };
 
-  $scope.salaryOutputOptions = {
-    'taxableYear' : 'Taxable Income',
-    'incomeTax': 'Income Tax',
-    'generalCredit': 'General Tax Credit',
-    'labourCredit': 'Labour Tax Credit',
-    'netYear': 'Year net income',
-    'netMonth': 'Monthly net income'
-  };
+    this.salary.grossYear = 36000;
 
-  $scope.$watchGroup(['salary.age', 'salary.ruling', 'salary.socialSecurity', 'salary.grossYear'], reCalculate);
+    this.salaryOutputOptions = {
+      'taxableYear': 'Taxable Income',
+      'incomeTax': 'Income Tax',
+      'generalCredit': 'General Tax Credit',
+      'labourCredit': 'Labour Tax Credit',
+      'netYear': 'Year net income',
+      'netMonth': 'Monthly net income'
+    };
 
-  function reCalculate() {
-    grossYear = $scope.salary.grossYear || 0;
-    $scope.salary.taxableYear = ~~$scope.salary.ruling ? grossYear * 0.7 : grossYear;
-    $scope.salary.generalCredit = getCredits(grossYear).lk;
-    $scope.salary.labourCredit = getCredits(grossYear).ak;
-    $scope.salary.grossMonth = ~~(grossYear / 12);
-    $scope.salary.netYear = grossYear - getTaxAmount($scope.salary.taxableYear, $scope.salary.age, $scope.salary.socialSecurity) + $scope.salary.generalCredit + $scope.salary.labourCredit;
-    $scope.salary.netMonth = ~~($scope.salary.netYear / 12);
-    $scope.salary.incomeTax = getTaxAmount($scope.salary.taxableYear, $scope.salary.age, $scope.salary.socialSecurity);
-  }
+    $scope.$watchGroup(['main.salary.age', 'main.salary.ruling', 'main.salary.socialSecurity', 'main.salary.grossYear'],
+      () => {
+        let grossYear = this.salary.grossYear || 0;
+        this.salary.taxableYear = ~~this.salary.ruling ? grossYear * 0.7 : grossYear;
+        this.salary.generalCredit = getCredits(grossYear).lk;
+        this.salary.labourCredit = getCredits(grossYear).ak;
+        this.salary.grossMonth = ~~(grossYear / 12);
+        this.salary.netYear = grossYear - getTaxAmount(this.salary.taxableYear, this.salary.age, this.salary.socialSecurity) + this.salary.generalCredit + this.salary.labourCredit;
+        this.salary.netMonth = ~~(this.salary.netYear / 12);
+        this.salary.incomeTax = getTaxAmount(this.salary.taxableYear, this.salary.age, this.salary.socialSecurity);
+      });
 
-  function getTaxAmount(taxableIncome, age, socialSecurity) {
 
-    var taxAmountPeriods = [
-      19822, // 0 - 19,822
-      13767, // 33,589 - 19,822
-      23996, // 57,585 - 33,589
-      Infinity
-    ];
+    function getTaxAmount(taxableIncome, age, socialSecurity) {
 
-    var taxRates = [.365, .42, .42, .52];//2015
-    var taxRatesUnSecure = [.0835, .1385, .42, .52]; //2015 without social security
-    //var taxRates = [.051, .1085, .42, .52]; //2014
-    var taxRates64 = [0.1575, 0.235, .42, .52];
+      const taxAmountPeriods = [
+        19822, // 0 - 19,822
+        13767, // 33,589 - 19,822
+        23996, // 57,585 - 33,589
+        Infinity
+      ];
 
-    if (!socialSecurity) {
-      taxRates = taxRatesUnSecure;
-    }
+      var taxRates = [.365, .42, .42, .52];//2015
+      var taxRatesUnSecure = [.0835, .1385, .42, .52]; //2015 without social security
+      //var taxRates = [.051, .1085, .42, .52]; //2014
+      var taxRates64 = [0.1575, 0.235, .42, .52];
 
-    if (age) {
-      taxRates = taxRates64;
-    }
-
-    var taxAmount = 0;
-
-    for (var i = 0; i < taxRates.length; i++) {
-
-      if (taxableIncome - taxAmountPeriods[i] < 0) {
-        taxAmount += Math.floor(taxableIncome * taxRates[i]);
-        break;
-      } else {
-        taxAmount += Math.floor(taxAmountPeriods[i] * taxRates[i]);
-        taxableIncome = taxableIncome - taxAmountPeriods[i];
+      if (!socialSecurity) {
+        taxRates = taxRatesUnSecure;
       }
-    }
-    return taxAmount;
-  }
 
-  function getCredits(salary) {
-    for (var index = 0; index < creditRates.length; index++) {
-      if (creditRates[index].salary > salary) {
-        break;
+      if (age) {
+        taxRates = taxRates64;
       }
-    }
-    return index ? creditRates[index - 1] : creditRates[0];
-  }
 
-	$scope.toggleSideBar = (function () {
-		var debounceFn =  $mdUtil.debounce(function(){
-			$mdSidenav('left').toggle();
-		},300);
-		return debounceFn;
-	})();
-}]);
+      var taxAmount = 0;
+
+      for (var i = 0; i < taxRates.length; i++) {
+
+        if (taxableIncome - taxAmountPeriods[i] < 0) {
+          taxAmount += Math.floor(taxableIncome * taxRates[i]);
+          break;
+        } else {
+          taxAmount += Math.floor(taxAmountPeriods[i] * taxRates[i]);
+          taxableIncome = taxableIncome - taxAmountPeriods[i];
+        }
+      }
+      return taxAmount;
+    }
+
+    function getCredits(salary) {
+      for (var index = 0; index < creditRates.length; index++) {
+        if (creditRates[index].salary > salary) {
+          break;
+        }
+      }
+      return index ? creditRates[index - 1] : creditRates[0];
+    }
+
+  });
