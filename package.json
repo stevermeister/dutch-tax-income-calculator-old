@@ -18,6 +18,12 @@
   },
   "homepage": "https://github.com/stevermeister/dutch-tax-income-calculator",
   "devDependencies": {
-    "bower": "^1.4.1"
+    "babel-core": "^6.0.14",
+    "babel-loader": "^6.0.0",
+    "baggage-loader": "^0.2.4",
+    "bower": "^1.4.1",
+    "loader-utils": "^0.2.11",
+    "source-map": "^0.5.3",
+    "webpack": "^1.12.2"
   }
 }
