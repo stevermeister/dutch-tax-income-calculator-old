@@ -42,18 +42,12 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(1);
-
-
-/***/ },
-/* 1 */
 /***/ function(module, exports) {
 
 	'use strict';
 
 	angular.module('dit-calculator', ['ngMaterial']).controller('mainController', function ($scope) {
+	  var _this = this;
 
 	  this.salary = {
 	    grossYear: 0,
@@ -77,20 +71,20 @@
 	    'netMonth': 'Monthly net income'
 	  };
 
-	  $scope.$watchGroup(['main.salary.age', 'main.salary.ruling', 'main.salary.socialSecurity', 'main.salary.grossYear'], () => {
-	    let grossYear = this.salary.grossYear || 0;
-	    this.salary.taxableYear = ~ ~this.salary.ruling ? grossYear * 0.7 : grossYear;
-	    this.salary.generalCredit = getCredits(grossYear).lk;
-	    this.salary.labourCredit = getCredits(grossYear).ak;
-	    this.salary.grossMonth = ~ ~(grossYear / 12);
-	    this.salary.netYear = grossYear - getTaxAmount(this.salary.taxableYear, this.salary.age, this.salary.socialSecurity) + this.salary.generalCredit + this.salary.labourCredit;
-	    this.salary.netMonth = ~ ~(this.salary.netYear / 12);
-	    this.salary.incomeTax = getTaxAmount(this.salary.taxableYear, this.salary.age, this.salary.socialSecurity);
+	  $scope.$watchGroup(['main.salary.age', 'main.salary.ruling', 'main.salary.socialSecurity', 'main.salary.grossYear'], function () {
+	    var grossYear = _this.salary.grossYear || 0;
+	    _this.salary.taxableYear = ~ ~_this.salary.ruling ? grossYear * 0.7 : grossYear;
+	    _this.salary.generalCredit = getCredits(grossYear).lk;
+	    _this.salary.labourCredit = getCredits(grossYear).ak;
+	    _this.salary.grossMonth = ~ ~(grossYear / 12);
+	    _this.salary.netYear = grossYear - getTaxAmount(_this.salary.taxableYear, _this.salary.age, _this.salary.socialSecurity) + _this.salary.generalCredit + _this.salary.labourCredit;
+	    _this.salary.netMonth = ~ ~(_this.salary.netYear / 12);
+	    _this.salary.incomeTax = getTaxAmount(_this.salary.taxableYear, _this.salary.age, _this.salary.socialSecurity);
 	  });
 
 	  function getTaxAmount(taxableIncome, age, socialSecurity) {
 
-	    const taxAmountPeriods = [19822, // 0 - 19,822
+	    var taxAmountPeriods = [19822, // 0 - 19,822
 	    13767, // 33,589 - 19,822
 	    23996, // 57,585 - 33,589
 	    Infinity];

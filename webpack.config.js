@@ -1,21 +1,18 @@
 'use strict';
-var webpack = require('webpack'),
-  path = require('path');
-
-require('baggage-loader')
-
 module.exports = {
-  context: __dirname,
-  entry: {
-    app: ['./app.js']
-  },
+  entry: './app.js',
   output: {
     path: __dirname,
     filename: 'bundle.js'
   },
   module: {
     loaders: [
-      { test: /\.js$/, loader: 'babel', include: __dirname }
+      {
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        loader: 'babel?presets[]=es2015',
+        include: __dirname
+      }
     ]
   }
 };

@@ -20,7 +20,7 @@
   "devDependencies": {
     "babel-core": "^6.0.14",
     "babel-loader": "^6.0.0",
-    "baggage-loader": "^0.2.4",
+    "babel-preset-es2015": "^6.0.14",
     "bower": "^1.4.1",
     "loader-utils": "^0.2.11",
     "source-map": "^0.5.3",
