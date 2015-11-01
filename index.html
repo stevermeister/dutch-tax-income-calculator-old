@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="styles/main.css">
 </head>
 <body ng-controller="mainController as main">
-<!--[if lt IE 8]>
+<!--[if lt IE 9]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
 	your browser</a> to improve your experience.</p>
 <![endif]-->
@@ -30,19 +30,19 @@
 			<div class="md-toolbar-tools">
 				<h2 class="md-headline md-margin title">
 					Dutch Income Tax Calculator
-					<span class="motto md-caption">makes your work easy, actual for 2015</span>
+					<div class="motto md-caption">makes your work easy, actual for 2015</div>
 				</h2>
 			</div>
 		</md-toolbar>
 
-		<md-content layout-padding="">
-				<md-input-container class="md-display-2">
+		<md-content>
+				<md-input-container class="md-display-2" layout-padding>
 					<label>Annual gross income</label>
 					<input type="number" ng-model="main.salary.grossYear">
 				</md-input-container>
 
 				<div layout="row">
-					<div flex="30">
+					<div>
 						<div layout="row" layout-margin ng-repeat-start="(salaryOptionKey,  salaryOptionTitle) in main.salaryOutputOptions">
 							<div flex>
 								{{::salaryOptionTitle}}
@@ -53,8 +53,8 @@
 						</div>
 						<md-divider ng-if="!$last" ng-repeat-end></md-divider>
 					</div>
-					<div flex="40">
-						<md-content layout-padding class="md-body-1">
+					<div>
+						<md-content class="md-body-1">
 							<md-subheader>Calculation settings</md-subheader>
 							<div layout="column">
 									<md-checkbox ng-model="main.salary.age" aria-label="I'm 65+ years old">I'm 65+ years old</md-checkbox>
