@@ -41,8 +41,8 @@
 					<input type="number" ng-model="main.salary.grossYear">
 				</md-input-container>
 
-				<div layout="row">
-					<div flex="40" flex-sm="60" flex-md="60">
+				<div layout-lg="row">
+					<div flex="40">
 						<div layout="row" layout-margin ng-repeat-start="(salaryOptionKey,  salaryOptionTitle) in main.salaryOutputOptions">
 							<div flex>
 								{{::salaryOptionTitle}}
@@ -54,7 +54,7 @@
 						<md-divider ng-if="!$last" ng-repeat-end></md-divider>
 					</div>
 					<div>
-						<md-content class="md-body-1" hide-sm hide-md>
+						<md-content class="md-body-1">
 							<md-subheader>Calculation settings</md-subheader>
 							<div layout="column">
 									<md-checkbox ng-model="main.salary.age" aria-label="I'm 65+ years old">I'm 65+ years old</md-checkbox>
