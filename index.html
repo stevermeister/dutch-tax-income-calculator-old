@@ -8,7 +8,6 @@
 	<link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.1.1/gh-fork-ribbon.min.css" />
 	<link rel="stylesheet" href="styles/main.css">
 </head>
 <body ng-controller="mainController as main">
@@ -17,31 +16,31 @@
 	your browser</a> to improve your experience.</p>
 <![endif]-->
 
-<div class="github-fork-ribbon-wrapper right">
-	<div class="github-fork-ribbon">
-		<a href="https://github.com/stevermeister/dutch-tax-income-calculator">Fork me on GitHub</a>
-	</div>
-</div>
-
 <div class="container">
 	<md-container class="center-block">
 
 		<md-toolbar class="md-active">
 			<div class="md-toolbar-tools">
-				<h2 class="md-headline md-margin title">
+				<h2 class="md-headline md-margin title" flex="90" layout-sm>
 					Dutch Income Tax Calculator
 					<div class="motto md-caption">makes your work easy, actual for 2015</div>
 				</h2>
+				<a href="https://github.com/stevermeister/dutch-tax-income-calculator" flex="10" layout="row" layout-align="end center">
+					<md-tooltip>
+						Fork me on GitHub
+					</md-tooltip>
+					<img class="github-icon" src="images/github-alt.png">
+				</a>
 			</div>
 		</md-toolbar>
 
-		<md-content>
+		<md-content layout-lg="column" layout-gt-lg="column" layout-align="center">
 				<md-input-container class="md-display-2" layout-padding>
 					<label>Annual gross income</label>
 					<input type="number" ng-model="main.salary.grossYear">
 				</md-input-container>
 
-				<div layout-lg="row">
+				<div layout-lg="row" layout-gt-lg="row" layout-margin>
 					<div flex="40">
 						<div layout="row" layout-margin ng-repeat-start="(salaryOptionKey,  salaryOptionTitle) in main.salaryOutputOptions">
 							<div flex>
@@ -53,10 +52,9 @@
 						</div>
 						<md-divider ng-if="!$last" ng-repeat-end></md-divider>
 					</div>
-					<div>
+					<div flex>
 						<md-content class="md-body-1">
-							<md-subheader>Calculation settings</md-subheader>
-							<div layout="column">
+							<div layout="column" layout-margin>
 									<md-checkbox ng-model="main.salary.age" aria-label="I'm 65+ years old">I'm 65+ years old</md-checkbox>
 									<md-checkbox ng-model="main.salary.socialSecurity" aria-label="Social security in the Netherlands">Social security</md-checkbox>
 									<md-checkbox ng-model="main.salary.ruling" aria-label="I have 30% ruling">I have 30% ruling</md-checkbox>
@@ -81,8 +79,6 @@
 		</ul>
 		</p>
 	</md-content>
-
-
 </div>
 
 <script src="bower_components/angular/angular.js"></script>
