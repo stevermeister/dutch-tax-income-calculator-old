@@ -32,7 +32,8 @@ angular.module('dit-calculator', ['ngMaterial'])
         this.salary.generalCredit = getCredits(grossYear).lk;
         this.salary.labourCredit = getCredits(grossYear).ak;
         this.salary.grossMonth = ~~(grossYear / 12);
-        this.salary.netYear = grossYear - getTaxAmount(this.salary.taxableYear, this.salary.age, this.salary.socialSecurity) + this.salary.generalCredit + this.salary.labourCredit;
+        this.salary.netYear = grossYear - getTaxAmount(this.salary.taxableYear, this.salary.age, this.salary.socialSecurity) + 
+          this.salary.generalCredit + this.salary.labourCredit;
         this.salary.netMonth = ~~(this.salary.netYear / 12);
         this.salary.incomeTax = getTaxAmount(this.salary.taxableYear, this.salary.age, this.salary.socialSecurity);
       });
@@ -47,10 +48,10 @@ angular.module('dit-calculator', ['ngMaterial'])
         Infinity
       ];
 
-      var taxRates = [.365, .42, .42, .52];//2015
-      var taxRatesUnSecure = [.0835, .1385, .42, .52]; //2015 without social security
-      //var taxRates = [.051, .1085, .42, .52]; //2014
-      var taxRates64 = [0.1575, 0.235, .42, .52];
+      let taxRates = [.365, .42, .42, .52];//2015
+      let taxRatesUnSecure = [.0835, .1385, .42, .52]; //2015 without social security
+      //let taxRates = [.051, .1085, .42, .52]; //2014
+      let taxRates64 = [0.1575, 0.235, .42, .52];
 
       if (!socialSecurity) {
         taxRates = taxRatesUnSecure;
@@ -60,9 +61,9 @@ angular.module('dit-calculator', ['ngMaterial'])
         taxRates = taxRates64;
       }
 
-      var taxAmount = 0;
+      let taxAmount = 0;
 
-      for (var i = 0; i < taxRates.length; i++) {
+      for (let i = 0; i < taxRates.length; i++) {
 
         if (taxableIncome - taxAmountPeriods[i] < 0) {
           taxAmount += Math.floor(taxableIncome * taxRates[i]);
@@ -76,7 +77,7 @@ angular.module('dit-calculator', ['ngMaterial'])
     }
 
     function getCredits(salary) {
-      for (var index = 0; index < creditRates.length; index++) {
+      for (let index = 0; index < creditRates.length; index++) {
         if (creditRates[index].salary > salary) {
           break;
         }
