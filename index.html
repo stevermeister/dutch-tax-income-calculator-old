@@ -5,10 +5,24 @@
 	<title>Dutch Income Tax Calculator</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.10.1/angular-material.min.css">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link rel="stylesheet" href="styles/main.css">
+  <link rel="shortcut icon" href="http://stepansuvorov.com/images/mark.ico" type="image/x-icon" />
+	<style>
+    .report-value {
+      font-weight: bold;
+      text-align: right;
+    }
+    .title {
+      position: relative;
+    }
+    .motto {
+      display: inline-block;
+      font-style: italic;
+      opacity: 0.6;
+    }
+  </style>
 </head>
 <body ng-controller="mainController as main">
 <!--[if lt IE 9]>
@@ -29,7 +43,7 @@
 					<md-tooltip>
 						Fork me on GitHub
 					</md-tooltip>
-					<img class="github-icon" src="images/github-alt.png">
+					<img class="github-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAABjUlEQVRIie2TPU9UQRSGn9mFZIMhxAWzQgMm2BALDQUJ1tjQ20rpH6CR0PMT6E3o+A0aEgidLYmFBVEg+BU+NrHZx+Iecfbu5bOhgLeae84z5505cy7c625KnVanrsFPqdNXhWvqgYU+qJNZrq42su+nwajuq7WrGIzarVN1Wz3KYn/UT2q7xD4u10sVBgPAMXD5abrVAQZTSu08WFWkEwbX1TFgOVhlsAQM3cBgCHhXDna1KB7pABi5gQHAIdBKKZ3dpK8EPMmKd4BVYBMYBlpZ7nsc5AfwEnhL0Y1HwATwpdJefZFNxHKM7Kr6poJdiFwt2H96fu791PEMHFPnY32i9mdcf8QMZizbN57XLD/yHv8n6BfQjPUDoJFxjYgRzO9Yn0SN86W+j5PMqU31q7pWwa1Frqm+ij09XJVBS91Vd9RJtX4BWw9mR/2mTpSZnj85No4AK8Br4COwBfykaBvAQ4rWzAJzwDqwmFLqaU+lQWY0CMwAzyhGcACoA22KMf0MbKSUji6qc6/b1V/utlp8iArM2gAAAABJRU5ErkJggg==">
 				</a>
 			</div>
 		</md-toolbar>
@@ -67,7 +81,7 @@
 
 
 	<md-content layout-padding class="md-caption">
-		<md-card>      
+		<md-card>
 	    	<md-card-content>
         		<h2 class="md-title">About 30% Ruling</h2>
         		<p>
@@ -80,14 +94,14 @@
 					</ul>
 				</p>
       		</md-card-content>
-    	</md-card>		
+    	</md-card>
 	</md-content>
 </div>
 
-<script src="bower_components/angular/angular.js"></script>
-<script src="bower_components/angular-animate/angular-animate.js"></script>
-<script src="bower_components/angular-aria/angular-aria.js"></script>
-<script src="bower_components/angular-material/angular-material.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script> 
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-animate.min.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-aria.min.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.10.1/angular-material.min.js"></script>
 <script src="creditRates.js"></script>
 <script src="bundle.js"></script>
 <!-- Google Analytics -->
