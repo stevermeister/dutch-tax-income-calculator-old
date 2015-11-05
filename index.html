@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.10.1/angular-material.min.css">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="shortcut icon" href="http://stepansuvorov.com/images/mark.ico" type="image/x-icon" />
+  	<link rel="shortcut icon" href="http://stepansuvorov.com/images/mark.ico" type="image/x-icon" />
 	<style>
     .report-value {
       font-weight: bold;
@@ -16,6 +16,7 @@
     }
     .title {
       position: relative;
+      line-height: 13px;
     }
     .motto {
       display: inline-block;
@@ -42,9 +43,9 @@
 
 		<md-toolbar class="md-active">
 			<div class="md-toolbar-tools">
-				<h2 class="md-headline md-margin title" flex="90" layout-sm>
+				<h2 class="md-headline md-margin title" flex="90">
 					Dutch Income Tax Calculator
-					<div class="motto md-caption">makes your work easy, actual for 2015</div>
+					<span class="motto md-caption">makes your work easy, actual for 2015</span>
 				</h2>
 				<a href="https://github.com/stevermeister/dutch-tax-income-calculator" flex="10" layout="row" layout-align="end center">
 					<span class="github-alt">
@@ -57,7 +58,7 @@
 		</md-toolbar>
 
 		<md-content layout-lg="column" layout-gt-lg="column" layout-align="center">
-				<md-input-container class="md-display-2" layout-padding>
+				<md-input-container class="md-display-1" layout-margin>
 					<label>Annual gross income</label>
 					<input type="number" ng-model="main.salary.grossYear">
 				</md-input-container>
