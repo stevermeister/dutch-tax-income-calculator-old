@@ -1,4 +1,4 @@
-var creditRates = [
+var creditRatesBase = [
   { "salary": 10000, "lk": 332, "ak": 19 }, {
     "salary": 11000,
     "lk": 332,
@@ -150,4 +150,4 @@ var creditRates = [
   }, { "salary": 120000, "lk": 215, "ak": 58 }];
 
 
-export default creditRates;
+export default creditRatesBase;
