@@ -25,15 +25,26 @@ angular.module('dit-calculator', ['ngMaterial'])
       'netMonth': 'Monthly net income'
     };
 
-    $scope.$watchGroup(['main.salary.age', 'main.salary.ruling', 'main.salary.socialSecurity', 'main.salary.grossYear'],
+    $scope.$watchGroup(['main.salary.age',
+                        'main.salary.ruling',
+                        'main.salary.socialSecurity',
+                        'main.salary.grossYear',
+                        'main.salary.allowance'],
       () => {
+
         let grossYear = this.salary.grossYear || 0;
-        this.salary.taxableYear = ~~this.salary.ruling ? grossYear * 0.7 : grossYear;
+        this.salary.taxableYear = grossYear;
+        if(this.salary.ruling){
+          this.salary.taxableYear = this.salary.taxableYear * 0.7;
+        }
         this.salary.generalCredit = getCredits(grossYear).lk;
         this.salary.labourCredit = getCredits(grossYear).ak;
         this.salary.grossMonth = ~~(grossYear / 12);
-        this.salary.netYear = grossYear - getTaxAmount(this.salary.taxableYear, this.salary.age, this.salary.socialSecurity) + 
-          this.salary.generalCredit + this.salary.labourCredit;
+        this.salary.netYear = grossYear - getTaxAmount(this.salary.taxableYear, this.salary.age, this.salary.socialSecurity);
+        if(this.salary.allowance){
+          this.salary.netYear = this.salary.netYear * 0.92;  //-8%
+        }
+        this.salary.netYear += this.salary.generalCredit + this.salary.labourCredit;
         this.salary.netMonth = ~~(this.salary.netYear / 12);
         this.salary.incomeTax = getTaxAmount(this.salary.taxableYear, this.salary.age, this.salary.socialSecurity);
       });
@@ -77,7 +88,8 @@ angular.module('dit-calculator', ['ngMaterial'])
     }
 
     function getCredits(salary) {
-      for (let index = 0; index < creditRates.length; index++) {
+      let index;
+      for (index = 0; index < creditRates.length; index++) {
         if (creditRates[index].salary > salary) {
           break;
         }

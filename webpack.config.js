@@ -1,4 +1,8 @@
 'use strict';
+
+var webpack = require('webpack'),
+  ngAnnotatePlugin = require('ng-annotate-webpack-plugin');
+
 module.exports = {
   entry: './app.js',
   output: {
@@ -14,5 +18,13 @@ module.exports = {
         include: __dirname
       }
     ]
-  }
+  },
+  plugins: [
+    new ngAnnotatePlugin({}),
+    new webpack.optimize.UglifyJsPlugin({
+      sourceMap: true,
+      mangle: false
+    })
+  ],
+  watch: true
 };
