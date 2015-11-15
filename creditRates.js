@@ -148,3 +148,6 @@ var creditRates = [
     "lk": 215,
     "ak": 62
   }, { "salary": 120000, "lk": 215, "ak": 58 }];
+
+
+export default creditRates;

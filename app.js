@@ -1,5 +1,7 @@
 'use strict'
 
+import creditRates from './creditRates.js';
+
 angular.module('dit-calculator', ['ngMaterial'])
   .controller('mainController', function($scope) {
 
