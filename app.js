@@ -2,6 +2,8 @@
 
 import creditRatesBase from './creditRatesBase.js';
 import creditRatesSocial from './creditRatesSocial.js';
+import creditRatesBaseRuling from './creditRatesBaseRuling.js';
+import creditRatesSocialRuling from './creditRatesSocialRuling.js';
 
 angular.module('dit-calculator', ['ngMaterial'])
   .controller('mainController', function($scope) {
@@ -41,8 +43,8 @@ angular.module('dit-calculator', ['ngMaterial'])
         if(this.salary.ruling){
           this.salary.taxableYear = this.salary.taxableYear * 0.7;
         }
-        this.salary.generalCredit = getCredits(grossYear, this.salary.socialSecurity).lk;
-        this.salary.labourCredit = getCredits(grossYear, this.salary.socialSecurity).ak;
+        this.salary.generalCredit = getCredits(grossYear, this.salary.ruling, this.salary.socialSecurity).lk;
+        this.salary.labourCredit = getCredits(grossYear, this.salary.ruling, this.salary.socialSecurity).ak;
         this.salary.grossMonth = ~~(grossYear / 12);
         this.salary.netYear = grossYear - getTaxAmount(this.salary.taxableYear, this.salary.age, this.salary.socialSecurity);
         if(this.salary.allowance){
@@ -91,12 +93,22 @@ angular.module('dit-calculator', ['ngMaterial'])
       return taxAmount;
     }
 
-    function getCredits(salary, socialSecurity) {
+    function getCredits(salary, ruling, socialSecurity) {
       let index,
         currentRates = creditRatesBase;
 
-      if(socialSecurity){
-        currentRates = creditRatesSocial;
+      if(!socialSecurity){
+        if(!ruling){
+          currentRates = creditRatesBase;
+        } else {
+          currentRates = creditRatesBaseRuling;
+        }
+      } else {
+        if(!ruling){
+          currentRates = creditRatesSocial;
+        } else {
+          currentRates = creditRatesSocialRuling;
+        }
       }
 
       for (index = 0; index < currentRates.length; index++) {
