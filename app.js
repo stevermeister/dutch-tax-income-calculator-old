@@ -5,23 +5,32 @@ import creditRatesSocial from './creditRatesSocial.js';
 import creditRatesBaseRuling from './creditRatesBaseRuling.js';
 import creditRatesSocialRuling from './creditRatesSocialRuling.js';
 
-angular.module('dit-calculator', ['ngMaterial'])
-  .controller('mainController', function($scope) {
+angular.module('dit-calculator', ['ngMaterial'], function($locationProvider){
+    //$locationProvider.html5Mode(true);
+  })
+  .controller('mainController', function($scope, $location) {
 
     this.year = 2016;
+    if($location.search().year && [2015, 2016].indexOf($location.search().year) !== -1) {
+      this.year = $location.search().year;
+    }
+
     this.salary = {
       grossYear: 0,
       grossMonth: 0,
       netYear: 0,
       netMonth: 0,
       taxRate: 0,
-      ruling: false,
+      ruling: !!$location.search().ruling || false,
       age: false,
-      socialSecurity: true,
+      socialSecurity: !!$location.search().socialOff || true,
       allowance: false
     };
 
     this.salary.grossYear = 36000;
+    if(+$location.search().salary){
+      this.salary.grossYear = +$location.search().salary;
+    }
 
     this.salaryOutputOptions = {
       'taxableYear': 'Taxable Income',
@@ -39,6 +48,11 @@ angular.module('dit-calculator', ['ngMaterial'])
                         'main.salary.allowance',
                         'main.year'],
       () => {
+
+        $location.search('salary', this.salary.grossYear);
+        $location.search('ruling', this.salary.ruling);
+        $location.search('socialOff', +this.salary.socialSecurity);
+        $location.search('year', this.year);
 
         let grossYear = this.salary.grossYear || 0;
         this.salary.taxableYear = grossYear;
@@ -58,7 +72,6 @@ angular.module('dit-calculator', ['ngMaterial'])
       });
 
     function getTaxRates(ratesYear, age, socialSecurity) {
-      console.log(ratesYear);
       let taxRates = {
         2015 : {
           normal: [.365, .42, .42, .52],
