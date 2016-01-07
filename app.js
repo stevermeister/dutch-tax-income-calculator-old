@@ -6,7 +6,7 @@ import creditRatesBaseRuling from './creditRatesBaseRuling.js';
 import creditRatesSocialRuling from './creditRatesSocialRuling.js';
 
 angular.module('dit-calculator', ['ngMaterial'], function($locationProvider){
-    //$locationProvider.html5Mode(true);
+    $locationProvider.html5Mode(true);
   })
   .controller('mainController', function($scope, $location) {
 
