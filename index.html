@@ -46,7 +46,7 @@
 			<div class="md-toolbar-tools">
 				<h2 class="md-headline md-margin title" flex="90">
 					Dutch Income Tax Calculator
-					<span class="motto md-caption">makes your work easy, actual for 2015</span>
+					<span class="motto md-caption">makes your work easy, actual for 2015 and 2016</span>
 				</h2>
 				<a href="https://github.com/stevermeister/dutch-tax-income-calculator" flex="10" layout="row" layout-align="end center">
 					<span class="github-alt">
@@ -77,6 +77,14 @@
 						<md-divider ng-if="!$last" ng-repeat-end></md-divider>
 					</div>
 					<div flex>
+						<md-content class="md-body-1">
+							<div layout="column" layout-margin>
+								<md-radio-group ng-model="main.year">
+									<md-radio-button value="2015">for 2015</md-radio-button>
+									<md-radio-button value="2016">for 2016</md-radio-button>
+								</md-radio-group>
+							</div>
+						</md-content>
 						<md-content class="md-body-1">
 							<div layout="column" layout-margin>
 									<!--<md-checkbox ng-model="main.salary.allowance" aria-label="I have 8% holiday allowance">I have 8% holiday allowance</md-checkbox>-->
