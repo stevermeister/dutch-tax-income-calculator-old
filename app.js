@@ -8,6 +8,7 @@ import creditRatesSocialRuling from './creditRatesSocialRuling.js';
 angular.module('dit-calculator', ['ngMaterial'])
   .controller('mainController', function($scope) {
 
+    this.year = 2016;
     this.salary = {
       grossYear: 0,
       grossMonth: 0,
@@ -35,7 +36,8 @@ angular.module('dit-calculator', ['ngMaterial'])
                         'main.salary.ruling',
                         'main.salary.socialSecurity',
                         'main.salary.grossYear',
-                        'main.salary.allowance'],
+                        'main.salary.allowance',
+                        'main.year'],
       () => {
 
         let grossYear = this.salary.grossYear || 0;
@@ -46,38 +48,64 @@ angular.module('dit-calculator', ['ngMaterial'])
         this.salary.generalCredit = getCredits(grossYear, this.salary.ruling, this.salary.socialSecurity).lk;
         this.salary.labourCredit = getCredits(grossYear, this.salary.ruling, this.salary.socialSecurity).ak;
         this.salary.grossMonth = ~~(grossYear / 12);
-        this.salary.netYear = grossYear - getTaxAmount(this.salary.taxableYear, this.salary.age, this.salary.socialSecurity);
+        this.salary.netYear = grossYear - getTaxAmount(this.salary.taxableYear, this.salary.age, this.salary.socialSecurity, this.year);
         if(this.salary.allowance){
           this.salary.netYear = this.salary.netYear * 0.92;  //-8%
         }
         this.salary.netYear += this.salary.generalCredit + this.salary.labourCredit;
         this.salary.netMonth = ~~(this.salary.netYear / 12);
-        this.salary.incomeTax = getTaxAmount(this.salary.taxableYear, this.salary.age, this.salary.socialSecurity);
+        this.salary.incomeTax = getTaxAmount(this.salary.taxableYear, this.salary.age, this.salary.socialSecurity, this.year);
       });
 
-
-    function getTaxAmount(taxableIncome, age, socialSecurity) {
-
-      const taxAmountPeriods = [
-        19822, // 0 - 19,822
-        13767, // 33,589 - 19,822
-        23996, // 57,585 - 33,589
-        Infinity
-      ];
-
-      let taxRates = [.365, .42, .42, .52];//2015
-      let taxRatesUnSecure = [.0835, .1385, .42, .52]; //2015 without social security
-      //let taxRates = [.051, .1085, .42, .52]; //2014
-      let taxRates64 = [0.1575, 0.235, .42, .52];
+    function getTaxRates(ratesYear, age, socialSecurity) {
+      console.log(ratesYear);
+      let taxRates = {
+        2015 : {
+          normal: [.365, .42, .42, .52],
+          withoutSocial: [.0835, .1385, .42, .52],
+          over64: [0.1860, 0.2410, .42, .52]
+        },
+        2016 : {
+          normal: [.3655, .404, .404, .52],
+          withoutSocial: [.0835, .1385, .404, .52],
+          over64: [0.1860, 0.2250, .404, .52]
+        },
+      }, currentTaxRates = taxRates[ratesYear]['normal'];
 
       if (!socialSecurity) {
-        taxRates = taxRatesUnSecure;
+        currentTaxRates = taxRates[ratesYear]['withoutSocial'];
       }
 
       if (age) {
-        taxRates = taxRates64;
+        currentTaxRates = taxRates[ratesYear]['over64'];
       }
 
+      return currentTaxRates;
+    }
+
+    function getTaxAmountPeriods(year) {
+      const taxAmountPeriods = {
+        2015:[
+          19822, // 0 - 19,822
+          13767, // 33,589 - 19,822
+          23996, // 57,585 - 33,589
+          Infinity
+        ],
+        2016:[
+          19922, // 0 - 19,922
+          13793, // 33,715 - 19,922
+          32697, // 66,421 - 33,715
+          Infinity
+        ],
+      };
+
+      return taxAmountPeriods[year];
+    }
+
+    function getTaxAmount(taxableIncome, age, socialSecurity, ratesYear) {
+
+      const taxAmountPeriods = getTaxAmountPeriods(ratesYear);
+      const taxRates = getTaxRates(ratesYear, age, socialSecurity);
       let taxAmount = 0;
 
       for (let i = 0; i < taxRates.length; i++) {
