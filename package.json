@@ -4,6 +4,7 @@
   "description": "dutch-tax-income-calculator",
   "main": "app.js",
   "scripts": {
+    "start": "node_modules/.bin/webpack-dev-server",
     "postinstall": "./node_modules/.bin/bower install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -25,6 +26,7 @@
     "loader-utils": "^0.2.11",
     "ng-annotate-webpack-plugin": "^0.1.2",
     "source-map": "^0.5.3",
-    "webpack": "^1.12.2"
+    "webpack": "^1.12.2",
+    "webpack-dev-server": "^1.14.1"
   }
 }

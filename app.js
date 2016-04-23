@@ -11,8 +11,8 @@ angular.module('dit-calculator', ['ngMaterial'], function($locationProvider){
   .controller('mainController', function($scope, $location) {
 
     this.year = 2016;
-    if($location.search().year && [2015, 2016].indexOf($location.search().year) !== -1) {
-      this.year = $location.search().year;
+    if($location.search().year && [2015, 2016].indexOf(+$location.search().year) !== -1) {
+      this.year = +$location.search().year;
     }
 
     this.salary = {
@@ -21,10 +21,10 @@ angular.module('dit-calculator', ['ngMaterial'], function($locationProvider){
       netYear: 0,
       netMonth: 0,
       taxRate: 0,
-      ruling: !!$location.search().ruling || false,
+      ruling: !!+$location.search().ruling || false,
+      socialSecurity: (angular.isDefined($location.search().socialSecurity) && $location.search().socialSecurity === '0')?false:true,
       age: false,
-      socialSecurity: !!$location.search().socialOff || true,
-      allowance: false
+      allowance: !!+$location.search().allowance || false
     };
 
     this.salary.grossYear = 36000;
@@ -40,7 +40,7 @@ angular.module('dit-calculator', ['ngMaterial'], function($locationProvider){
       'netYear': 'Year net income',
       'netMonth': 'Monthly net income'
     };
-
+    
     $scope.$watchGroup(['main.salary.age',
                         'main.salary.ruling',
                         'main.salary.socialSecurity',
@@ -50,9 +50,10 @@ angular.module('dit-calculator', ['ngMaterial'], function($locationProvider){
       () => {
 
         $location.search('salary', this.salary.grossYear);
-        $location.search('ruling', this.salary.ruling);
-        $location.search('socialOff', +this.salary.socialSecurity);
+        $location.search('ruling', +this.salary.ruling);
+        $location.search('socialSecurity', +this.salary.socialSecurity);
         $location.search('year', this.year);
+        $location.search('allowance', +this.salary.allowance);
 
         let grossYear = this.salary.grossYear || 0;
         if(this.salary.allowance){

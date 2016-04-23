@@ -19,6 +19,9 @@ module.exports = {
       }
     ]
   },
+  watchOptions: {
+    aggregateTimeout: 100
+  },
   plugins: [
     new ngAnnotatePlugin({}),
     new webpack.optimize.UglifyJsPlugin({
@@ -26,5 +29,6 @@ module.exports = {
       mangle: false
     })
   ],
+  devtool: "source-map",
   watch: true
 };
