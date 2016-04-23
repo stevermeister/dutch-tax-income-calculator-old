@@ -55,6 +55,10 @@ angular.module('dit-calculator', ['ngMaterial'], function($locationProvider){
         $location.search('year', this.year);
 
         let grossYear = this.salary.grossYear || 0;
+        if(this.salary.allowance){
+          grossYear = grossYear / 1.08;  //-8%
+        }
+
         this.salary.taxableYear = grossYear;
         if(this.salary.ruling){
           this.salary.taxableYear = this.salary.taxableYear * 0.7;
@@ -63,9 +67,6 @@ angular.module('dit-calculator', ['ngMaterial'], function($locationProvider){
         this.salary.labourCredit = getCredits(grossYear, this.salary.ruling, this.salary.socialSecurity).ak;
         this.salary.grossMonth = ~~(grossYear / 12);
         this.salary.netYear = grossYear - getTaxAmount(this.salary.taxableYear, this.salary.age, this.salary.socialSecurity, this.year);
-        if(this.salary.allowance){
-          this.salary.netYear = this.salary.netYear * 0.92;  //-8%
-        }
         this.salary.netYear += this.salary.generalCredit + this.salary.labourCredit;
         this.salary.netMonth = ~~(this.salary.netYear / 12);
         this.salary.incomeTax = getTaxAmount(this.salary.taxableYear, this.salary.age, this.salary.socialSecurity, this.year);
