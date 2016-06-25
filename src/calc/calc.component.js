@@ -1,18 +1,20 @@
-'use strict'
-
+import template from './calc.html';
 import creditRatesBase from './creditRatesBase.js';
 import creditRatesSocial from './creditRatesSocial.js';
 import creditRatesBaseRuling from './creditRatesBaseRuling.js';
 import creditRatesSocialRuling from './creditRatesSocialRuling.js';
 
-angular.module('dit-calculator', ['ngMaterial'], function($locationProvider){
-    $locationProvider.html5Mode(true);
-  })
-  .controller('mainController', function($scope, $location) {
-
+let calcComponent = {
+  template,
+  controller: function($scope, $location) {
     this.year = 2016;
     if($location.search().year && [2015, 2016].indexOf(+$location.search().year) !== -1) {
       this.year = +$location.search().year;
+    }
+
+    this.startFrom = 'year';
+    if(['year', 'month'].indexOf($location.search().startFrom) !==-1){
+      this.startFrom = $location.search().startFrom;
     }
 
     this.salary = {
@@ -40,15 +42,18 @@ angular.module('dit-calculator', ['ngMaterial'], function($locationProvider){
       'netYear': 'Year net income',
       'netMonth': 'Monthly net income'
     };
-    
-    $scope.$watchGroup(['main.salary.age',
-                        'main.salary.ruling',
-                        'main.salary.socialSecurity',
-                        'main.salary.grossYear',
-                        'main.salary.allowance',
-                        'main.year'],
+
+    $scope.$watchGroup([
+        '$ctrl.startFrom',
+        '$ctrl.salary.age',
+        '$ctrl.salary.ruling',
+        '$ctrl.salary.socialSecurity',
+        '$ctrl.salary.grossYear',
+        '$ctrl.salary.allowance',
+        '$ctrl.year'],
       () => {
 
+        $location.search('startFrom', this.startFrom);
         $location.search('salary', this.salary.grossYear);
         $location.search('ruling', +this.salary.ruling);
         $location.search('socialSecurity', +this.salary.socialSecurity);
@@ -161,5 +166,8 @@ angular.module('dit-calculator', ['ngMaterial'], function($locationProvider){
       }
       return index ? currentRates[index - 1] : currentRates[0];
     }
+    
+  }
+};
 
-  });
+export default calcComponent;

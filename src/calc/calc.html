@@ -1,0 +1,44 @@
+<md-content layout-lg="column" layout-gt-lg="column" layout-align="center">
+  <md-input-container class="md-display-1" layout-margin>
+    <label>Annual gross income</label>
+    <input type="number" ng-model="$ctrl.salary.grossYear" autofocus>
+  </md-input-container>
+
+  <div layout-lg="row" layout-gt-lg="row" layout-margin>
+    <div flex="40">
+      <div layout="row" layout-margin
+           ng-repeat-start="(salaryOptionKey,  salaryOptionTitle) in $ctrl.salaryOutputOptions">
+        <div flex>
+          {{::salaryOptionTitle}}
+        </div>
+        <div flex class="report-value">
+          {{$ctrl.salary[salaryOptionKey] | number:0}}
+        </div>
+      </div>
+      <md-divider ng-if="!$last" ng-repeat-end></md-divider>
+    </div>
+    <div flex>
+      <md-content class="md-body-1">
+        <div layout="column" layout-margin>
+          <md-radio-group ng-model="$ctrl.year">
+            <md-radio-button value="2015">for 2015</md-radio-button>
+            <md-radio-button value="2016">for 2016</md-radio-button>
+          </md-radio-group>
+        </div>
+      </md-content>
+      <md-content class="md-body-1">
+        <div layout="column" layout-margin>
+          <!--<md-checkbox ng-model="$ctrl.salary.allowance" aria-label="I have 8% holiday allowance">I have 8% holiday allowance</md-checkbox>-->
+          <md-checkbox ng-model="$ctrl.salary.allowance" aria-label="Holiday allowance is included in gross">Holiday
+            allowance included
+          </md-checkbox>
+          <md-checkbox ng-model="$ctrl.salary.age" aria-label="I'm 65+ years old">I'm 65+ years old</md-checkbox>
+          <md-checkbox ng-model="$ctrl.salary.socialSecurity" aria-label="Social security in the Netherlands">Social
+            security
+          </md-checkbox>
+          <md-checkbox ng-model="$ctrl.salary.ruling" aria-label="I have 30% ruling">I have 30% ruling</md-checkbox>
+        </div>
+      </md-content>
+    </div>
+  </div>
+</md-content>

@@ -1,21 +1,25 @@
-'use strict';
-
 var webpack = require('webpack'),
-  ngAnnotatePlugin = require('ng-annotate-webpack-plugin');
+  HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  context: __dirname + '/src',
   entry: './app.js',
   output: {
-    path: __dirname,
-    filename: 'bundle.js'
+    path: __dirname + '/dist',
+    filename: 'app.js'
   },
   module: {
     loaders: [
       {
         test: /\.js$/,
-        exclude: /(node_modules|bower_components)/,
-        loader: 'babel?presets[]=es2015',
-        include: __dirname
+        exclude: /node_modules/,
+        loader: 'ng-annotate!babel?presets[]=es2015'
+      },
+      {test: /\.css$/, loader: 'style-loader!css-loader?minimize'},
+      {
+        test: /\.html$/,
+        loader: 'ng-cache?prefix=[dir]/[dir]',
+        exclude: /index\.html/
       }
     ]
   },
@@ -23,12 +27,18 @@ module.exports = {
     aggregateTimeout: 100
   },
   plugins: [
-    new ngAnnotatePlugin({}),
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,
       mangle: false
-    })
+    }),
+    new HtmlWebpackPlugin({
+      template: 'index.html',
+      inject: 'body',
+      favicon: 'favicon.png'
+    }),
   ],
   devtool: "source-map",
-  watch: true
+  devServer: {
+    inline: true,
+  }
 };
