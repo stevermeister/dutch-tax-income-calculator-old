@@ -1,8 +1,4 @@
 import template from './calc.html';
-import creditRatesBase from './creditRatesBase.js';
-import creditRatesSocial from './creditRatesSocial.js';
-import creditRatesBaseRuling from './creditRatesBaseRuling.js';
-import creditRatesSocialRuling from './creditRatesSocialRuling.js';
 
 let calcComponent = {
   template,
@@ -25,7 +21,6 @@ let calcComponent = {
       taxRate: 0,
       ruling: !!+$location.search().ruling || false,
       socialSecurity: (angular.isDefined($location.search().socialSecurity) && $location.search().socialSecurity === '0')?false:true,
-      age: false,
       allowance: !!+$location.search().allowance || false
     };
 
@@ -45,7 +40,6 @@ let calcComponent = {
 
     $scope.$watchGroup([
         '$ctrl.startFrom',
-        '$ctrl.salary.age',
         '$ctrl.salary.ruling',
         '$ctrl.salary.socialSecurity',
         '$ctrl.salary.grossYear',
@@ -69,16 +63,16 @@ let calcComponent = {
         if(this.salary.ruling){
           this.salary.taxableYear = this.salary.taxableYear * 0.7;
         }
-        this.salary.generalCredit = getCredits(grossYear, this.salary.ruling, this.salary.socialSecurity).lk;
-        this.salary.labourCredit = getCredits(grossYear, this.salary.ruling, this.salary.socialSecurity).ak;
+        this.salary.generalCredit = getAlgemeneHeffingskorting(this.salary.taxableYear);
+        this.salary.labourCredit = getArbeidskorting(this.salary.taxableYear);
         this.salary.grossMonth = ~~(grossYear / 12);
-        this.salary.netYear = grossYear - getTaxAmount(this.salary.taxableYear, this.salary.age, this.salary.socialSecurity, this.year);
+        this.salary.netYear = grossYear - getTaxAmount(this.salary.taxableYear, this.salary.socialSecurity, this.year);
         this.salary.netYear += this.salary.generalCredit + this.salary.labourCredit;
         this.salary.netMonth = ~~(this.salary.netYear / 12);
-        this.salary.incomeTax = getTaxAmount(this.salary.taxableYear, this.salary.age, this.salary.socialSecurity, this.year);
+        this.salary.incomeTax = getTaxAmount(this.salary.taxableYear, this.salary.socialSecurity, this.year);
       });
 
-    function getTaxRates(ratesYear, age, socialSecurity) {
+    function getTaxRates(ratesYear, socialSecurity) {
       let taxRates = {
         2015 : {
           normal: [.365, .42, .42, .52],
@@ -94,10 +88,6 @@ let calcComponent = {
 
       if (!socialSecurity) {
         currentTaxRates = taxRates[ratesYear]['withoutSocial'];
-      }
-
-      if (age) {
-        currentTaxRates = taxRates[ratesYear]['over64'];
       }
 
       return currentTaxRates;
@@ -122,10 +112,10 @@ let calcComponent = {
       return taxAmountPeriods[year];
     }
 
-    function getTaxAmount(taxableIncome, age, socialSecurity, ratesYear) {
+    function getTaxAmount(taxableIncome, socialSecurity, ratesYear) {
 
       const taxAmountPeriods = getTaxAmountPeriods(ratesYear);
-      const taxRates = getTaxRates(ratesYear, age, socialSecurity);
+      const taxRates = getTaxRates(ratesYear, socialSecurity);
       let taxAmount = 0;
 
       for (let i = 0; i < taxRates.length; i++) {
@@ -141,30 +131,34 @@ let calcComponent = {
       return taxAmount;
     }
 
-    function getCredits(salary, ruling, socialSecurity) {
-      let index,
-        currentRates = creditRatesBase;
-
-      if(!socialSecurity){
-        if(!ruling){
-          currentRates = creditRatesBase;
-        } else {
-          currentRates = creditRatesBaseRuling;
-        }
-      } else {
-        if(!ruling){
-          currentRates = creditRatesSocial;
-        } else {
-          currentRates = creditRatesSocialRuling;
-        }
+    //labor discount
+    function getArbeidskorting(salary){
+      if(salary < 9147){
+        return salary * 1.793 / 100;
+      }
+      if(salary < 19758){
+        return 164 + (salary - 9147) * 27.698 / 100;
+      }
+      if(salary < 34015){
+        return 3103;
+      }
+      if(salary < 111590){
+        return 3103 - (salary - 39015) * 4 / 100;
       }
 
-      for (index = 0; index < currentRates.length; index++) {
-        if (currentRates[index].salary > salary) {
-          break;
-        }
+      return 0;
+    }
+
+    //general discount
+    function getAlgemeneHeffingskorting(salary) {
+      if(salary < 19922){
+        return 2242;
       }
-      return index ? currentRates[index - 1] : currentRates[0];
+      if(salary < 66417){
+        return 2242 - (salary - 19922) * 4.822 / 100;
+      }
+
+      return 0;
     }
     
   }
