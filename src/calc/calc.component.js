@@ -84,6 +84,11 @@ let calcComponent = {
           withoutSocial: [.0835, .1385, .404, .52],
           over64: [0.1860, 0.2250, .404, .52]
         },
+        2017 : {
+          normal: [.3655, .408, .408, .52],
+          withoutSocial: [.0835, .1385, .408, .52],
+          over64: [.1865, .2290, .408, .52]
+        }
       }, currentTaxRates = taxRates[ratesYear]['normal'];
 
       if (!socialSecurity) {
@@ -105,6 +110,12 @@ let calcComponent = {
           19922, // 0 - 19,922
           13793, // 33,715 - 19,922
           32697, // 66,421 - 33,715
+          Infinity
+        ],
+        2017:[
+          19981, // 0 - 19,982
+          13807, // 33,789 - 19,982
+          33282, // 67,071 - 33,789
           Infinity
         ],
       };
