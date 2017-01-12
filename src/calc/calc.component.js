@@ -3,8 +3,8 @@ import template from './calc.html';
 let calcComponent = {
   template,
   controller: function($scope, $location) {
-    this.year = 2016;
-    if($location.search().year && [2015, 2016].indexOf(+$location.search().year) !== -1) {
+    this.year = 2017;
+    if($location.search().year && [2015, 2016, 2017].indexOf(+$location.search().year) !== -1) {
       this.year = +$location.search().year;
     }
 
@@ -171,7 +171,7 @@ let calcComponent = {
 
       return 0;
     }
-    
+
   }
 };
 
