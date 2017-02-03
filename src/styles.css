@@ -1,0 +1,29 @@
+.report-value {
+    font-weight: bold;
+    text-align: right;
+}
+.title {
+    position: relative;
+    line-height: 13px;
+}
+.motto {
+    display: inline-block;
+    font-style: italic;
+    opacity: 0.6;
+}
+.github-alt {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    background-size: 25px 25px;
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTc5MiIgaGVpZ2h0PSIxNzkyIiB2aWV3Qm94PSIwIDAgMTc5MiAxNzkyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik03MDQgMTIxNnEwIDQwLTEyLjUgODJ0LTQzIDc2LTcyLjUgMzQtNzIuNS0zNC00My03Ni0xMi41LTgyIDEyLjUtODIgNDMtNzYgNzIuNS0zNCA3Mi41IDM0IDQzIDc2IDEyLjUgODJ6bTY0MCAwcTAgNDAtMTIuNSA4MnQtNDMgNzYtNzIuNSAzNC03Mi41LTM0LTQzLTc2LTEyLjUtODIgMTIuNS04MiA0My03NiA3Mi41LTM0IDcyLjUgMzQgNDMgNzYgMTIuNSA4MnptMTYwIDBxMC0xMjAtNjktMjA0dC0xODctODRxLTQxIDAtMTk1IDIxLTcxIDExLTE1NyAxMXQtMTU3LTExcS0xNTItMjEtMTk1LTIxLTExOCAwLTE4NyA4NHQtNjkgMjA0cTAgODggMzIgMTUzLjV0ODEgMTAzIDEyMiA2MCAxNDAgMjkuNSAxNDkgN2gxNjhxODIgMCAxNDktN3QxNDAtMjkuNSAxMjItNjAgODEtMTAzIDMyLTE1My41em0yMjQtMTc2cTAgMjA3LTYxIDMzMS0zOCA3Ny0xMDUuNSAxMzN0LTE0MSA4Ni0xNzAgNDcuNS0xNzEuNSAyMi0xNjcgNC41cS03OCAwLTE0Mi0zdC0xNDcuNS0xMi41LTE1Mi41LTMwLTEzNy01MS41LTEyMS04MS04Ni0xMTVxLTYyLTEyMy02Mi0zMzEgMC0yMzcgMTM2LTM5Ni0yNy04Mi0yNy0xNzAgMC0xMTYgNTEtMjE4IDEwOCAwIDE5MCAzOS41dDE4OSAxMjMuNXExNDctMzUgMzA5LTM1IDE0OCAwIDI4MCAzMiAxMDUtODIgMTg3LTEyMXQxODktMzlxNTEgMTAyIDUxIDIxOCAwIDg3LTI3IDE2OCAxMzYgMTYwIDEzNiAzOTh6IiBmaWxsPSIjZmZmIi8+PC9zdmc+);
+}
+
+
+.start-from{
+    font-size: 12px;
+}
+
+.start-from .md-checked{
+    font-size: 34px;
+}
