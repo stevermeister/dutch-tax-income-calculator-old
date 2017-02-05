@@ -1,0 +1,14 @@
+{
+    "name": "Dutch Income Tax Calculator ",
+    "short_name": "Dutch Tax",
+    "lang": "en-US",
+    "background_color": "#3f51b5",
+    "theme_color": "#3f51b5",
+    "display": "standalone",
+    "icons": [{
+        "src": "/desktop_logo.png",
+        "type": "image/png",
+        "sizes": "128x128"
+    }],
+    "start_url": "/index.html"
+}
