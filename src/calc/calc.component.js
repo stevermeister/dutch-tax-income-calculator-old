@@ -154,7 +154,7 @@ let calcComponent = {
         return 3103;
       }
       if(salary < 111590){
-        return 3103 - (salary - 39015) * 4 / 100;
+        return 3103 - (salary - 34015) * 4 / 100;
       }
 
       return 0;
