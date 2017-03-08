@@ -3,3 +3,4 @@ node_modules
 bower_components
 dutch-tax-income-calculator.iml
 .DS_Store
+.vscode
