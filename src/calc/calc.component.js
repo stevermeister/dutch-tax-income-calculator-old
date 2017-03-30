@@ -59,7 +59,7 @@ let calcComponent = {
           grossYear = grossYear / 1.08;  //-8%
         }
 
-        this.salary.taxableYear = grossYear;
+        this.salary.taxableYear = grossYear * 1.08; // holiday allowance is also taxable!
         if(this.salary.ruling){
           this.salary.taxableYear = this.salary.taxableYear * 0.7;
         }
