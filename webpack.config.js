@@ -1,11 +1,12 @@
 var webpack = require('webpack'),
-  HtmlWebpackPlugin = require('html-webpack-plugin');
+  HtmlWebpackPlugin = require('html-webpack-plugin'),
+  path = require('path');
 
 module.exports = {
-  context: __dirname + '/src',
+  context: path.resolve(__dirname, 'src'),
   entry: './app.js',
   output: {
-    path: __dirname + '/dist',
+    path: path.resolve(__dirname, 'dist'),
     filename: 'app.js'
   },
   module: {
