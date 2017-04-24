@@ -1,4 +1,5 @@
 import template from './calc.html';
+import c from './calc.json'; // Get JSON containing calculation constants
 
 let calcComponent = {
   template,
@@ -14,14 +15,39 @@ let calcComponent = {
     }
 
     this.salary = {
-      grossYear: 0,
       grossMonth: 0,
       netYear: 0,
       netMonth: 0,
-      taxRate: 0,
+      taxFree: 0,
       ruling: !!+$location.search().ruling || false,
+      older: !!+$location.search().older || false,
       socialSecurity: (angular.isDefined($location.search().socialSecurity) && $location.search().socialSecurity === '0')?false:true,
-      allowance: !!+$location.search().allowance || false
+      allowance: !!+$location.search().allowance || false,
+      hours: +$location.search().hours || c.defaultWorkingHours,
+    };
+
+    this.ruling = $location.search().rulingChoice || 'normal';
+
+    this.show = {
+      grossMonth: !!+$location.search().grossMonth || false,
+      grossWeek: !!+$location.search().grossWeek || false,
+      grossDay: !!+$location.search().grossDay || false,
+      grossHour: !!+$location.search().grossMonth || false,
+      grossAllowance: !!+$location.search().grossAllowance || false,
+      taxableYear: !!+$location.search().taxableYear || true,
+      taxFreeYear: !!+$location.search().taxFreeYear || false,
+      taxFree: !!+$location.search().taxFree || false,
+      incomeTax: !!+$location.search().incomeTax || true,
+      socialTax: !!+$location.search().socialTax || true,
+      generalCredit: !!+$location.search().generalCredit || true,
+      labourCredit: !!+$location.search().labourCredit || true,
+      totalTax: !!+$location.search().totalTax || false,
+      netAllowance: !!+$location.search().netAllowance || false,
+      netYear: !!+$location.search().netYear || true,
+      netMonth: !!+$location.search().netMonth || true,
+      netWeek: !!+$location.search().netWeek || false,
+      netDay: !!+$location.search().netDay || false,
+      netHour: !!+$location.search().netHour || false,
     };
 
     this.salary.grossYear = 36000;
@@ -30,148 +56,193 @@ let calcComponent = {
     }
 
     this.salaryOutputOptions = {
+      'grossYear': 'Year Gross Income',
+      'grossMonth': 'Month Gross Income',
+      'grossWeek': 'Week Gross Income',
+      'grossDay': 'Day Gross Income',
+      'grossHour': 'Hour Gross Income',
+      'grossAllowance': 'Year Gross Holiday Allowance',
+      'taxFreeYear': 'Tax Free Income',
+      'taxFree': 'Ruling Real Percentage',
       'taxableYear': 'Taxable Income',
       'incomeTax': 'Income Tax',
+      'socialTax': 'Social Security Tax',
       'generalCredit': 'General Tax Credit',
       'labourCredit': 'Labour Tax Credit',
-      'netYear': 'Year net income',
-      'netMonth': 'Monthly net income'
+      'totalTax': 'Total Tax',
+      'netAllowance': 'Year Net Holiday Allowance',
+      'netYear': 'Year Net Income',
+      'netMonth': 'Month Net Income',
+      'netWeek': 'Week Net Income',
+      'netDay': 'Day Net Income',
+      'netHour': 'Hour Net Income',
     };
 
     $scope.$watchGroup([
         '$ctrl.startFrom',
         '$ctrl.salary.ruling',
         '$ctrl.salary.socialSecurity',
+        '$ctrl.salary.older',
         '$ctrl.salary.grossYear',
         '$ctrl.salary.allowance',
-        '$ctrl.year'],
+        '$ctrl.salary.hours',
+        '$ctrl.year',
+        '$ctrl.ruling',       
+        '$ctrl.show.grossYear',
+        '$ctrl.show.grossMonth',
+        '$ctrl.show.grossWeek',
+        '$ctrl.show.grossDay',
+        '$ctrl.show.grossHour',
+        '$ctrl.show.grossAllowance',
+        '$ctrl.show.taxableYear',
+        '$ctrl.show.taxFreeYear',
+        '$ctrl.show.taxFree',
+        '$ctrl.show.incomeTax',
+        '$ctrl.show.socialTax',
+        '$ctrl.show.generalCredit',
+        '$ctrl.show.labourCredit',
+        '$ctrl.show.totalTax',
+        '$ctrl.show.netAllowance',
+        '$ctrl.show.netYear',
+        '$ctrl.show.netMonth',
+        '$ctrl.show.netWeek',
+        '$ctrl.show.netDay',
+        '$ctrl.show.netHour',
+        ],
       () => {
 
         $location.search('startFrom', this.startFrom);
         $location.search('salary', this.salary.grossYear);
         $location.search('ruling', +this.salary.ruling);
+        $location.search('rulingChoice', this.ruling);
         $location.search('socialSecurity', +this.salary.socialSecurity);
+        $location.search('older', +this.salary.older);
         $location.search('year', this.year);
         $location.search('allowance', +this.salary.allowance);
+        $location.search('hours', +this.salary.hours);
+        $location.search('grossMonth', +this.show.grossMonth);
+        $location.search('grossWeek', +this.show.grossWeek);
+        $location.search('grossDay', +this.show.grossDay);
+        $location.search('grossHour', +this.show.grossHour);
+        $location.search('grossAllowance', +this.show.grossAllowance);
+        $location.search('taxFreeYear', +this.show.taxFreeYear);
+        $location.search('taxFree', +this.show.taxFree);
+        $location.search('taxableYear', +this.show.taxableYear);
+        $location.search('grossMonth', +this.show.grossMonth);
+        $location.search('incomeTax', +this.show.incomeTax);
+        $location.search('socialTax', +this.show.socialTax);
+        $location.search('generalCredit', +this.show.generalCredit);
+        $location.search('labourCredit', +this.show.labourCredit);
+        $location.search('totalTax', +this.show.totalTax);
+        $location.search('netAllowance', +this.show.netAllowance);
+        $location.search('netYear', +this.show.netYear);
+        $location.search('netMonth', +this.show.netMonth);
+        $location.search('netWeek', +this.show.netWeek);
+        $location.search('netDay', +this.show.netDay);
+        $location.search('netHour', +this.show.netHour);
 
-        let grossYear = this.salary.grossYear || 0;
-        if(this.salary.allowance){
-          grossYear = grossYear / 1.08;  //-8%
+        // For calculation instructions:
+        // https://www.belastingdienst.nl/wps/wcm/connect/bldcontenten/belastingdienst/business/payroll_taxes/you_are_not_established_in_the_netherlands_are_you_required_to_withhold_payroll_taxes/when_you_are_going_to_withhold_payroll_taxes/calculating_payroll_taxes/calculating_wage_tax_national_insurance_contributions
+
+        let s = this.salary;
+        let grossYear = s.grossYear;
+        if (!grossYear || grossYear < 0) {
+          grossYear = 0;
         }
 
-        this.salary.taxableYear = grossYear;
-        if(this.salary.ruling){
-          this.salary.taxableYear = this.salary.taxableYear * 0.7;
+        s.taxFreeYear = 0;
+        s.taxableYear = grossYear;
+        if (s.ruling) {
+          let rulingIncome = getRulingIncome(this.year, this.ruling);
+          if (s.taxableYear > rulingIncome) {
+            s.taxFreeYear = s.taxableYear * 0.30;
+            s.taxableYear -= s.taxFreeYear;
+            if (s.taxableYear < rulingIncome) { // For partial
+              s.taxFreeYear = grossYear - rulingIncome;
+              s.taxableYear = rulingIncome;
+            }
+          }
         }
-        this.salary.generalCredit = getAlgemeneHeffingskorting(this.salary.taxableYear);
-        this.salary.labourCredit = getArbeidskorting(this.salary.taxableYear);
-        this.salary.grossMonth = ~~(grossYear / 12);
-        this.salary.netYear = grossYear - getTaxAmount(this.salary.taxableYear, this.salary.socialSecurity, this.year);
-        this.salary.netYear += this.salary.generalCredit + this.salary.labourCredit;
-        this.salary.netMonth = ~~(this.salary.netYear / 12);
-        this.salary.incomeTax = getTaxAmount(this.salary.taxableYear, this.salary.socialSecurity, this.year);
+
+        s.grossMonth = ~~(grossYear / 12);
+        s.grossWeek = ~~(grossYear / c.workingWeeks);
+        s.grossDay = ~~(grossYear / c.workingDays);
+        s.grossHour = ~~(grossYear / (c.workingWeeks * s.hours));
+        s.grossAllowance = (s.allowance) ? ~~(grossYear * (0.08 / 1.08)) : 0;
+        s.taxFreeYear = ~~(s.taxFreeYear);
+        s.taxFree = ~~(s.taxFreeYear / grossYear * 100);
+        s.taxableYear = ~~(s.taxableYear);
+        s.incomeTax = -1 * getIncomeTax(this.year, s.taxableYear);
+        s.socialTax = (s.socialSecurity) ? -1 * getSocialTax(this.year, s.taxableYear, s.older) : 0;
+        s.generalCredit = getGeneralCredit(this.year, s.taxableYear, s.older);
+        s.labourCredit = getLabourCredit(this.year, s.taxableYear, s.older);
+        s.totalTax = ~~(s.incomeTax + s.socialTax + s.generalCredit + s.labourCredit);
+        s.netYear = s.taxableYear + s.totalTax + s.taxFreeYear;
+        s.netAllowance = (s.allowance) ? ~~(s.netYear * (0.08 / 1.08)) : 0;
+        s.netYear -= s.netAllowance;
+        s.netMonth = ~~(s.netYear / 12);
+        s.netWeek = ~~(s.netYear / c.workingWeeks);
+        s.netDay = ~~(s.netYear / c.workingDays);
+        s.netHour = ~~(s.netYear / (c.workingWeeks * s.hours));
       });
 
-    function getTaxRates(ratesYear, socialSecurity) {
-      let taxRates = {
-        2015 : {
-          normal: [.365, .42, .42, .52],
-          withoutSocial: [.0835, .1385, .42, .52],
-          over64: [0.1860, 0.2410, .42, .52]
-        },
-        2016 : {
-          normal: [.3655, .404, .404, .52],
-          withoutSocial: [.0835, .1385, .404, .52],
-          over64: [0.1860, 0.2250, .404, .52]
-        },
-        2017 : {
-          normal: [.3655, .408, .408, .52],
-          withoutSocial: [.0835, .1385, .408, .52],
-          over64: [.1865, .2290, .408, .52]
-        }
-      }, currentTaxRates = taxRates[ratesYear]['normal'];
-
-      if (!socialSecurity) {
-        currentTaxRates = taxRates[ratesYear]['withoutSocial'];
-      }
-
-      return currentTaxRates;
+    // 30% Ruling (30%-regeling)
+    // https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/internationaal/werken_wonen/tijdelijk_in_een_ander_land_werken/u_komt_in_nederland_werken/30_procent_regeling/voorwaarden_30_procent_regeling/u_hebt_een_specifieke_deskundigheid
+    function getRulingIncome(year, ruling) {
+      return c.rulingThreshold[year][ruling || 'normal'];
     }
 
-    function getTaxAmountPeriods(year) {
-      const taxAmountPeriods = {
-        2015:[
-          19822, // 0 - 19,822
-          13767, // 33,589 - 19,822
-          23996, // 57,585 - 33,589
-          Infinity
-        ],
-        2016:[
-          19922, // 0 - 19,922
-          13793, // 33,715 - 19,922
-          32697, // 66,421 - 33,715
-          Infinity
-        ],
-        2017:[
-          19981, // 0 - 19,982
-          13807, // 33,789 - 19,982
-          33282, // 67,071 - 33,789
-          Infinity
-        ],
-      };
-
-      return taxAmountPeriods[year];
+    // Income Tax Rates (Inkomstenbelasting)
+    // https://www.belastingdienst.nl/wps/wcm/connect/nl/werk-en-inkomen/content/hoeveel-inkomstenbelasting-betalen
+    function getIncomeTax(year, salary) {
+      return getRates(c.incomeTax[year], salary, 'rate');
     }
 
-    function getTaxAmount(taxableIncome, socialSecurity, ratesYear) {
+    // National Insurance Contributions (Volksverzekeringen)
+    // https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/werk_en_inkomen/sociale_verzekeringen/premies_volks_en_werknemersverzekeringen/volksverzekeringen/volksverzekeringen?projectid=98f8c360-e92a-4fe2-aea6-27e9087ce4a1&projectid=98f8c360-e92a-4fe2-aea6-27e9087ce4a1
+    function getSocialTax(year, salary, older) {
+      return getRates(c.socialTax[year], salary, (older) ? 'older' : 'rate');
+    }
 
-      const taxAmountPeriods = getTaxAmountPeriods(ratesYear);
-      const taxRates = getTaxRates(ratesYear, socialSecurity);
-      let taxAmount = 0;
+    // General Tax Credit (Algemene Heffingskorting)
+    // https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/inkomstenbelasting/heffingskortingen_boxen_tarieven/heffingskortingen/algemene_heffingskorting/
+    function getGeneralCredit(year, salary, older) {
+      return getRates(c.generalCredit[year], salary, (older) ? 'older' : 'rate');
+    }
 
-      for (let i = 0; i < taxRates.length; i++) {
+    // Labour Tax Credit (Arbeidskorting)
+    // https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/inkomstenbelasting/heffingskortingen_boxen_tarieven/heffingskortingen/arbeidskorting/
+    function getLabourCredit(year, salary, older) {
+      return getRates(c.labourCredit[year], salary, (older) ? 'older' : 'rate');
+    }
 
-        if (taxableIncome - taxAmountPeriods[i] < 0) {
-          taxAmount += Math.floor(taxableIncome * taxRates[i]);
-          break;
+    function getRates(brackets, salary, type) {
+      let amount = 0,
+        tax, delta, percent;
+
+      brackets.some((r, i) => {
+        delta = (r.max) ? r.max - r.min : Infinity; // Consider infinity when no upper bound
+        tax = (type && r[type]) ? r[type] : r['rate'];
+        percent = (tax != 0 && tax > -1 && tax < 1); // Check if rate is percentage or fixed
+        if (salary < delta) {
+          if (percent) {
+            amount += Math.floor((salary * 100) * tax) / 100;
+          } else {
+            amount = tax;
+          }
+          console.log(i, salary, delta, tax, percent, amount);
+          return true; // Break loop
         } else {
-          taxAmount += Math.floor(taxAmountPeriods[i] * taxRates[i]);
-          taxableIncome = taxableIncome - taxAmountPeriods[i];
+          if (percent) {
+            amount += Math.floor((delta * 100) * tax) / 100;
+          } else {
+            amount = tax;
+          }
+          salary -= delta;
         }
-      }
-      return taxAmount;
+      });
+      return amount;
     }
-
-    //labor discount
-    function getArbeidskorting(salary){
-      if(salary < 9147){
-        return salary * 1.793 / 100;
-      }
-      if(salary < 19758){
-        return 164 + (salary - 9147) * 27.698 / 100;
-      }
-      if(salary < 34015){
-        return 3103;
-      }
-      if(salary < 111590){
-        return 3103 - (salary - 34015) * 4 / 100;
-      }
-
-      return 0;
-    }
-
-    //general discount
-    function getAlgemeneHeffingskorting(salary) {
-      if(salary < 19922){
-        return 2242;
-      }
-      if(salary < 66417){
-        return 2242 - (salary - 19922) * 4.822 / 100;
-      }
-
-      return 0;
-    }
-
   }
 };
 

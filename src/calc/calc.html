@@ -1,12 +1,13 @@
 <md-content layout-lg="column" layout-gt-lg="column" layout-align="center">
   <md-input-container class="md-display-1" layout-margin>
     <label>Annual gross income</label>
-    <input type="number" ng-model="$ctrl.salary.grossYear" autofocus>
+    <input type="number" ng-model="$ctrl.salary.grossYear" min="1" autofocus>
   </md-input-container>
 
   <div layout-lg="row" layout-gt-lg="row" layout-margin>
     <div flex="40">
-      <div layout="row" layout-margin
+      <h3 class="md-display-1">Amounts</h3>
+      <div layout="row" layout-margin ng-show="$ctrl.show['{{salaryOptionKey}}']"
            ng-repeat-start="(salaryOptionKey,  salaryOptionTitle) in $ctrl.salaryOutputOptions">
         <div flex>
           {{::salaryOptionTitle}}
@@ -15,28 +16,85 @@
           {{$ctrl.salary[salaryOptionKey] | number:0}}
         </div>
       </div>
-      <md-divider ng-if="!$last" ng-repeat-end></md-divider>
+      <md-divider ng-if="!$last" ng-show="$ctrl.show['{{salaryOptionKey}}']" ng-repeat-end></md-divider>
     </div>
     <div flex>
+      <h3 class="md-display-1">Options</h3>
       <md-content class="md-body-1">
         <div layout="column" layout-margin>
+          <label>Calendar year:</label>
           <md-radio-group ng-model="$ctrl.year">
-            <md-radio-button value="2015">for 2015</md-radio-button>
-            <md-radio-button value="2016">for 2016</md-radio-button>
-            <md-radio-button value="2017">for 2017</md-radio-button>
+            <md-radio-button value="2015">2015</md-radio-button>
+            <md-radio-button value="2016">2016</md-radio-button>
+            <md-radio-button value="2017">2017</md-radio-button>
           </md-radio-group>
         </div>
       </md-content>
       <md-content class="md-body-1">
         <div layout="column" layout-margin>
-          <!--<md-checkbox ng-model="$ctrl.salary.allowance" aria-label="I have 8% holiday allowance">I have 8% holiday allowance</md-checkbox>-->
-          <md-checkbox ng-model="$ctrl.salary.allowance" aria-label="Holiday allowance is included in gross">Holiday
-            allowance included
+          <md-checkbox ng-model="$ctrl.salary.allowance" aria-label="Holiday allowance is included in gross" title="Holiday allowance is included in gross">
+            Holiday allowance included
           </md-checkbox>
-          <md-checkbox ng-model="$ctrl.salary.socialSecurity" aria-label="Social security in the Netherlands">Social
-            security
+          <md-checkbox ng-model="$ctrl.salary.socialSecurity" aria-label="Social security in the Netherlands" title="Social security in the Netherlands">
+            Social security
           </md-checkbox>
-          <md-checkbox ng-model="$ctrl.salary.ruling" aria-label="I have 30% ruling">I have 30% ruling</md-checkbox>
+          <md-checkbox ng-model="$ctrl.salary.older" aria-label="Retirement age or older" title="Retirement age or older">
+            65 years or older
+          </md-checkbox>
+          <md-checkbox ng-model="$ctrl.salary.ruling" aria-label="Tax benefit rule for up-to 30% of gross salary" title="Tax benefit rule for up-to 30% of gross salary">
+            30% ruling
+          </md-checkbox>
+          <md-radio-group ng-model="$ctrl.ruling" ng-disabled="!$ctrl.salary.ruling">
+            <md-radio-button value="research" aria-label="Working with scientific research" title="Working with scientific research">
+              Scientific research
+            </md-radio-button>
+            <md-radio-button value="young" aria-label="Employee with a master’s degree and younger than 30 years" title="Employee with a master’s degree and younger than 30 years">
+              Young employee with masters
+            </md-radio-button>
+            <md-radio-button value="normal" aria-label="Employee other than above choices" title="Employee other than above choices">
+              Other
+            </md-radio-button>
+          </md-radio-group>
+          <div class="expandcollapse-item">
+            <section class="expandcollapse-heading" ng-click="active = !active" ng-class="{'expandcollapse-heading-collapsed': !active, 'expandcollapse-heading-expanded': active}">
+              <div class="md-toolbar-tools">
+                <button class="md-icon-button md-button hide-sm" type="button" aria-hidden="false" aria-label="Expand/Collapse" title="Expand/Collapse">
+                  <md-icon md-font-library="material-icons" ng-if="active">expand_more</md-icon>
+                  <md-icon md-font-library="material-icons" ng-if="!active">expand_less</md-icon>
+                </button>
+                <h3 class="md-display-1">Advanced Options</h3>
+              </div>
+            </section>
+            <div class="slideDown" ng-hide="!active">
+              <md-content class="expand-collapse-content">
+                <md-input-container>
+                  <label class="md-title">Weekly working hours</label>
+                  <input type="number" ng-model="$ctrl.salary.hours" min="1" max="100">
+                </md-input-container>
+                <label>Display values for:</label>
+                <md-checkbox ng-model="$ctrl.show.grossYear">Year gross income</md-checkbox>
+                <md-checkbox ng-model="$ctrl.show.grossMonth">Month gross income</md-checkbox>
+                <md-checkbox ng-model="$ctrl.show.grossWeek">Week gross income</md-checkbox>
+                <md-checkbox ng-model="$ctrl.show.grossDay">Day gross income</md-checkbox>
+                <md-checkbox ng-model="$ctrl.show.grossHour">Hour gross income</md-checkbox>
+                <md-checkbox ng-model="$ctrl.show.grossAllowance">Year gross holiday allowance</md-checkbox>
+                <md-checkbox ng-model="$ctrl.show.taxFreeYear">Tax free income</md-checkbox>
+                <md-checkbox ng-model="$ctrl.show.taxFree">Ruling real percentage</md-checkbox>
+                <md-checkbox ng-model="$ctrl.show.taxableYear">Taxable income</md-checkbox>
+                <md-checkbox ng-model="$ctrl.show.incomeTax">Income tax</md-checkbox>
+                <md-checkbox ng-model="$ctrl.show.socialTax">Social security tax</md-checkbox>
+                <md-checkbox ng-model="$ctrl.show.generalCredit">General tax credit</md-checkbox>
+                <md-checkbox ng-model="$ctrl.show.labourCredit">Labour tax credit</md-checkbox>
+                <md-checkbox ng-model="$ctrl.show.totalTax">Total tax</md-checkbox>
+                <md-checkbox ng-model="$ctrl.show.netAllowance">Year net holiday allowance</md-checkbox>
+                <md-checkbox ng-model="$ctrl.show.netYear">Year net income</md-checkbox>
+                <md-checkbox ng-model="$ctrl.show.netMonth">Month net income</md-checkbox>
+                <md-checkbox ng-model="$ctrl.show.netWeek">Week net income</md-checkbox>
+                <md-checkbox ng-model="$ctrl.show.netDay">Day net income</md-checkbox>
+                <md-checkbox ng-model="$ctrl.show.netHour">Hour net income</md-checkbox>
+              </md-content>
+            </div>
+          </div>
         </div>
       </md-content>
     </div>

@@ -27,3 +27,85 @@
 .start-from .md-checked{
     font-size: 34px;
 }
+
+.child-checkbox {
+  padding-left: 10px;
+}
+
+.expandcollapse-item {
+  overflow: hidden;
+}
+
+.expandcollapse-heading{
+  cursor: pointer;
+  position: relative;
+  z-index: 100000000;
+}
+
+.expandcollapse-item:first-of-type {
+  border-top:0px;
+}
+
+.expandcollapse-heading-collapsed p{
+  font-size: 16px;
+  font-weight: normal;
+  margin:0px;
+}
+
+.expandcollapse-heading-expanded p{
+  font-size: 16px;
+  font-weight: bold;
+  margin:0px;
+}
+
+.expand-collapse-content {
+  padding: 20px;
+}
+
+/*
+animation:*/
+
+.slideDown.ng-hide {
+  height:0;
+  transition:height 0.35s ease;
+  overflow:hidden;
+  position:relative;
+}
+
+.slideDown {
+  height:100%;
+  transition:height 0.35s ease;
+  overflow:hidden;
+  position:relative;
+}
+
+.slideDown.ng-hide-remove,
+.slideDown.ng-hide-add {
+  /* remember, the .hg-hide class is added to element
+  when the active class is added causing it to appear
+  as hidden. Therefore set the styling to display=block
+  so that the hide animation is visible */
+  display:block!important;
+}
+
+.slideDown.ng-hide-add {
+  animation-name: hide;
+  -webkit-animation-name: hide;  
+
+  animation-duration: .5s; 
+  -webkit-animation-duration: .5s;
+
+  animation-timing-function: ease-in;  
+  -webkit-animation-timing-function: ease-in;  
+}
+
+.slideDown.ng-hide-remove {
+  animation-name: show;
+  -webkit-animation-name: show;  
+
+  animation-duration: .5s; 
+  -webkit-animation-duration: .5s;
+
+  animation-timing-function: ease-out;  
+  -webkit-animation-timing-function: ease-out;  
+}
