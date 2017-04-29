@@ -1,6 +1,11 @@
 <md-content layout-lg="column" layout-gt-lg="column" layout-align="center">
   <md-input-container class="md-display-1" layout-margin>
-    <label>Annual gross income</label>
+
+    <md-radio-group ng-model="$ctrl.startFrom" class="start-from">
+      <md-radio-button value="year" ng-class="md-caption">Annual gross income</md-radio-button>
+      <md-radio-button value="month">Monthly income</md-radio-button>
+    </md-radio-group>
+
     <input type="number" ng-model="$ctrl.salary.grossYear" autofocus>
   </md-input-container>
 
