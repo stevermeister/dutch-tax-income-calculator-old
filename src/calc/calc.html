@@ -7,7 +7,7 @@
     </md-input-container>
     <md-input-container>
       <label>Per</label>
-      <md-select ng-model="$ctrl.startFrom" required>
+      <md-select ng-model="$ctrl.startFrom">
         <md-option value="Year">Year</md-option>
         <md-option value="Month">Month</md-option>
         <md-option value="Week">Week</md-option>
@@ -19,18 +19,18 @@
   <div layout-lg="row" layout-gt-lg="row" layout-align="start start">
     <div flex>
       <h3 class="md-display-1">Amounts</h3>
-      <div layout="row" layout-margin ng-repeat-start="(key, value) in $ctrl.output" ng-show="value.checked">
+      <div layout="row" layout-margin ng-repeat-start="item in $ctrl.output" ng-show="item.checked">
         <div flex>
-          {{value.title}}
+          {{item.title}}
         </div>
-        <div flex class="report-value" ng-if="key == 'taxFree'">
-          {{$ctrl.salary[key] | number:0 }}%
+        <div flex class="report-value" ng-if="item.name == 'taxFree'">
+          {{$ctrl.salary[item.name] | number:0 }}%
         </div>
-        <div flex class="report-value" ng-if="key != 'taxFree'" ng-class="{'report-value-negative': $ctrl.salary[key] < 0}">
-          {{$ctrl.salary[key] > 0 ? '+' : ''}}{{$ctrl.salary[key] | currency:" € ":0}}
+        <div flex class="report-value" ng-if="item.name != 'taxFree'" ng-class="{'report-value-negative': $ctrl.salary[item.name] < 0}">
+          {{$ctrl.salary[item.name] > 0 ? '+' : ''}}{{$ctrl.salary[item.name] | currency:" € ":0}}
         </div>
       </div>
-      <md-divider ng-if="!$last" ng-show="value.checked" ng-repeat-end></md-divider>
+      <md-divider ng-if="!$last" ng-show="item.checked" ng-repeat-end></md-divider>
     </div>
     <div flex>
       <h3 class="md-display-1">Options</h3>
@@ -84,8 +84,8 @@
                   <input type="number" ng-model="$ctrl.salary.hours" min="1" max="100">
                 </md-input-container>
                 <label>Display values for:</label>
-                <div layout-margin ng-repeat="(key, value) in $ctrl.output">
-                  <md-checkbox ng-model="value.checked">{{value.title}}</md-checkbox>
+                <div layout-margin ng-repeat="item in $ctrl.output">
+                  <md-checkbox ng-model="item.checked">{{item.title}}</md-checkbox>
                 </div>
               </md-content>
             </div>
