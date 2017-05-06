@@ -12,13 +12,15 @@
     <md-card-content>
       <h2 class="md-title">About 30% Ruling</h2>
       <p>
-        The salary criteria for the <b>30% ruling</b> as per January {{year}} are as follows:<br>
+        The salary criteria for the <b>30% ruling</b> as per January {{$ctrl.year}} are as follows:<br>
       <ul>
         <li>The salary amount does not matter if working with scientific research.</li>
         <li>The annual taxable salary for an employee with a master’s degree and who is younger than 30 years, must be more than
-          <b>{{ruling[year].young | currency:"EUR ":0}}</b> ({{year - 1}}: {{ruling[year - 1].young | currency:"EUR ":0}}).
+          <b>{{$ctrl.ruling[$ctrl.year].young | currency:"EUR ":0}}</b> ({{$ctrl.year - 1}}: {{$ctrl.ruling[$ctrl.year - 1].young | currency:"EUR ":0}}).
         </li>
-        <li>The annual taxable salary for other employees must be more than <b>{{ruling[year].normal | currency:"EUR ":0}}</b> ({{year - 1}}: {{ruling[year - 1].normal | currency:"EUR ":0}}).</li>
+        <li>The annual taxable salary for other employees must be more than
+          <b>{{$ctrl.ruling[$ctrl.year].normal | currency:"EUR ":0}}</b> ({{$ctrl.year - 1}}: {{$ctrl.ruling[$ctrl.year - 1].normal | currency:"EUR ":0}}).
+        </li>
       </ul>
       </p>
     </md-card-content>

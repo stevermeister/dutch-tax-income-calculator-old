@@ -4,8 +4,8 @@ import constants from '../data.json'; // Get JSON containing calculation constan
 let rulingComponent = {
   template,
   controller: function($scope, $location) {
-    $scope.year = constants.currentYear;
-    $scope.ruling = constants.rulingThreshold;
+    this.year = constants.currentYear;
+    this.ruling = constants.rulingThreshold;
   }
 };
 
