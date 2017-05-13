@@ -7,6 +7,7 @@ module.exports = {
   entry: './app.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
+    publicPath: '',
     filename: 'app.js'
   },
   module: {
@@ -40,7 +41,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'index.html',
       inject: 'body',
-      favicon: 'favicon.png'
+      favicon: 'favicon.png',
+      baseUrl: process.env.NODE_ENV == 'development' ? '.' : '/'
     }),
   ],
   devtool: "source-map",

@@ -3,7 +3,7 @@ import constants from '../data.json'; // Get JSON containing calculation constan
 
 let calcComponent = {
   template,
-  controller: function($scope, $location) {
+  controller: ['$scope', '$location', function($scope, $location) {
     this.year = constants.currentYear;
     this.years = constants.years;
     if ($location.search().year && this.years.indexOf(+$location.search().year) !== -1) {
@@ -138,11 +138,6 @@ let calcComponent = {
         '$ctrl.salary.older',
         '$ctrl.ruling.checked',
       ],
-/*        '$ctrl.ruling.choice',
-        '$ctrl.salary.hours',
-      ].concat(this.output.map((item, index) => {
-          return '$ctrl.output[' + index + '].checked';
-        })),*/
       () => {
         $location.search('year', +this.year);
         $location.search('startFrom', this.startFrom);
@@ -151,11 +146,6 @@ let calcComponent = {
         $location.search('socialSecurity', +this.salary.socialSecurity);
         $location.search('retired', +this.salary.older);
         $location.search('ruling', +this.ruling.checked);
-/*        $location.search('rulingChoice', this.ruling.choice);
-        $location.search('hours', +this.salary.hours);
-        this.output.forEach((item) => {
-          $location.search(item.name, +item.checked);
-        });*/
 
         // For calculation instructions:
         // https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/themaoverstijgend/brochures_en_publicaties/rekenvoorschriften-voor-de-geautomatiseerde-loonadministratie-januari-2017
@@ -218,7 +208,7 @@ let calcComponent = {
     // Payroll Tax Rates (Loonbelasting)
     // https://www.belastingdienst.nl/bibliotheek/handboeken/html/boeken/HL/stappenplan-stap_7_loonbelasting_premie_volksverzekeringen.html
     function getPayrollTax(year, salary) {
-      return getRates(constants.payrollTax[year], salary, 'rate');
+      return getRates(constants.payrollTax[year], salary);
     }
 
     // Social Security Contribution (Volksverzekeringen - AOW, Anw, Wlz)
@@ -230,13 +220,13 @@ let calcComponent = {
     // General Tax Credit (Algemene Heffingskorting)
     // https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/inkomstenbelasting/heffingskortingen_boxen_tarieven/heffingskortingen/algemene_heffingskorting/
     function getGeneralCredit(year, salary) {
-      return getRates(constants.generalCredit[year], salary, 'rate');
+      return getRates(constants.generalCredit[year], salary);
     }
 
     // Labour Tax Credit (Arbeidskorting)
     // https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/inkomstenbelasting/heffingskortingen_boxen_tarieven/heffingskortingen/arbeidskorting/
     function getLabourCredit(year, salary) {
-      return getRates(constants.labourCredit[year], salary, 'rate');
+      return getRates(constants.labourCredit[year], salary);
     }
 
     // Social Security Contribution (Volksverzekeringen) Component of Tax Credit
@@ -286,7 +276,7 @@ let calcComponent = {
       });
       return amount;
     }
-  }
+  }]
 };
 
 export default calcComponent;
