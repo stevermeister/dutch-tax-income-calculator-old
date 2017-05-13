@@ -1,42 +1,95 @@
-<md-content layout-lg="column" layout-gt-lg="column" layout-align="center">
-  <md-input-container class="md-display-1" layout-margin>
-    <label>Annual gross income</label>
-    <input type="number" ng-model="$ctrl.salary.grossYear" autofocus>
-  </md-input-container>
-
-  <div layout-lg="row" layout-gt-lg="row" layout-margin>
-    <div flex="40">
-      <div layout="row" layout-margin
-           ng-repeat-start="(salaryOptionKey,  salaryOptionTitle) in $ctrl.salaryOutputOptions">
+<md-content class="md-body-1" layout-lg="column" layout-gt-lg="column" layout-align="center" layout-margin>
+  <h3 class="md-headline">Gross Salary</h3>
+  <div layout="row" layout-align="start" flex>
+    <md-input-container>
+      <label>Income</label>
+      <input type="number" ng-model="$ctrl.salary.income" min="1" autofocus required>
+    </md-input-container>
+    <md-input-container>
+      <label>Per</label>
+      <md-select ng-model="$ctrl.startFrom">
+        <md-option value="Year">Year</md-option>
+        <md-option value="Month">Month</md-option>
+        <md-option value="Week">Week</md-option>
+        <md-option value="Day">Day</md-option>
+        <md-option value="Hour">Hour</md-option>
+      </md-select>
+    </md-input-container>
+  </div>
+  <div layout-lg="row" layout-gt-lg="row" layout-align="start start">
+    <div flex>
+      <h3 class="md-display-1">Amounts</h3>
+      <div layout="row" layout-margin ng-repeat-start="item in $ctrl.output" ng-show="item.checked">
         <div flex>
-          {{::salaryOptionTitle}}
+          {{item.title}}
         </div>
-        <div flex class="report-value">
-          {{$ctrl.salary[salaryOptionKey] | number:0}}
+        <div flex class="report-value" ng-if="item.name == 'taxFree'">
+          {{$ctrl.salary[item.name] | number:0 }}%
+        </div>
+        <div flex class="report-value" ng-if="item.name != 'taxFree'" ng-class="{'report-value-negative': $ctrl.salary[item.name] < 0}">
+          {{$ctrl.salary[item.name] > 0 ? '+' : ''}}{{$ctrl.salary[item.name] | currency:" € ":0}}
         </div>
       </div>
-      <md-divider ng-if="!$last" ng-repeat-end></md-divider>
+      <md-divider ng-if="!$last" ng-show="item.checked" ng-repeat-end></md-divider>
     </div>
     <div flex>
-      <md-content class="md-body-1">
+      <h3 class="md-display-1">Options</h3>
+      <md-content>
         <div layout="column" layout-margin>
-          <md-radio-group ng-model="$ctrl.year">
-            <md-radio-button value="2015">for 2015</md-radio-button>
-            <md-radio-button value="2016">for 2016</md-radio-button>
-            <md-radio-button value="2017">for 2017</md-radio-button>
+          <label>Calendar year:</label>
+          <md-radio-group ng-model="$ctrl.year" ng-repeat="year in $ctrl.years">
+            <md-radio-button value="{{year}}">{{year}}</md-radio-button>
           </md-radio-group>
         </div>
       </md-content>
-      <md-content class="md-body-1">
+      <md-content>
         <div layout="column" layout-margin>
-          <!--<md-checkbox ng-model="$ctrl.salary.allowance" aria-label="I have 8% holiday allowance">I have 8% holiday allowance</md-checkbox>-->
-          <md-checkbox ng-model="$ctrl.salary.allowance" aria-label="Holiday allowance is included in gross">Holiday
-            allowance included
+          <md-checkbox ng-model="$ctrl.salary.allowance" aria-label="Gross salary provided includes 8% of holiday allowance" title="Gross salary provided includes 8% of holiday allowance">
+            Holiday allowance included
           </md-checkbox>
-          <md-checkbox ng-model="$ctrl.salary.socialSecurity" aria-label="Social security in the Netherlands">Social
-            security
+          <md-checkbox ng-model="$ctrl.salary.socialSecurity" aria-label="Social security in the Netherlands" title="Social security in the Netherlands">
+            Social security
           </md-checkbox>
-          <md-checkbox ng-model="$ctrl.salary.ruling" aria-label="I have 30% ruling">I have 30% ruling</md-checkbox>
+          <md-checkbox ng-model="$ctrl.salary.older" aria-label="Retirement age or older" title="Retirement age or older">
+            65 years or older
+          </md-checkbox>
+          <md-checkbox ng-model="$ctrl.ruling.checked" aria-label="Tax benefit rule for up-to 30% of gross salary" title="Tax benefit rule for up-to 30% of gross salary">
+            30% ruling
+          </md-checkbox>
+          <md-radio-group ng-model="$ctrl.ruling.choice" ng-disabled="!$ctrl.ruling.checked">
+            <md-radio-button value="research" aria-label="Working with scientific research" title="Working with scientific research">
+              Scientific research
+            </md-radio-button>
+            <md-radio-button value="young" aria-label="Employee with a master’s degree and younger than 30 years" title="Employee with a master’s degree and younger than 30 years">
+              Young employee with masters
+            </md-radio-button>
+            <md-radio-button value="normal" aria-label="None of the above" title="None of the above">
+              Other
+            </md-radio-button>
+          </md-radio-group>
+          <div class="collapsible-item">
+            <div class="collapsible-heading" ng-click="active = !active" ng-class="{'collapsible-heading-collapsed': !active, 'collapsible-heading-expanded': active}">
+              <div class="md-toolbar-tools">
+                <button class="md-icon-button md-button" type="button" aria-hidden="false" aria-label="Expand/Collapse" title="Expand/Collapse">
+                  <md-icon md-font-library="material-icons" ng-if="active">expand_more</md-icon>
+                  <md-icon md-font-library="material-icons" ng-if="!active">expand_less</md-icon>
+                </button>
+                <h3 class="md-display-1">Advanced Options</h3>
+              </div>
+            </div>
+            <div class="slide-down" ng-hide="!active">
+              <md-content class="collapsible-content">
+                <md-input-container>
+                  <label>Weekly working hours</label>
+                  <input type="number" ng-model="$ctrl.salary.hours" min="1" max="100">
+                </md-input-container>
+                <label>Display values for:</label>
+                <div layout-margin ng-repeat="item in $ctrl.output">
+                  <md-checkbox ng-model="item.checked">{{item.title}}</md-checkbox>
+                </div>
+              </md-content>
+            </div>
+          </div>
         </div>
       </md-content>
     </div>
