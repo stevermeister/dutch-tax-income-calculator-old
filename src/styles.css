@@ -1,29 +1,132 @@
 .report-value {
-    font-weight: bold;
-    text-align: right;
+  font-weight: bold;
+  text-align: right;
+  color: #002db3;
+}
+.report-value-negative {
+  color: #cc0000;
 }
 .title {
-    position: relative;
-    line-height: 13px;
+  position: relative;
+  line-height: 13px;
 }
 .motto {
-    display: inline-block;
-    font-style: italic;
-    opacity: 0.6;
+  display: inline-block;
+  font-style: italic;
+  opacity: 0.6;
 }
 .github-alt {
-    display: inline-block;
-    width: 25px;
-    height: 25px;
-    background-size: 25px 25px;
-    background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTc5MiIgaGVpZ2h0PSIxNzkyIiB2aWV3Qm94PSIwIDAgMTc5MiAxNzkyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik03MDQgMTIxNnEwIDQwLTEyLjUgODJ0LTQzIDc2LTcyLjUgMzQtNzIuNS0zNC00My03Ni0xMi41LTgyIDEyLjUtODIgNDMtNzYgNzIuNS0zNCA3Mi41IDM0IDQzIDc2IDEyLjUgODJ6bTY0MCAwcTAgNDAtMTIuNSA4MnQtNDMgNzYtNzIuNSAzNC03Mi41LTM0LTQzLTc2LTEyLjUtODIgMTIuNS04MiA0My03NiA3Mi41LTM0IDcyLjUgMzQgNDMgNzYgMTIuNSA4MnptMTYwIDBxMC0xMjAtNjktMjA0dC0xODctODRxLTQxIDAtMTk1IDIxLTcxIDExLTE1NyAxMXQtMTU3LTExcS0xNTItMjEtMTk1LTIxLTExOCAwLTE4NyA4NHQtNjkgMjA0cTAgODggMzIgMTUzLjV0ODEgMTAzIDEyMiA2MCAxNDAgMjkuNSAxNDkgN2gxNjhxODIgMCAxNDktN3QxNDAtMjkuNSAxMjItNjAgODEtMTAzIDMyLTE1My41em0yMjQtMTc2cTAgMjA3LTYxIDMzMS0zOCA3Ny0xMDUuNSAxMzN0LTE0MSA4Ni0xNzAgNDcuNS0xNzEuNSAyMi0xNjcgNC41cS03OCAwLTE0Mi0zdC0xNDcuNS0xMi41LTE1Mi41LTMwLTEzNy01MS41LTEyMS04MS04Ni0xMTVxLTYyLTEyMy02Mi0zMzEgMC0yMzcgMTM2LTM5Ni0yNy04Mi0yNy0xNzAgMC0xMTYgNTEtMjE4IDEwOCAwIDE5MCAzOS41dDE4OSAxMjMuNXExNDctMzUgMzA5LTM1IDE0OCAwIDI4MCAzMiAxMDUtODIgMTg3LTEyMXQxODktMzlxNTEgMTAyIDUxIDIxOCAwIDg3LTI3IDE2OCAxMzYgMTYwIDEzNiAzOTh6IiBmaWxsPSIjZmZmIi8+PC9zdmc+);
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  background-size: 25px 25px;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTc5MiIgaGVpZ2h0PSIxNzkyIiB2aWV3Qm94PSIwIDAgMTc5MiAxNzkyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik03MDQgMTIxNnEwIDQwLTEyLjUgODJ0LTQzIDc2LTcyLjUgMzQtNzIuNS0zNC00My03Ni0xMi41LTgyIDEyLjUtODIgNDMtNzYgNzIuNS0zNCA3Mi41IDM0IDQzIDc2IDEyLjUgODJ6bTY0MCAwcTAgNDAtMTIuNSA4MnQtNDMgNzYtNzIuNSAzNC03Mi41LTM0LTQzLTc2LTEyLjUtODIgMTIuNS04MiA0My03NiA3Mi41LTM0IDcyLjUgMzQgNDMgNzYgMTIuNSA4MnptMTYwIDBxMC0xMjAtNjktMjA0dC0xODctODRxLTQxIDAtMTk1IDIxLTcxIDExLTE1NyAxMXQtMTU3LTExcS0xNTItMjEtMTk1LTIxLTExOCAwLTE4NyA4NHQtNjkgMjA0cTAgODggMzIgMTUzLjV0ODEgMTAzIDEyMiA2MCAxNDAgMjkuNSAxNDkgN2gxNjhxODIgMCAxNDktN3QxNDAtMjkuNSAxMjItNjAgODEtMTAzIDMyLTE1My41em0yMjQtMTc2cTAgMjA3LTYxIDMzMS0zOCA3Ny0xMDUuNSAxMzN0LTE0MSA4Ni0xNzAgNDcuNS0xNzEuNSAyMi0xNjcgNC41cS03OCAwLTE0Mi0zdC0xNDcuNS0xMi41LTE1Mi41LTMwLTEzNy01MS41LTEyMS04MS04Ni0xMTVxLTYyLTEyMy02Mi0zMzEgMC0yMzcgMTM2LTM5Ni0yNy04Mi0yNy0xNzAgMC0xMTYgNTEtMjE4IDEwOCAwIDE5MCAzOS41dDE4OSAxMjMuNXExNDctMzUgMzA5LTM1IDE0OCAwIDI4MCAzMiAxMDUtODIgMTg3LTEyMXQxODktMzlxNTEgMTAyIDUxIDIxOCAwIDg3LTI3IDE2OCAxMzYgMTYwIDEzNiAzOTh6IiBmaWxsPSIjZmZmIi8+PC9zdmc+);
 }
 
-
-.start-from{
-    font-size: 12px;
+md-input-container {
+  display: inline;
+/*  font-size: 200%;*/
 }
 
-.start-from .md-checked{
-    font-size: 34px;
+md-input-container label:not(.md-container-ignore) {
+  position: static;
+}
+md-input-container .md-input {
+  width: initial;
+  float: none;
+}
+
+md-checkbox:last-of-type {
+  margin: inherit;
+}
+
+md-radio-group {
+  margin-left: 20px !important;
+}
+
+.disclaimer {
+  font-size: 75%;
+}
+
+.collapsible-item {
+  overflow: hidden;
+}
+
+.collapsible-heading {
+  cursor: pointer;
+  position: relative;
+  z-index: 100000000;
+}
+
+.collapsible-heading:focus {
+  outline: none;
+  border: 0;
+}
+
+.collapsible-item:first-of-type {
+  border-top:0px;
+}
+
+.collapsible-heading-collapsed p {
+  font-size: 16px;
+  font-weight: normal;
+  margin: 0px;
+}
+
+.collapsible-heading-expanded p {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0px;
+}
+
+.collapsible-content {
+  padding: 20px;
+}
+
+/*
+animation:*/
+
+.slide-down.ng-hide {
+  height: 0;
+  transition: height 0.35s ease;
+  overflow: hidden;
+  position: relative;
+}
+
+.slide-down {
+  height: 100%;
+  transition: height 0.35s ease;
+  overflow: hidden;
+  position: relative;
+}
+
+.slide-down.ng-hide-remove,
+.slide-down.ng-hide-add {
+  /* remember, the .hg-hide class is added to element
+  when the active class is added causing it to appear
+  as hidden. Therefore set the styling to display=block
+  so that the hide animation is visible */
+  display: block!important;
+}
+
+.slide-down.ng-hide-add {
+  animation-name: hide;
+  -webkit-animation-name: hide;  
+
+  animation-duration: .5s; 
+  -webkit-animation-duration: .5s;
+
+  animation-timing-function: ease-in;  
+  -webkit-animation-timing-function: ease-in;  
+}
+
+.slide-down.ng-hide-remove {
+  animation-name: show;
+  -webkit-animation-name: show;  
+
+  animation-duration: .5s; 
+  -webkit-animation-duration: .5s;
+
+  animation-timing-function: ease-out;  
+  -webkit-animation-timing-function: ease-out;  
 }

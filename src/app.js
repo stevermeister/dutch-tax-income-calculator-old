@@ -11,3 +11,4 @@ angular.module('dit-calculator', ['ngMaterial'], function($locationProvider){
   .component('toolbar', toolbarComponent)
   .component('ruling', rulingComponent)
   .component('partnerSection', partnerSectionComponent);
+  

@@ -21,6 +21,11 @@ module.exports = {
         test: /\.html$/,
         loader: 'ng-cache?prefix=[dir]/[dir]',
         exclude: /index\.html/
+      },
+      {
+        test: /\.json$/,
+        exclude: /node_modules/,
+        loader: 'json'
       }
     ]
   },
