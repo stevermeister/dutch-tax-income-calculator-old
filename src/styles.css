@@ -1,10 +1,10 @@
 .report-value {
   font-weight: bold;
   text-align: right;
-  color: #002db3;
+  color: black;
 }
 .report-value-negative {
-  color: #cc0000;
+  color: #FF3366;
 }
 .title {
   position: relative;
@@ -111,22 +111,38 @@ animation:*/
 
 .slide-down.ng-hide-add {
   animation-name: hide;
-  -webkit-animation-name: hide;  
+  -webkit-animation-name: hide;
 
-  animation-duration: .5s; 
+  animation-duration: .5s;
   -webkit-animation-duration: .5s;
 
-  animation-timing-function: ease-in;  
-  -webkit-animation-timing-function: ease-in;  
+  animation-timing-function: ease-in;
+  -webkit-animation-timing-function: ease-in;
 }
 
 .slide-down.ng-hide-remove {
   animation-name: show;
-  -webkit-animation-name: show;  
+  -webkit-animation-name: show;
 
-  animation-duration: .5s; 
+  animation-duration: .5s;
   -webkit-animation-duration: .5s;
 
-  animation-timing-function: ease-out;  
-  -webkit-animation-timing-function: ease-out;  
+  animation-timing-function: ease-out;
+  -webkit-animation-timing-function: ease-out;
+}
+
+.md-select-value .md-select-icon:after {
+    font-size: 0pt;
+}
+
+md-checkbox.md-checked .md-icon {
+    background-color: #4051B5;
+}
+
+md-radio-button.md-checked .md-off {
+    border-color: #4051B5;
+}
+
+md-radio-button .md-on {
+    background-color: #4051B5;
 }

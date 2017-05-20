@@ -28,101 +28,121 @@ let calcComponent = {
     this.output = [
       {
         'name': 'grossAllowance',
+        'sign': '',
         'title': 'Year Gross Holiday Allowance',
         'checked': !!+$location.search().grossAllowance || false
       },
       {
         'name': 'grossYear',
+        'sign': '',
         'title': 'Year Gross Income',
         'checked': !!+$location.search().grossYear || false
       },
       {
         'name': 'grossMonth',
+        'sign': '',
         'title': 'Month Gross Income',
         'checked': !!+$location.search().grossMonth || false
       },
       {
         'name': 'grossWeek',
+        'sign': '',
         'title': 'Week Gross Income',
         'checked': !!+$location.search().grossWeek || false
       },
       {
         'name': 'grossDay',
+        'sign': '',
         'title': 'Day Gross Income',
         'checked': !!+$location.search().grossDay || false
       },
       {
         'name': 'grossHour',
+        'sign': '',
         'title': 'Hour Gross Income',
         'checked': !!+$location.search().grossHour || false
       },
       {
         'name': 'taxFreeYear',
+        'sign': '-',
         'title': 'Tax Free Income',
         'checked': !!+$location.search().taxFreeYear || false
       },
       {
         'name': 'taxFree',
+        'sign': '',
         'title': 'Ruling Real Percentage',
         'checked': !!+$location.search().taxFree || false
       },
       {
         'name': 'taxableYear',
+        'sign': '',
         'title': 'Taxable Income',
         'checked': !!+$location.search().taxableYear || true
       },
       {
         'name': 'payrollTax',
+        'sign': '',
         'title': 'Payroll Tax',
         'checked': !!+$location.search().payrollTax || true
       },
       {
         'name': 'socialTax',
+        'sign': '',
         'title': 'Social Security Tax',
         'checked': !!+$location.search().socialTax || true
       },
       {
         'name': 'generalCredit',
+        'sign': '+',
         'title': 'General Tax Credit',
         'checked': !!+$location.search().generalCredit || true
       },
       {
         'name': 'labourCredit',
+        'sign': '+',
         'title': 'Labour Tax Credit',
         'checked': !!+$location.search().labourCredit || true
       },
       {
         'name': 'incomeTax',
+        'sign': '-',
         'title': 'Total Income Tax',
         'checked': !!+$location.search().incomeTax || false
       },
       {
         'name': 'netAllowance',
+        'sign': '',
         'title': 'Year Net Holiday Allowance',
         'checked': !!+$location.search().netAllowance || false
       },
       {
         'name': 'netYear',
+        'sign': '',
         'title': 'Year Net Income',
         'checked': !!+$location.search().netYear || true
       },
       {
         'name': 'netMonth',
+        'sign': '',
         'title': 'Month Net Income',
         'checked': !!+$location.search().netMonth || true
       },
       {
         'name': 'netWeek',
+        'sign': '',
         'title': 'Week Net Income',
         'checked': !!+$location.search().netWeek || false
       },
       {
         'name': 'netDay',
+        'sign': '',
         'title': 'Day Net Income',
         'checked': !!+$location.search().netDay || false
       },
       {
         'name': 'netHour',
+        'sign': '',
         'title': 'Hour Net Income',
         'checked': !!+$location.search().netHour || false
       },
