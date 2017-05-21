@@ -6,7 +6,7 @@ dutch-tax-income-calculator
 You can test it here - http://thetax.nl
 
 <p align="center">
-  <img src="http://i63.tinypic.com/ojfdsj.jpg" alt="dutch-tax-income-calculator"/>
+  <img src="http://i63.tinypic.com/15bk1k.png" alt="dutch-tax-income-calculator"/>
 </p>
 
 More infromation about tax brackets [here](http://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/inkomstenbelasting/heffingskortingen_boxen_tarieven/boxen_en_tarieven/overzicht_tarieven_en_schijven/u-hebt-in-2017-de-aow-leeftijd-nog-niet-bereikt) (for 2017)
