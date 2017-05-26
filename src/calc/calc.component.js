@@ -183,7 +183,7 @@ let calcComponent = {
                 salary.grossYear = salary.grossMonth = salary.grossWeek = salary.grossDay = salary.grossHour = 0;
                 salary['gross' + this.startFrom] = salary.income;
                 let grossYear = salary.grossYear + salary.grossMonth * 12 + salary.grossWeek * constants.workingWeeks;
-                grossYear += salary.grossDay * constants.workingDays + salary.grossHour * constants.workingWeeks * salary.hours - salary.grossAllowance;
+                grossYear += salary.grossDay * constants.workingDays + salary.grossHour * constants.workingWeeks * salary.hours;
                 if (!grossYear || grossYear < 0) {
                     grossYear = 0;
                 }
@@ -196,7 +196,7 @@ let calcComponent = {
                 salary.grossHour = ~~(grossYear / (constants.workingWeeks * salary.hours));
 
                 salary.taxFreeYear = 0;
-                salary.taxableYear = grossYear;
+                salary.taxableYear = grossYear - salary.grossAllowance;
                 if (this.ruling.checked) {
                     let rulingIncome = getRulingIncome(this.year, this.ruling.choice);
                     if (salary.taxableYear > rulingIncome) {
