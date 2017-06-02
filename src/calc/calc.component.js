@@ -197,7 +197,7 @@ let calcComponent = {
         salary.grossHour = ~~(grossYear / (constants.workingWeeks * salary.hours));
 
         salary.taxFreeYear = 0;
-        salary.taxableYear = grossYear;
+        salary.taxableYear = grossYear - salary.grossAllowance;
         if (this.ruling.checked) {
           let rulingIncome = getRulingIncome(this.year, this.ruling.choice);
           if (salary.taxableYear > rulingIncome) {
