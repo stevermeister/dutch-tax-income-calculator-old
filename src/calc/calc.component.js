@@ -152,6 +152,7 @@ let calcComponent = {
     $scope.$watchGroup([
         '$ctrl.year',
         '$ctrl.startFrom',
+        '$ctrl.salary.hours',
         '$ctrl.salary.income',
         '$ctrl.salary.allowance',
         '$ctrl.salary.socialSecurity',
