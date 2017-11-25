@@ -233,7 +233,8 @@ let calcComponent = {
     // 30% Ruling (30%-regeling)
     // https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/internationaal/werken_wonen/tijdelijk_in_een_ander_land_werken/u_komt_in_nederland_werken/30_procent_regeling/voorwaarden_30_procent_regeling/u_hebt_een_specifieke_deskundigheid
     function getRulingIncome(year, ruling) {
-      return constants.rulingThreshold[year][ruling || 'normal'];
+      // hotfix: set 'young' because we dont have age control now
+      return constants.rulingThreshold[year]['young'];
     }
 
     // Payroll Tax Rates (Loonbelasting)
