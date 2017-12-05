@@ -84,7 +84,8 @@
                 </md-input-container>
                 <label>Display values for:</label>
                 <div layout-margin ng-repeat="item in $ctrl.output">
-                  <md-checkbox ng-model="item.checked">{{item.title}}</md-checkbox>
+                  <md-checkbox ng-model="item.checked"  aria-label="{{item.label}}" >{{item.title}}
+                  </md-checkbox>
                 </div>
               </md-content>
             </div>

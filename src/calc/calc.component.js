@@ -30,120 +30,140 @@ let calcComponent = {
         'name': 'grossAllowance',
         'sign': '',
         'title': 'Year Gross Holiday Allowance',
+        'label': 'Gross Holiday Allowance per year',
         'checked': !!+$location.search().grossAllowance || false
       },
       {
         'name': 'grossYear',
         'sign': '',
         'title': 'Year Gross Income',
+        'label': 'Annual Gross Income',
         'checked': !!+$location.search().grossYear || false
       },
       {
         'name': 'grossMonth',
         'sign': '',
         'title': 'Month Gross Income',
+        'label': 'Monthly Gross Income',
         'checked': !!+$location.search().grossMonth || false
       },
       {
         'name': 'grossWeek',
         'sign': '',
         'title': 'Week Gross Income',
+        'label': 'Gross Income per week',
         'checked': !!+$location.search().grossWeek || false
       },
       {
         'name': 'grossDay',
         'sign': '',
         'title': 'Day Gross Income',
+        'label': 'Gross Income per day',
         'checked': !!+$location.search().grossDay || false
       },
       {
         'name': 'grossHour',
         'sign': '',
         'title': 'Hour Gross Income',
+        'label': 'Gross Income per hour',
         'checked': !!+$location.search().grossHour || false
       },
       {
         'name': 'taxFreeYear',
         'sign': '-',
         'title': 'Tax Free Income',
+        'label': 'Ammount of income that goes tax free',
         'checked': !!+$location.search().taxFreeYear || false
       },
       {
         'name': 'taxFree',
         'sign': '',
         'title': 'Ruling Real Percentage',
+        'label': 'Absolute Percentage calculated from ruling income and non ruling',
         'checked': !!+$location.search().taxFree || false
       },
       {
         'name': 'taxableYear',
         'sign': '',
         'title': 'Taxable Income',
+        'label': 'Taxable Income Amount',
         'checked': !!+$location.search().taxableYear || true
       },
       {
         'name': 'payrollTax',
         'sign': '',
         'title': 'Payroll Tax',
+        'label': 'Payroll tax is tax imposed on employers or employees, and is calculated as a percentage of the salary that employer pay their staff',
         'checked': !!+$location.search().payrollTax || true
       },
       {
         'name': 'socialTax',
         'sign': '',
         'title': 'Social Security Tax',
+        'label': 'Social Security tax is the tax levied on both employers and employees to fund the Social Security program',
         'checked': !!+$location.search().socialTax || true
       },
       {
         'name': 'generalCredit',
         'sign': '+',
         'title': 'General Tax Credit',
+        'label': 'General tax credit (algemene heffingskorting)',
         'checked': !!+$location.search().generalCredit || true
       },
       {
         'name': 'labourCredit',
         'sign': '+',
         'title': 'Labour Tax Credit',
+        'label': 'Labour tax credit (arbeidskorting)',
         'checked': !!+$location.search().labourCredit || true
       },
       {
         'name': 'incomeTax',
         'sign': '-',
         'title': 'Total Income Tax',
+        'label': 'Total Amount of Taxes',
         'checked': !!+$location.search().incomeTax || false
       },
       {
         'name': 'netAllowance',
         'sign': '',
         'title': 'Year Net Holiday Allowance',
+        'label': 'Year Net Holiday Allowance',
         'checked': !!+$location.search().netAllowance || false
       },
       {
         'name': 'netYear',
         'sign': '',
         'title': 'Year Net Income',
+        'label': 'Annual Net Income',
         'checked': !!+$location.search().netYear || true
       },
       {
         'name': 'netMonth',
         'sign': '',
         'title': 'Month Net Income',
+        'label': 'Monthly Net Income',
         'checked': !!+$location.search().netMonth || true
       },
       {
         'name': 'netWeek',
         'sign': '',
         'title': 'Week Net Income',
+        'label': 'Weekly Net Income',
         'checked': !!+$location.search().netWeek || false
       },
       {
         'name': 'netDay',
         'sign': '',
         'title': 'Day Net Income',
+        'label': 'Daily Net Income',
         'checked': !!+$location.search().netDay || false
       },
       {
         'name': 'netHour',
         'sign': '',
         'title': 'Hour Net Income',
+        'label': 'Hourly Net Income',
         'checked': !!+$location.search().netHour || false
       },
     ];
