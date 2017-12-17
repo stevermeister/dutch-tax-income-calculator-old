@@ -55,7 +55,7 @@
           <md-checkbox ng-model="$ctrl.ruling.checked" aria-label="Tax benefit rule for up-to 30% of gross salary" title="Tax benefit rule for up-to 30% of gross salary">
             30% ruling
           </md-checkbox>
-          <md-radio-group ng-model="$ctrl.ruling.choice" ng-disabled="!$ctrl.ruling.checked">
+          <md-radio-group ng-if="$ctrl.ruling.checked" ng-model="$ctrl.ruling.choice" ng-disabled="!$ctrl.ruling.checked">
             <md-radio-button value="research" aria-label="Working with scientific research" title="Working with scientific research">
               Scientific research
             </md-radio-button>
