@@ -55,7 +55,7 @@
           <md-checkbox ng-model="$ctrl.ruling.checked" aria-label="Tax benefit rule for up-to 30% of gross salary" title="Tax benefit rule for up-to 30% of gross salary">
             30% ruling
           </md-checkbox>
-          <!--<md-radio-group ng-model="$ctrl.ruling.choice" ng-disabled="!$ctrl.ruling.checked">
+          <md-radio-group ng-model="$ctrl.ruling.choice" ng-disabled="!$ctrl.ruling.checked">
             <md-radio-button value="research" aria-label="Working with scientific research" title="Working with scientific research">
               Scientific research
             </md-radio-button>
@@ -65,7 +65,7 @@
             <md-radio-button value="normal" aria-label="None of the above" title="None of the above">
               Other
             </md-radio-button>
-          </md-radio-group>-->
+          </md-radio-group>
           <div class="collapsible-item">
             <div class="collapsible-heading" ng-click="active = !active" ng-class="{'collapsible-heading-collapsed': !active, 'collapsible-heading-expanded': active}">
               <div class="md-toolbar-tools">

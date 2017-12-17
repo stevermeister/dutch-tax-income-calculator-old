@@ -178,8 +178,9 @@ let calcComponent = {
         '$ctrl.salary.socialSecurity',
         '$ctrl.salary.older',
         '$ctrl.ruling.checked',
+        '$ctrl.ruling.choice',
       ],
-/*        '$ctrl.ruling.choice',
+/*        
         '$ctrl.salary.hours',
       ].concat(this.output.map((item, index) => {
           return '$ctrl.output[' + index + '].checked';
@@ -192,8 +193,8 @@ let calcComponent = {
         $location.search('socialSecurity', +this.salary.socialSecurity);
         $location.search('retired', +this.salary.older);
         $location.search('ruling', +this.ruling.checked);
-/*        $location.search('rulingChoice', this.ruling.choice);
-        $location.search('hours', +this.salary.hours);
+        $location.search('rulingChoice', this.ruling.choice);
+/*        $location.search('hours', +this.salary.hours);
         this.output.forEach((item) => {
           $location.search(item.name, +item.checked);
         });*/
@@ -253,8 +254,7 @@ let calcComponent = {
     // 30% Ruling (30%-regeling)
     // https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/internationaal/werken_wonen/tijdelijk_in_een_ander_land_werken/u_komt_in_nederland_werken/30_procent_regeling/voorwaarden_30_procent_regeling/u_hebt_een_specifieke_deskundigheid
     function getRulingIncome(year, ruling) {
-      // hotfix: set 'young' because we dont have age control now
-      return constants.rulingThreshold[year]['young'];
+      return constants.rulingThreshold[year][ruling];
     }
 
     // Payroll Tax Rates (Loonbelasting)
