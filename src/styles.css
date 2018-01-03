@@ -146,3 +146,7 @@ md-radio-button.md-checked .md-off {
 md-radio-button .md-on {
     background-color: #4051B5;
 }
+
+.css-income > input{
+  height: 32px;
+}
