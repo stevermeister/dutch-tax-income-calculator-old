@@ -1,9 +1,10 @@
 {
-  "currentYear":2017,
+  "currentYear":2018,
   "years":[
     2015,
     2016,
-    2017
+    2017,
+    2018
   ],
   "defaultWorkingHours":40,
   "workingWeeks":52,
@@ -20,6 +21,11 @@
       "research":0
     },
     "2017":{
+      "normal":37000,
+      "young":28125,
+      "research":0
+    },
+    "2018":{
       "normal":37000,
       "young":28125,
       "research":0
@@ -100,6 +106,31 @@
         "min":67072,
         "rate":0.52
       }
+    ],
+    "2018":[
+      {
+        "bracket":1,
+        "min":0,
+        "max":20142,
+        "rate":0.089
+      },
+      {
+        "bracket":2,
+        "min":20143,
+        "max":33994,
+        "rate":0.132
+      },
+      {
+        "bracket":3,
+        "min":33995,
+        "max":68507,
+        "rate":0.4085
+      },
+      {
+        "bracket":4,
+        "min":68508,
+        "rate":0.5195
+      }
     ]
   },
   "socialPercent":{
@@ -128,6 +159,16 @@
         "bracket":1,
         "min":0,
         "max":33791,
+        "rate":0.3655,
+        "social":0.2765,
+        "older":0.0975
+      }
+    ],
+    "2018":[
+      {
+        "bracket":1,
+        "min":0,
+        "max":33994,
         "rate":0.3655,
         "social":0.2765,
         "older":0.0975
@@ -189,6 +230,25 @@
       {
         "bracket":3,
         "min":67069,
+        "rate":0
+      }
+    ],
+    "2018":[
+      {
+        "bracket":1,
+        "min":0,
+        "max":20142,
+        "rate":2265
+      },
+      {
+        "bracket":2,
+        "min":20143,
+        "max":68507,
+        "rate":-0.04683
+      },
+      {
+        "bracket":3,
+        "min":68508,
         "rate":0
       }
     ]
@@ -284,6 +344,37 @@
       {
         "bracket":5,
         "min":121973,
+        "rate":0
+      }
+    ],
+    "2018":[
+      {
+        "bracket":1,
+        "min":0,
+        "max":9468,
+        "rate":0.01764
+      },
+      {
+        "bracket":2,
+        "min":9469,
+        "max":20450,
+        "rate":0.28064
+      },
+      {
+        "bracket":3,
+        "min":20451,
+        "max":33112,
+        "rate":3249
+      },
+      {
+        "bracket":4,
+        "min":33113,
+        "max":123362,
+        "rate":-0.036
+      },
+      {
+        "bracket":5,
+        "min":123363,
         "rate":0
       }
     ]
