@@ -4,7 +4,7 @@ let toolbarComponent = {
   template,
   controller: function() {
     this.goPartner = () => {
-      location.href='https://www.blueumbrella.nl/online-tax-return-netherlands/';
+      location.href='https://www.taxdoctor.nl?utm_source=thetax';
     };
   }
 };

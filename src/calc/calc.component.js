@@ -3,7 +3,7 @@ import constants from '../data.json'; // Get JSON containing calculation constan
 
 let calcComponent = {
   template,
-  controller: ['$scope', '$location', function($scope, $location) {
+  controller: function($scope, $location) {
     this.year = constants.currentYear;
     this.years = constants.years;
     if ($location.search().year && this.years.indexOf(+$location.search().year) !== -1) {
@@ -28,102 +28,142 @@ let calcComponent = {
     this.output = [
       {
         'name': 'grossAllowance',
+        'sign': '',
         'title': 'Year Gross Holiday Allowance',
+        'label': 'Gross Holiday Allowance per year',
         'checked': !!+$location.search().grossAllowance || false
       },
       {
         'name': 'grossYear',
+        'sign': '',
         'title': 'Year Gross Income',
+        'label': 'Annual Gross Income',
         'checked': !!+$location.search().grossYear || false
       },
       {
         'name': 'grossMonth',
+        'sign': '',
         'title': 'Month Gross Income',
+        'label': 'Monthly Gross Income',
         'checked': !!+$location.search().grossMonth || false
       },
       {
         'name': 'grossWeek',
+        'sign': '',
         'title': 'Week Gross Income',
+        'label': 'Gross Income per week',
         'checked': !!+$location.search().grossWeek || false
       },
       {
         'name': 'grossDay',
+        'sign': '',
         'title': 'Day Gross Income',
+        'label': 'Gross Income per day',
         'checked': !!+$location.search().grossDay || false
       },
       {
         'name': 'grossHour',
+        'sign': '',
         'title': 'Hour Gross Income',
+        'label': 'Gross Income per hour',
         'checked': !!+$location.search().grossHour || false
       },
       {
         'name': 'taxFreeYear',
+        'sign': '-',
         'title': 'Tax Free Income',
+        'label': 'Ammount of income that goes tax free',
         'checked': !!+$location.search().taxFreeYear || false
       },
       {
         'name': 'taxFree',
+        'sign': '',
         'title': 'Ruling Real Percentage',
+        'label': 'Absolute Percentage calculated from ruling income and non ruling',
         'checked': !!+$location.search().taxFree || false
       },
       {
         'name': 'taxableYear',
+        'sign': '',
         'title': 'Taxable Income',
+        'label': 'Taxable Income Amount',
         'checked': !!+$location.search().taxableYear || true
       },
       {
         'name': 'payrollTax',
+        'sign': '',
         'title': 'Payroll Tax',
+        'label': 'Payroll tax is tax imposed on employers or employees, and is calculated as a percentage of the salary that employer pay their staff',
         'checked': !!+$location.search().payrollTax || true
       },
       {
         'name': 'socialTax',
+        'sign': '',
         'title': 'Social Security Tax',
+        'label': 'Social Security tax is the tax levied on both employers and employees to fund the Social Security program',
         'checked': !!+$location.search().socialTax || true
       },
       {
         'name': 'generalCredit',
+        'sign': '+',
         'title': 'General Tax Credit',
+        'label': 'General tax credit (algemene heffingskorting)',
         'checked': !!+$location.search().generalCredit || true
       },
       {
         'name': 'labourCredit',
+        'sign': '+',
         'title': 'Labour Tax Credit',
+        'label': 'Labour tax credit (arbeidskorting)',
         'checked': !!+$location.search().labourCredit || true
       },
       {
         'name': 'incomeTax',
+        'sign': '-',
         'title': 'Total Income Tax',
+        'label': 'Total Amount of Taxes',
         'checked': !!+$location.search().incomeTax || false
       },
       {
         'name': 'netAllowance',
+        'sign': '',
         'title': 'Year Net Holiday Allowance',
+        'label': 'Year Net Holiday Allowance',
         'checked': !!+$location.search().netAllowance || false
       },
       {
         'name': 'netYear',
+        'sign': '',
         'title': 'Year Net Income',
+        'label': 'Annual Net Income',
         'checked': !!+$location.search().netYear || true
       },
       {
         'name': 'netMonth',
+        'sign': '',
         'title': 'Month Net Income',
+        'label': 'Monthly Net Income',
         'checked': !!+$location.search().netMonth || true
       },
       {
         'name': 'netWeek',
+        'sign': '',
         'title': 'Week Net Income',
+        'label': 'Weekly Net Income',
         'checked': !!+$location.search().netWeek || false
       },
       {
         'name': 'netDay',
+        'sign': '',
         'title': 'Day Net Income',
+        'label': 'Daily Net Income',
         'checked': !!+$location.search().netDay || false
       },
       {
         'name': 'netHour',
+        'sign': '',
         'title': 'Hour Net Income',
+        'label': 'Hourly Net Income',
         'checked': !!+$location.search().netHour || false
       },
     ];
@@ -132,12 +172,19 @@ let calcComponent = {
     $scope.$watchGroup([
         '$ctrl.year',
         '$ctrl.startFrom',
+        '$ctrl.salary.hours',
         '$ctrl.salary.income',
         '$ctrl.salary.allowance',
         '$ctrl.salary.socialSecurity',
         '$ctrl.salary.older',
         '$ctrl.ruling.checked',
+        '$ctrl.ruling.choice',
       ],
+/*        
+        '$ctrl.salary.hours',
+      ].concat(this.output.map((item, index) => {
+          return '$ctrl.output[' + index + '].checked';
+        })),*/
       () => {
         $location.search('year', +this.year);
         $location.search('startFrom', this.startFrom);
@@ -146,6 +193,11 @@ let calcComponent = {
         $location.search('socialSecurity', +this.salary.socialSecurity);
         $location.search('retired', +this.salary.older);
         $location.search('ruling', +this.ruling.checked);
+        $location.search('rulingChoice', this.ruling.choice);
+/*        $location.search('hours', +this.salary.hours);
+        this.output.forEach((item) => {
+          $location.search(item.name, +item.checked);
+        });*/
 
         // For calculation instructions:
         // https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/themaoverstijgend/brochures_en_publicaties/rekenvoorschriften-voor-de-geautomatiseerde-loonadministratie-januari-2017
@@ -167,7 +219,7 @@ let calcComponent = {
         salary.grossHour = ~~(grossYear / (constants.workingWeeks * salary.hours));
 
         salary.taxFreeYear = 0;
-        salary.taxableYear = grossYear;
+        salary.taxableYear = grossYear - salary.grossAllowance;
         if (this.ruling.checked) {
           let rulingIncome = getRulingIncome(this.year, this.ruling.choice);
           if (salary.taxableYear > rulingIncome) {
@@ -192,7 +244,7 @@ let calcComponent = {
         salary.incomeTax = (salary.incomeTax < 0) ? salary.incomeTax : 0;
         salary.netYear = salary.taxableYear + salary.incomeTax + salary.taxFreeYear;
         salary.netAllowance = (salary.allowance) ? ~~(salary.netYear * (0.08 / 1.08)) : 0;
-        //s.netYear -= salary.netAllowance; // Remove holiday allowance from annual net amount
+        //salary.netYear -= salary.netAllowance; // Remove holiday allowance from annual net amount
         salary.netMonth = ~~(salary.netYear / 12);
         salary.netWeek = ~~(salary.netYear / constants.workingWeeks);
         salary.netDay = ~~(salary.netYear / constants.workingDays);
@@ -202,13 +254,13 @@ let calcComponent = {
     // 30% Ruling (30%-regeling)
     // https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/internationaal/werken_wonen/tijdelijk_in_een_ander_land_werken/u_komt_in_nederland_werken/30_procent_regeling/voorwaarden_30_procent_regeling/u_hebt_een_specifieke_deskundigheid
     function getRulingIncome(year, ruling) {
-      return constants.rulingThreshold[year][ruling || 'normal'];
+      return constants.rulingThreshold[year][ruling];
     }
 
     // Payroll Tax Rates (Loonbelasting)
     // https://www.belastingdienst.nl/bibliotheek/handboeken/html/boeken/HL/stappenplan-stap_7_loonbelasting_premie_volksverzekeringen.html
     function getPayrollTax(year, salary) {
-      return getRates(constants.payrollTax[year], salary);
+      return getRates(constants.payrollTax[year], salary, 'rate');
     }
 
     // Social Security Contribution (Volksverzekeringen - AOW, Anw, Wlz)
@@ -220,13 +272,13 @@ let calcComponent = {
     // General Tax Credit (Algemene Heffingskorting)
     // https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/inkomstenbelasting/heffingskortingen_boxen_tarieven/heffingskortingen/algemene_heffingskorting/
     function getGeneralCredit(year, salary) {
-      return getRates(constants.generalCredit[year], salary);
+      return getRates(constants.generalCredit[year], salary, 'rate');
     }
 
     // Labour Tax Credit (Arbeidskorting)
     // https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/inkomstenbelasting/heffingskortingen_boxen_tarieven/heffingskortingen/arbeidskorting/
     function getLabourCredit(year, salary) {
-      return getRates(constants.labourCredit[year], salary);
+      return getRates(constants.labourCredit[year], salary, 'rate');
     }
 
     // Social Security Contribution (Volksverzekeringen) Component of Tax Credit
@@ -276,7 +328,7 @@ let calcComponent = {
       });
       return amount;
     }
-  }]
+  }
 };
 
 export default calcComponent;

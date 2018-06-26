@@ -1,18 +1,17 @@
 <md-content class="md-body-1" layout-lg="column" layout-gt-lg="column" layout-align="center" layout-margin>
-  <h3 class="md-headline">Gross Salary</h3>
-  <div layout="row" layout-align="start" flex>
-    <md-input-container>
-      <label>Income</label>
+  <div layout="row" layout-align="start" flex layout-margin layout-fill>
+    <md-input-container class="md-headline md-default-theme css-income">
+      <label>Gross Income</label>
       <input type="number" ng-model="$ctrl.salary.income" min="1" autofocus required>
     </md-input-container>
-    <md-input-container>
+    <md-input-container class="md-headline md-default-theme">
       <label>Per</label>
       <md-select ng-model="$ctrl.startFrom">
-        <md-option value="Year">Year</md-option>
-        <md-option value="Month">Month</md-option>
-        <md-option value="Week">Week</md-option>
-        <md-option value="Day">Day</md-option>
-        <md-option value="Hour">Hour</md-option>
+        <md-option value="Year">year</md-option>
+        <md-option value="Month">month</md-option>
+        <md-option value="Week">week</md-option>
+        <md-option value="Day">day</md-option>
+        <md-option value="Hour">hour</md-option>
       </md-select>
     </md-input-container>
   </div>
@@ -27,7 +26,7 @@
           {{$ctrl.salary[item.name] | number:0 }}%
         </div>
         <div flex class="report-value" ng-if="item.name != 'taxFree'" ng-class="{'report-value-negative': $ctrl.salary[item.name] < 0}">
-          {{$ctrl.salary[item.name] > 0 ? '+' : ''}}{{$ctrl.salary[item.name] | currency:" € ":0}}
+          {{($ctrl.salary[item.name] > 0 && item.sign === '+')? '+' : ''}}{{$ctrl.salary[item.name] | currency:" € ":0}}
         </div>
       </div>
       <md-divider ng-if="!$last" ng-show="item.checked" ng-repeat-end></md-divider>
@@ -37,14 +36,14 @@
       <md-content>
         <div layout="column" layout-margin>
           <label>Calendar year:</label>
-          <md-radio-group ng-model="$ctrl.year" ng-repeat="year in $ctrl.years">
-            <md-radio-button value="{{year}}">{{year}}</md-radio-button>
+          <md-radio-group ng-model="$ctrl.year" >
+            <md-radio-button ng-repeat="year in $ctrl.years" value="{{year}}">{{year}}</md-radio-button>
           </md-radio-group>
         </div>
       </md-content>
       <md-content>
         <div layout="column" layout-margin>
-          <md-checkbox ng-model="$ctrl.salary.allowance" aria-label="Gross salary provided includes 8% of holiday allowance" title="Gross salary provided includes 8% of holiday allowance">
+          <md-checkbox ng-model="$ctrl.salary.allowance" aria-label="Gross salary provided includes 8% of holiday allowance" title="Gross salary provided includes 8% of holiday allowance" disabled>
             Holiday allowance included
           </md-checkbox>
           <md-checkbox ng-model="$ctrl.salary.socialSecurity" aria-label="Social security in the Netherlands" title="Social security in the Netherlands">
@@ -56,7 +55,7 @@
           <md-checkbox ng-model="$ctrl.ruling.checked" aria-label="Tax benefit rule for up-to 30% of gross salary" title="Tax benefit rule for up-to 30% of gross salary">
             30% ruling
           </md-checkbox>
-          <md-radio-group ng-model="$ctrl.ruling.choice" ng-disabled="!$ctrl.ruling.checked">
+          <md-radio-group ng-if="$ctrl.ruling.checked" ng-model="$ctrl.ruling.choice" ng-disabled="!$ctrl.ruling.checked">
             <md-radio-button value="research" aria-label="Working with scientific research" title="Working with scientific research">
               Scientific research
             </md-radio-button>
@@ -71,8 +70,8 @@
             <div class="collapsible-heading" ng-click="active = !active" ng-class="{'collapsible-heading-collapsed': !active, 'collapsible-heading-expanded': active}">
               <div class="md-toolbar-tools">
                 <button class="md-icon-button md-button" type="button" aria-hidden="false" aria-label="Expand/Collapse" title="Expand/Collapse">
-                  <md-icon md-font-library="material-icons" ng-if="active">expand_more</md-icon>
-                  <md-icon md-font-library="material-icons" ng-if="!active">expand_less</md-icon>
+                  <md-icon md-font-library="material-icons" ng-if="!active">expand_more</md-icon>
+                  <md-icon md-font-library="material-icons" ng-if="active">expand_less</md-icon>
                 </button>
                 <h3 class="md-display-1">Advanced Options</h3>
               </div>
@@ -85,7 +84,8 @@
                 </md-input-container>
                 <label>Display values for:</label>
                 <div layout-margin ng-repeat="item in $ctrl.output">
-                  <md-checkbox ng-model="item.checked">{{item.title}}</md-checkbox>
+                  <md-checkbox ng-model="item.checked"  aria-label="{{item.label}}" >{{item.title}}
+                  </md-checkbox>
                 </div>
               </md-content>
             </div>
