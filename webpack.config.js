@@ -40,7 +40,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'index.html',
       inject: 'body',
-      favicon: 'favicon.png'
+      favicon: 'favicon.png',
+      baseUrl: process.env.NODE_ENV == 'development' ? '.' : '/'
     }),
   ],
   devtool: "source-map",
