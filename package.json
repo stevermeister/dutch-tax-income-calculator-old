@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server --progress --colors --watch",
     "postinstall": "webpack",
-    "build": "webpack -p --progress --colors",
+    "build": "webpack -p --progress --colors && cp ./src/manifest.json ./dist/manifest.json",
     "deploy": "webpack -p && gh-pages -d dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
