@@ -22,7 +22,7 @@ and [here](http://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingd
 
 *Be sure that node.js is installed on your machine.*
 
-## Developemnt mode
+## Development mode
 
     npm start
 
