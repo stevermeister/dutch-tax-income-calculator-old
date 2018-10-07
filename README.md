@@ -36,18 +36,12 @@ and [here](http://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingd
 
 
 
-# 🏅 Backers
 
-Support us with a monthly donation and help us continue our activities. [Become a backer][support-url]
-
-[![Backers][backers-image]][support-url]
-
-# 🎖 Sponsors
+## 🎖 Sponsors
 
 Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [Become a sponsor][support-url]
 
 [![Sponsors][sponsors-image]][support-url]
 
-[backers-image]: https://opencollective.com/dutch-tax-income-calculator/backers.svg
 [sponsors-image]: https://opencollective.com/dutch-tax-income-calculator/sponsors.svg
 [support-url]: https://opencollective.com/dutch-tax-income-calculator#support
