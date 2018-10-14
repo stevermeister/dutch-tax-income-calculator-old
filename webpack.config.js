@@ -1,8 +1,10 @@
-var webpack = require('webpack'),
-  HtmlWebpackPlugin = require('html-webpack-plugin'),
-  path = require('path');
+const path = require('path');
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 
 module.exports = {
+  mode: 'production',
   context: path.resolve(__dirname, 'src'),
   entry: './app.js',
   output: {
@@ -10,42 +12,32 @@ module.exports = {
     filename: 'app.js'
   },
   module: {
-    loaders: [
+    rules: [
+      { test: /\.(html)$/, use: ['html-loader'] },
+      { test: /\.css$/, use: ['style-loader', 'css-loader'] },
       {
         test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'ng-annotate!babel?presets[]=es2015'
-      },
-      {test: /\.css$/, loader: 'style-loader!css-loader?minimize'},
-      {
-        test: /\.html$/,
-        loader: 'ng-cache?prefix=[dir]/[dir]',
-        exclude: /index\.html/
-      },
-      {
-        test: /\.json$/,
-        exclude: /node_modules/,
-        loader: 'json'
+        exclude: /(node_modules)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env']
+          }
+        }
       }
     ]
   },
-  watchOptions: {
-    aggregateTimeout: 100
-  },
   plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true,
-      mangle: false
-    }),
+    new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
       template: 'index.html',
       inject: 'body',
       favicon: 'favicon.png',
-      baseUrl: process.env.NODE_ENV == 'development' ? '.' : '/'
+      baseUrl: '/'
     }),
+    new ManifestPlugin()
   ],
-  devtool: "source-map",
   devServer: {
-    inline: true,
+    contentBase: './dist'
   }
 };
