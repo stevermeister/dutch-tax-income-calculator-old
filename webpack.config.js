@@ -11,10 +11,6 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'app.js'
   },
-  optimization: {
-		// We no not want to minimize our code.
-		minimize: false
-	},
   module: {
     rules: [
       { test: /\.(html)$/, use: ['html-loader'] },

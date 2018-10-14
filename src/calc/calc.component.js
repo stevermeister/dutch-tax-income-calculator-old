@@ -1,7 +1,7 @@
 import template from './calc.html';
 import constants from '../data.json'; // Get JSON containing calculation constants
 
-// calcComponent.$inject = ['$scope', '$location'];
+
 let calcComponent = {
   template,
   controller: function($scope, $location) {
@@ -332,4 +332,5 @@ let calcComponent = {
   }
 };
 
+calcComponent.$inject = ['$scope', '$location'];
 export default calcComponent;
