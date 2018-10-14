@@ -1,6 +1,7 @@
 import template from './calc.html';
 import constants from '../data.json'; // Get JSON containing calculation constants
 
+// calcComponent.$inject = ['$scope', '$location'];
 let calcComponent = {
   template,
   controller: function($scope, $location) {
@@ -180,7 +181,7 @@ let calcComponent = {
         '$ctrl.ruling.checked',
         '$ctrl.ruling.choice',
       ],
-/*        
+/*
         '$ctrl.salary.hours',
       ].concat(this.output.map((item, index) => {
           return '$ctrl.output[' + index + '].checked';
