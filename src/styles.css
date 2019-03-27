@@ -150,3 +150,7 @@ md-radio-button .md-on {
 .css-income > input{
   height: 32px;
 }
+
+#select_value_label_0 > span:nth-child(1) > div {
+  width: 70px;
+}
