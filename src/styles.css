@@ -32,12 +32,14 @@ md-input-container label:not(.md-container-ignore) {
   position: static;
 }
 md-input-container .md-input {
-  width: 15rem;
+  width: 13rem;
   float: none;
 }
 md-input-container md-select {
-  width: 8rem;
+  width: 9rem;
 }
+
+.md-input-container:not(last)
 
 md-checkbox:last-of-type {
   margin: inherit;
