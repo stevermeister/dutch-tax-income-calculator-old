@@ -1,5 +1,5 @@
 const path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 
@@ -9,23 +9,23 @@ module.exports = {
   entry: './app.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'app.js'
+    filename: 'app.js',
   },
   module: {
     rules: [
-      { test: /\.(html)$/, use: ['html-loader'] },
-      { test: /\.css$/, use: ['style-loader', 'css-loader'] },
+      {test: /\.(html)$/, use: ['html-loader']},
+      {test: /\.css$/, use: ['style-loader', 'css-loader']},
       {
         test: /\.js$/,
         exclude: /(node_modules)/,
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env']
-          }
-        }
-      }
-    ]
+            presets: ['@babel/preset-env'],
+          },
+        },
+      },
+    ],
   },
   plugins: [
     new CleanWebpackPlugin(['dist']),
@@ -33,11 +33,11 @@ module.exports = {
       template: 'index.html',
       inject: 'body',
       favicon: 'favicon.png',
-      baseUrl: '/'
+      baseUrl: '/',
     }),
-    new ManifestPlugin()
+    new ManifestPlugin(),
   ],
   devServer: {
-    contentBase: './dist'
-  }
+    contentBase: './dist',
+  },
 };

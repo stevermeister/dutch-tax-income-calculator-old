@@ -3,26 +3,38 @@
     <md-card-content class="disclaimer">
       <b>Disclaimer</b>
       <p>
-        This calculator is for illustrative purposes only. No guarantee is made for the accuracy of the data provided.
-        Consult a qualified tax services professional before making any decision.
+        This calculator is for illustrative purposes only. No guarantee is made
+        for the accuracy of the data provided. Consult a qualified tax services
+        professional before making any decision.
       </p>
     </md-card-content>
   </md-card>
   <md-card>
     <md-card-content>
       <h2 class="md-title">About 30% Ruling</h2>
-      <p>
-        The salary criteria for the <b>30% ruling</b> as per January {{$ctrl.year}} are as follows:<br>
-      <ul>
-        <li>The salary amount does not matter if working with scientific research.</li>
-        <li>The annual taxable salary for an employee with a master’s degree and who is younger than 30 years, must be more than
-          <b>{{$ctrl.ruling[$ctrl.year].young | currency:"EUR ":0}}</b> ({{$ctrl.year - 1}}: {{$ctrl.ruling[$ctrl.year - 1].young | currency:"EUR ":0}}).
-        </li>
-        <li>The annual taxable salary for other employees must be more than
-          <b>{{$ctrl.ruling[$ctrl.year].normal | currency:"EUR ":0}}</b> ({{$ctrl.year - 1}}: {{$ctrl.ruling[$ctrl.year - 1].normal | currency:"EUR ":0}}).
-        </li>
-      </ul>
-      </p>
+      <div>
+        The salary criteria for the <b>30% ruling</b> as per January
+        {{$ctrl.year}} are as follows:<br />
+        <ul>
+          <li>
+            The salary amount does not matter if working with scientific
+            research.
+          </li>
+          <li>
+            The annual taxable salary for an employee with a master’s degree and
+            who is younger than 30 years, must be more than
+            <b>{{$ctrl.ruling[$ctrl.year].young | currency:"EUR ":0}}</b>
+            ({{$ctrl.year - 1}}: {{$ctrl.ruling[$ctrl.year - 1].young |
+            currency:"EUR ":0}}).
+          </li>
+          <li>
+            The annual taxable salary for other employees must be more than
+            <b>{{$ctrl.ruling[$ctrl.year].normal | currency:"EUR ":0}}</b>
+            ({{$ctrl.year - 1}}: {{$ctrl.ruling[$ctrl.year - 1].normal |
+            currency:"EUR ":0}}).
+          </li>
+        </ul>
+      </div>
     </md-card-content>
   </md-card>
 </md-content>

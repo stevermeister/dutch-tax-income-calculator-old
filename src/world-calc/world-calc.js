@@ -1,7 +1,7 @@
 import template from './world-calc.html';
 
-let toolbarComponent = {
-  template
+const toolbarComponent = {
+  template,
 };
 
 export default toolbarComponent;

@@ -4,7 +4,7 @@
   color: black;
 }
 .report-value-negative {
-  color: #FF3366;
+  color: #ff3366;
 }
 .title {
   position: relative;
@@ -25,7 +25,7 @@
 
 md-input-container {
   display: inline;
-/*  font-size: 200%;*/
+  /*  font-size: 200%;*/
 }
 
 md-input-container label:not(.md-container-ignore) {
@@ -64,7 +64,7 @@ md-radio-group {
 }
 
 .collapsible-item:first-of-type {
-  border-top:0px;
+  border-top: 0px;
 }
 
 .collapsible-heading-collapsed p {
@@ -106,15 +106,15 @@ animation:*/
   when the active class is added causing it to appear
   as hidden. Therefore set the styling to display=block
   so that the hide animation is visible */
-  display: block!important;
+  display: block !important;
 }
 
 .slide-down.ng-hide-add {
   animation-name: hide;
   -webkit-animation-name: hide;
 
-  animation-duration: .5s;
-  -webkit-animation-duration: .5s;
+  animation-duration: 0.5s;
+  -webkit-animation-duration: 0.5s;
 
   animation-timing-function: ease-in;
   -webkit-animation-timing-function: ease-in;
@@ -124,30 +124,30 @@ animation:*/
   animation-name: show;
   -webkit-animation-name: show;
 
-  animation-duration: .5s;
-  -webkit-animation-duration: .5s;
+  animation-duration: 0.5s;
+  -webkit-animation-duration: 0.5s;
 
   animation-timing-function: ease-out;
   -webkit-animation-timing-function: ease-out;
 }
 
 .md-select-value .md-select-icon:after {
-    font-size: 0pt;
+  font-size: 0pt;
 }
 
 md-checkbox.md-checked .md-icon {
-    background-color: #4051B5;
+  background-color: #4051b5;
 }
 
 md-radio-button.md-checked .md-off {
-    border-color: #4051B5;
+  border-color: #4051b5;
 }
 
 md-radio-button .md-on {
-    background-color: #4051B5;
+  background-color: #4051b5;
 }
 
-.css-income > input{
+.css-income > input {
   height: 32px;
 }
 
