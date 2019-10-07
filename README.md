@@ -1,7 +1,7 @@
-dutch-tax-income-calculator
+Dutch-Income-Tax-Calculator
 ===========================
 
-> Dutch Tax Income Calculator with AngularJS
+> Dutch Income Tax Calculator with AngularJS
 
 You can test it here - http://thetax.nl
 
