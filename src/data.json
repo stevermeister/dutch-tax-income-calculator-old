@@ -238,6 +238,16 @@
         "social":0.2765,
         "older":0.0975
       }
+    ],
+    "2020":[
+      {
+        "bracket":1,
+        "min":0,
+        "max":34712,
+        "rate":0.3665,
+        "social":0.2765,
+        "older":0.0975
+      }
     ]
   },
   "generalCredit":{
