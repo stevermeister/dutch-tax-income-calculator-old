@@ -345,6 +345,25 @@
         "min":68508,
         "rate":0
       }
+    ],
+    "2020":[
+      {
+        "bracket":1,
+        "min":0,
+        "max":20711,
+        "rate":2711
+      },
+      {
+        "bracket":2,
+        "min":20711,
+        "max":68507,
+        "rate":-0.05672
+      },
+      {
+        "bracket":3,
+        "min":68508,
+        "rate":0
+      }
     ]
   },
   "labourCredit":{
