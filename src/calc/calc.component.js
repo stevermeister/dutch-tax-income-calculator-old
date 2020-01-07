@@ -226,10 +226,11 @@ let calcComponent = {
           if (salary.taxableYear > rulingIncome) {
             salary.taxFreeYear = salary.taxableYear * 0.30;
             salary.taxableYear -= salary.taxFreeYear;
-            if (salary.taxableYear < rulingIncome) { // For partial
-              salary.taxFreeYear = grossYear - rulingIncome;
-              salary.taxableYear = rulingIncome;
-            }
+            // this was a strange condition, I comment out it for now
+            // if (salary.taxableYear < rulingIncome) { // For partial
+            //   salary.taxFreeYear = grossYear - rulingIncome;
+            //   salary.taxableYear = rulingIncome;
+            // }
           }
         }
 
