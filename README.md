@@ -10,9 +10,8 @@ You can test it here - http://thetax.nl
 
 </p>
 
-More infromation about tax brackets [here](http://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/inkomstenbelasting/heffingskortingen_boxen_tarieven/boxen_en_tarieven/overzicht_tarieven_en_schijven/u-hebt-in-2017-de-aow-leeftijd-nog-niet-bereikt) (for 2017)
-and [here](http://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/inkomstenbelasting/heffingskortingen_boxen_tarieven/boxen_en_tarieven/overzicht_tarieven_en_schijven/u_hebt_in_2016_de_aow_leeftijd_nog_niet_bereikt) (for 2016) 
-and [here](http://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/inkomstenbelasting/heffingskortingen_boxen_tarieven/boxen_en_tarieven/overzicht_tarieven_en_schijven/u_hebt_in_2015_de_aow_leeftijd_nog_niet_bereikt) (for 2015).
+More information about tax brackets [here](https://www.belastingdienst.nl/bibliotheek/handboeken/html/boeken/HL/index.html) (for current)
+and [here](https://www.belastingdienst.nl/wps/wcm/connect/nl/zoeken/zoeken?q=Handboek+Loonheffingen) (from 2015 until current year).
 
 
 # Contribution

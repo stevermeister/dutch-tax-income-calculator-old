@@ -1,10 +1,11 @@
 import template from './calc.html';
 import constants from '../data.json'; // Get JSON containing calculation constants
 
-
 let calcComponent = {
   template,
-  controller: function($scope, $location) {
+  controller: function($scope, $location, $log) {
+    const isDebug = console.table instanceof Function;
+
     this.year = constants.currentYear;
     this.years = constants.years;
     if ($location.search().year && this.years.indexOf(+$location.search().year) !== -1) {
@@ -108,14 +109,14 @@ let calcComponent = {
         'name': 'generalCredit',
         'sign': '+',
         'title': 'General Tax Credit',
-        'label': 'General tax credit (algemene heffingskorting)',
+        'label': 'General tax credit (algemene heffingskorting) that everyone is entitled',
         'checked': !!+$location.search().generalCredit || true
       },
       {
         'name': 'labourCredit',
         'sign': '+',
         'title': 'Labour Tax Credit',
-        'label': 'Labour tax credit (arbeidskorting)',
+        'label': 'Labour tax credit (arbeidskorting) that is given to those that are still in the labour force',
         'checked': !!+$location.search().labourCredit || true
       },
       {
@@ -124,6 +125,13 @@ let calcComponent = {
         'title': 'Total Income Tax',
         'label': 'Total Amount of Taxes',
         'checked': !!+$location.search().incomeTax || false
+      },
+      {
+        'name': 'incomeTaxMonth',
+        'sign': '-',
+        'title': 'Month Total Income Tax',
+        'label': 'Total Amount of Taxes per Month',
+        'checked': !!+$location.search().incomeTaxMonth || false
       },
       {
         'name': 'netAllowance',
@@ -201,7 +209,7 @@ let calcComponent = {
         });*/
 
         // For calculation instructions:
-        // https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/themaoverstijgend/brochures_en_publicaties/rekenvoorschriften-voor-de-geautomatiseerde-loonadministratie-januari-2017
+        // https://www.belastingdienst.nl/wps/wcm/connect/nl/zoeken/zoeken?q=Rekenvoorschriften+voor+de+geautomatiseerde+loonadministratie
 
         let salary = this.salary;
         salary.grossYear = salary.grossMonth = salary.grossWeek = salary.grossDay = salary.grossHour = 0;
@@ -240,10 +248,11 @@ let calcComponent = {
         salary.payrollTax = -1 * getPayrollTax(this.year, salary.taxableYear);
         salary.socialTax = (salary.socialSecurity) ? -1 * getSocialTax(this.year, salary.taxableYear, salary.older) : 0;
         let socialCredit = getSocialCredit(this.year, salary.older, salary.socialSecurity);
-        salary.generalCredit = socialCredit * getGeneralCredit(this.year, salary.taxableYear, salary.older);
-        salary.labourCredit = socialCredit * getLabourCredit(this.year, salary.taxableYear, salary.older);
+        salary.generalCredit = getGeneralCredit(this.year, salary.taxableYear, socialCredit);
+        salary.labourCredit = getLabourCredit(this.year, salary.taxableYear, socialCredit);
         salary.incomeTax = ~~(salary.payrollTax + salary.socialTax + salary.generalCredit + salary.labourCredit);
         salary.incomeTax = (salary.incomeTax < 0) ? salary.incomeTax : 0;
+        salary.incomeTaxMonth = ~~(salary.incomeTax / 12);
         salary.netYear = salary.taxableYear + salary.incomeTax + salary.taxFreeYear;
         salary.netAllowance = (salary.allowance) ? ~~(salary.netYear * (0.08 / 1.08)) : 0;
         //salary.netYear -= salary.netAllowance; // Remove holiday allowance from annual net amount
@@ -253,39 +262,84 @@ let calcComponent = {
         salary.netHour = ~~(salary.netYear / (constants.workingWeeks * salary.hours));
       });
 
-    // 30% Ruling (30%-regeling)
-    // https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/internationaal/werken_wonen/tijdelijk_in_een_ander_land_werken/u_komt_in_nederland_werken/30_procent_regeling/voorwaarden_30_procent_regeling/u_hebt_een_specifieke_deskundigheid
+    /**
+     * 30% Ruling (30%-regeling)
+     * https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/internationaal/werken_wonen/tijdelijk_in_een_ander_land_werken/u_komt_in_nederland_werken/30_procent_regeling/voorwaarden_30_procent_regeling/u-hebt-een-specifieke-deskundigheid
+     * 
+     * @param {string} year Year to retrieve information from
+     * @param {string} ruling Choice between scientific research workers, young professionals with Master's degree or others cases
+     * @returns {number} The 30% Ruling minimum income
+     */
     function getRulingIncome(year, ruling) {
       return constants.rulingThreshold[year][ruling];
     }
 
-    // Payroll Tax Rates (Loonbelasting)
-    // https://www.belastingdienst.nl/bibliotheek/handboeken/html/boeken/HL/stappenplan-stap_7_loonbelasting_premie_volksverzekeringen.html
+    /**
+     * Payroll Tax Rates (Loonbelasting)
+     * https://www.belastingdienst.nl/bibliotheek/handboeken/html/boeken/HL/stappenplan-stap_7_loonbelasting_premie_volksverzekeringen.html
+     * 
+     * @param {string} year Year to retrieve information from
+     * @param {number} salary Taxable wage that will be used for calculation
+     * @returns {number} The Payroll Tax Rates after calculating proper bracket amount
+     */
     function getPayrollTax(year, salary) {
+      $log.debug(`Payroll Tax Brackets ${year}`);
       return getRates(constants.payrollTax[year], salary, 'rate');
     }
 
-    // Social Security Contribution (Volksverzekeringen - AOW, Anw, Wlz)
-    // https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/werk_en_inkomen/sociale_verzekeringen/premies_volks_en_werknemersverzekeringen/volksverzekeringen/volksverzekeringen?projectid=98f8c360-e92a-4fe2-aea6-27e9087ce4a1&projectid=98f8c360-e92a-4fe2-aea6-27e9087ce4a1
-    function getSocialTax(year, salary, older) {
+    /**
+     * Social Security Contribution (Volksverzekeringen - AOW, Anw, Wlz)
+     * https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/werk_en_inkomen/sociale_verzekeringen/premies_volks_en_werknemersverzekeringen/volksverzekeringen/volksverzekeringen
+     * 
+     * @param {string} year Year to retrieve information from
+     * @param {number} salary Taxable wage that will be used for calculation
+     * @param {string} [older] Whether is after retirement age or not
+     * @returns {number} The Social Security Contribution after calculating proper bracket amount
+     */
+    function getSocialTax(year, salary, older = 'social') {
+      $log.debug(`Social Security Contribution Brackets ${year}`);
       return getRates(constants.socialPercent[year], salary, (older) ? 'older' : 'social');
     }
 
-    // General Tax Credit (Algemene Heffingskorting)
-    // https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/inkomstenbelasting/heffingskortingen_boxen_tarieven/heffingskortingen/algemene_heffingskorting/
-    function getGeneralCredit(year, salary) {
-      return getRates(constants.generalCredit[year], salary, 'rate');
+    /**
+     * General Tax Credit (Algemene Heffingskorting)
+     * https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/inkomstenbelasting/heffingskortingen_boxen_tarieven/heffingskortingen/algemene_heffingskorting/
+     * 
+     * @param {string} year Year to retrieve information from
+     * @param {number} salary Taxable wage that will be used for calculation
+     * @param {number} [multiplier] Scalar value to multiple against final result
+     * @returns {number} The General Tax Credit after calculating proper bracket amount
+     */
+    function getGeneralCredit(year, salary, multiplier = 1) {
+      $log.debug(`General Tax Credit Brackets ${year}`);
+      return getRates(constants.generalCredit[year], salary, 'rate', multiplier);
     }
 
-    // Labour Tax Credit (Arbeidskorting)
-    // https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/inkomstenbelasting/heffingskortingen_boxen_tarieven/heffingskortingen/arbeidskorting/
-    function getLabourCredit(year, salary) {
-      return getRates(constants.labourCredit[year], salary, 'rate');
+    /**
+     * Labour Tax Credit (Arbeidskorting)
+     * https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/inkomstenbelasting/heffingskortingen_boxen_tarieven/heffingskortingen/arbeidskorting/
+     * 
+     * @param {string} year Year to retrieve information from
+     * @param {number} salary Taxable wage that will be used for calculation
+     * @param {number} [multiplier] Scalar value to multiple against final result
+     * @returns {number} The Labout Tax Credit after calculating proper bracket amount
+     */
+    function getLabourCredit(year, salary, multiplier = 1) {
+      $log.debug(`Labour Tax Credit Brackets ${year}`);
+      return getRates(constants.labourCredit[year], salary, 'rate', multiplier);
     }
 
-    // Social Security Contribution (Volksverzekeringen) Component of Tax Credit
-    // https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/internationaal/fiscale_regelingen/sociale_zekerheid_bij_grensoverschrijdend_werken_en_ondernemen/hoe_wordt_de_premie_berekend/berekening_premie_volksverzekeringen_heffingskorting_deel_van_het_jaar_premieplichtig/heffingskortingen/
-    function getSocialCredit(year, older, socialSecurity) {
+    /**
+     * Social Security Contribution (Volksverzekeringen) Component of Tax Credit
+     * https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/werk_en_inkomen/sociale_verzekeringen/premies_volks_en_werknemersverzekeringen/volksverzekeringen/hoeveel_moet_u_betalen
+     * 
+     * @param {string} year Year to retrieve information from
+     * @param {boolean} older Whether is after retirement age or not
+     * @param {boolean} socialSecurity Whether social security will be considered or not
+     * @param {boolean} [print] Print output table to console log or not
+     * @returns {number} Social Security contribution percentage to apply to wage credit
+     */
+    function getSocialCredit(year, older, socialSecurity, print = isDebug) {
       /*
       * JSON properties for socialPercent object
       * rate: Higher full rate including social contributions to be used to get proportion
@@ -299,39 +353,106 @@ let calcComponent = {
       } else if (older) {
         percentage = (bracket.rate + bracket.older - bracket.social) / bracket.rate; // Removing only AOW from total
       }
+      if (print) {
+        const maximumPayment = Math.trunc(bracket.social * bracket.max);
+        $log.debug(`Social Security Rates ${year}`);
+        console.table([{
+          'AOW Rate': `${Math.trunc((bracket.social - bracket.older) * 1000000) / 10000}%`,
+          'Anw + Wlz Rate': `${Math.trunc(bracket.older * 1000000) / 10000}%`,
+          'Income Ceiling': `€ ${bracket.max}`,
+          'Maximum Payment': `€ ${maximumPayment}`,
+          'Social Credit': `${Math.trunc(percentage* 1000000) / 10000}%`,
+        }]);
+      }
       return percentage;
     }
 
-    // https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/themaoverstijgend/brochures_en_publicaties/handboek-loonheffingen-2017
-    function getRates(brackets, salary, type) {
-      let amount = 0,
-        tax, delta, percent;
+    /**
+     * Get right amount based on the rate brackets passed
+     * https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/themaoverstijgend/brochures_en_publicaties/nieuwsbrief-loonheffingen-2020
+     * 
+     * @param {object[]} brackets Rate brackets to extract information from
+     * @param {number} salary Taxable wage that will be used for calculation
+     * @param {string} kind Property name to be extracted from bracket
+     * @param {number} [multiplier] Scalar value to multiple against final result
+     * @param {boolean} [print] Print output table to console log or not
+     * @returns {number} Accumulated tax/credit amount to be used to calculate the net income
+     */
+    function getRates(brackets, salary, kind, multiplier = 1, print = isDebug) {
+      let amount = 0, found = false,
+        tax, delta, isPercent;
 
-      brackets.some((bracket, index) => {
+      const printOutput = [];
+
+      brackets.forEach((bracket, index) => {
         delta = (bracket.max) ? bracket.max - bracket.min : Infinity; // Consider infinity when no upper bound
-        tax = (type && bracket[type]) ? bracket[type] : bracket['rate'];
-        percent = (tax != 0 && tax > -1 && tax < 1); // Check if rate is percentage or fixed
-        if (salary <= delta) {
-          if (percent) {
-            amount += Math.trunc((salary * 100) * tax) / 100; // Round down at 2 decimal places
+        tax = Math.round(multiplier * ((kind && bracket[kind]) ? bracket[kind] : bracket['rate']) * 100000) / 100000;
+        isPercent = (tax != 0 && tax > -1 && tax < 1); // Check if rate is percentage or fixed
+        let output = {
+          // 'Index': index,
+        };
+        if (print) {
+          let text = '';
+          if (isPercent) {
+            if (amount > 0) {
+              text += `€ ${Math.round(amount)}`;
+            }
+            if (tax < 0) {
+              text += ' - ';
+            } else if (text) {
+              text += ' + ';
+            }
+            text += `${(Math.abs(tax) * 100).toFixed(3)}% \u00D7 `;
+            if (bracket.min  > 0) {
+              text += `(INCOME - € ${bracket.min})`;
+            } else {
+              text += 'INCOME';
+            }
           } else {
-            amount = tax;
+            text = `€ ${Math.round(tax)}`;
           }
-          //console.log(index, salary, delta, tax, percent, amount);
-          return true; // Break loop when reach last bracket
-        } else {
-          if (percent) {
-            amount += (delta * tax);
+          output = {
+            ...output,
+            'Minimum': `€ ${bracket.min}`,
+            'Maximum': bracket.max ? `€ ${bracket.max}` : '-',
+            'Applied Formula': text,
+          };
+        }
+        if (!found) {
+          if (salary <= delta) {
+            if (isPercent) {
+              amount += Math.trunc((salary * 100) * tax) / 100; // Round down at 2 decimal places
+            } else {
+              amount = tax;
+            }
+            found = true;
           } else {
-            amount = tax;
+            if (isPercent) {
+              amount += (delta * tax);
+            } else {
+              amount = tax;
+            }
+            salary -= delta;
           }
-          salary -= delta;
+        }
+        if (print) {
+          printOutput.push({
+            ...output,
+            'Income': found ? '-' : `€ ${salary}`,
+            'Delta': `€ ${delta}`,
+            'Original Tax': tax.toFixed(5),
+            'Is Percentage?': isPercent,
+            'Accumulated Amount': found ? '-' : `€ ${Math.round(amount)}`,
+          });
         }
       });
+      if (print) {
+        console.table(printOutput);
+      }
       return amount;
     }
   }
 };
 
-calcComponent.$inject = ['$scope', '$location'];
+calcComponent.$inject = ['$scope', '$location', '$log'];
 export default calcComponent;
