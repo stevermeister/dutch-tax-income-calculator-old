@@ -227,18 +227,35 @@ let calcComponent = {
 
         salary.taxFreeYear = 0;
         salary.taxableYear = grossYear - salary.grossAllowance;
+
         if (this.ruling.checked) {
           let rulingIncome = getRulingIncome(this.year, this.ruling.choice);
-          if (salary.taxableYear > rulingIncome) {
-            salary.taxFreeYear = salary.taxableYear * 0.30;
-            salary.taxableYear -= salary.taxFreeYear;
-            // this was a strange condition, I comment out it for now
-            // if (salary.taxableYear < rulingIncome) { // For partial
-            //   salary.taxFreeYear = grossYear - rulingIncome;
-            //   salary.taxableYear = rulingIncome;
-            // }
+          // the 30% of taxableYear is untaxed
+          // UNLESS this brings taxableYear under the rulingIncome
+          // in which case cap the effectiveSalary to rulingIncome
+          let effectiveSalary = salary.taxableYear * 0.7;
+          effectiveSalary = Math.max(effectiveSalary, rulingIncome);
+          let reimbursement = salary.taxableYear - effectiveSalary;
+          if (reimbursement > 0) {
+            salary.taxFreeYear = reimbursement;
+            salary.taxableYear = salary.taxableYear - reimbursement;
           }
         }
+
+
+
+        // if (this.ruling.checked) {
+        //   let rulingIncome = getRulingIncome(this.year, this.ruling.choice);
+        //   if (salary.taxableYear > rulingIncome) {
+        //     salary.taxFreeYear = salary.taxableYear * 0.30;
+        //     salary.taxableYear -= salary.taxFreeYear;
+        //     // this was a strange condition, I comment out it for now
+        //     // if (salary.taxableYear < rulingIncome) { // For partial
+        //     //   salary.taxFreeYear = grossYear - rulingIncome;
+        //     //   salary.taxableYear = rulingIncome;
+        //     // }
+        //   }
+        // }
 
         salary.taxFreeYear = ~~(salary.taxFreeYear);
         salary.taxFree = ~~(salary.taxFreeYear / grossYear * 100);
