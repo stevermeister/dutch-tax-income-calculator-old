@@ -5,7 +5,7 @@ import rulingComponent from './ruling/ruling.component';
 import partnerSectionComponent from './parner-section/partner-section.component';
 import wordCalcComponent from './world-calc/world-calc';
 
-var App = angular.module('dit-calculator', ['ngMaterial']);
+const App = angular.module('dit-calculator', ['ngMaterial']);
 App.config(['$compileProvider', '$logProvider', '$locationProvider', function($compileProvider, $logProvider, $locationProvider) {
     $locationProvider.html5Mode({
       enabled: true,

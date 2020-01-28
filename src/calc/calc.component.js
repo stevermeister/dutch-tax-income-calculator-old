@@ -4,8 +4,6 @@ import constants from '../data.json'; // Get JSON containing calculation constan
 let calcComponent = {
   template,
   controller: function($scope, $location, $log) {
-    const isDebug = console.table instanceof Function;
-
     this.year = constants.currentYear;
     this.years = constants.years;
     if ($location.search().year && this.years.indexOf(+$location.search().year) !== -1) {
@@ -336,10 +334,9 @@ let calcComponent = {
      * @param {string} year Year to retrieve information from
      * @param {boolean} older Whether is after retirement age or not
      * @param {boolean} socialSecurity Whether social security will be considered or not
-     * @param {boolean} [print] Print output table to console log or not
      * @returns {number} Social Security contribution percentage to apply to wage credit
      */
-    function getSocialCredit(year, older, socialSecurity, print = isDebug) {
+    function getSocialCredit(year, older, socialSecurity) {
       /*
       * JSON properties for socialPercent object
       * rate: Higher full rate including social contributions to be used to get proportion
@@ -353,17 +350,6 @@ let calcComponent = {
       } else if (older) {
         percentage = (bracket.rate + bracket.older - bracket.social) / bracket.rate; // Removing only AOW from total
       }
-      if (print) {
-        const maximumPayment = Math.trunc(bracket.social * bracket.max);
-        $log.debug(`Social Security Rates ${year}`);
-        console.table([{
-          'AOW Rate': `${Math.trunc((bracket.social - bracket.older) * 1000000) / 10000}%`,
-          'Anw + Wlz Rate': `${Math.trunc(bracket.older * 1000000) / 10000}%`,
-          'Income Ceiling': `€ ${bracket.max}`,
-          'Maximum Payment': `€ ${maximumPayment}`,
-          'Social Credit': `${Math.trunc(percentage* 1000000) / 10000}%`,
-        }]);
-      }
       return percentage;
     }
 
@@ -375,80 +361,33 @@ let calcComponent = {
      * @param {number} salary Taxable wage that will be used for calculation
      * @param {string} kind Property name to be extracted from bracket
      * @param {number} [multiplier] Scalar value to multiple against final result
-     * @param {boolean} [print] Print output table to console log or not
      * @returns {number} Accumulated tax/credit amount to be used to calculate the net income
      */
-    function getRates(brackets, salary, kind, multiplier = 1, print = isDebug) {
-      let amount = 0, found = false,
+    function getRates(brackets, salary, kind, multiplier = 1) {
+      let amount = 0,
         tax, delta, isPercent;
 
-      const printOutput = [];
-
-      brackets.forEach((bracket, index) => {
+      brackets.some((bracket, index) => {
         delta = (bracket.max) ? bracket.max - bracket.min : Infinity; // Consider infinity when no upper bound
         tax = Math.round(multiplier * ((kind && bracket[kind]) ? bracket[kind] : bracket['rate']) * 100000) / 100000;
         isPercent = (tax != 0 && tax > -1 && tax < 1); // Check if rate is percentage or fixed
-        let output = {
-          // 'Index': index,
-        };
-        if (print) {
-          let text = '';
+        if (salary <= delta) {
           if (isPercent) {
-            if (amount > 0) {
-              text += `€ ${Math.round(amount)}`;
-            }
-            if (tax < 0) {
-              text += ' - ';
-            } else if (text) {
-              text += ' + ';
-            }
-            text += `${(Math.abs(tax) * 100).toFixed(3)}% \u00D7 `;
-            if (bracket.min  > 0) {
-              text += `(INCOME - € ${bracket.min})`;
-            } else {
-              text += 'INCOME';
-            }
+            amount += Math.trunc((salary * 100) * tax) / 100; // Round down at 2 decimal places
           } else {
-            text = `€ ${Math.round(tax)}`;
+            amount = tax;
           }
-          output = {
-            ...output,
-            'Minimum': `€ ${bracket.min}`,
-            'Maximum': bracket.max ? `€ ${bracket.max}` : '-',
-            'Applied Formula': text,
-          };
-        }
-        if (!found) {
-          if (salary <= delta) {
-            if (isPercent) {
-              amount += Math.trunc((salary * 100) * tax) / 100; // Round down at 2 decimal places
-            } else {
-              amount = tax;
-            }
-            found = true;
+          //console.log(index, salary, delta, tax, isPercent, amount);
+          return true; // Break loop when reach last bracket
+        } else {
+          if (isPercent) {
+            amount += (delta * tax);
           } else {
-            if (isPercent) {
-              amount += (delta * tax);
-            } else {
-              amount = tax;
-            }
-            salary -= delta;
+            amount = tax;
           }
-        }
-        if (print) {
-          printOutput.push({
-            ...output,
-            'Income': found ? '-' : `€ ${salary}`,
-            'Delta': `€ ${delta}`,
-            'Original Tax': tax.toFixed(5),
-            'Is Percentage?': isPercent,
-            'Accumulated Amount': found ? '-' : `€ ${Math.round(amount)}`,
-          });
+          salary -= delta;
         }
       });
-      if (print) {
-        console.table(printOutput);
-      }
       return amount;
     }
   }
