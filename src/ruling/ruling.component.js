@@ -1,5 +1,5 @@
 import template from './ruling.html';
-import { constants } from 'dutch-tax-income-calculator-npm';
+import { constants } from 'dutch-tax-income-calculator';
 
 let rulingComponent = {
   template,

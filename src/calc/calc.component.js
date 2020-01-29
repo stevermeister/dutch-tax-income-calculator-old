@@ -1,5 +1,5 @@
 import template from './calc.html';
-import { constants, SalaryPaycheck } from 'dutch-tax-income-calculator-npm';
+import { constants, SalaryPaycheck } from 'dutch-tax-income-calculator';
 
 let calcComponent = {
   template,
