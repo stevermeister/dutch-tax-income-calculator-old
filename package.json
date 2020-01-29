@@ -19,10 +19,14 @@
     "url": "https://github.com/stevermeister/dutch-tax-income-calculator/issues"
   },
   "homepage": "https://github.com/stevermeister/dutch-tax-income-calculator",
+  "dependencies": {
+    "dutch-tax-income-calculator-npm": "github:eduardomourar/dutch-tax-income-calculator-npm#feature/full-calculation"
+  },
   "devDependencies": {
-    "@babel/core": "7.1.2",
-    "@babel/preset-env": "^7.1.0",
-    "babel-loader": "8.0.4",
+    "@babel/core": "^7.8.3",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "0.1.19",
     "css-loader": "3.4.1",
     "html-loader": "0.5.5",
