@@ -1,4 +1,4 @@
-const version = "2.0.1";
+const version = "2.0.2";
 const cacheName = `dutch-tax-income-calculator-${version}`;
 self.addEventListener('install', e => {
   const timeStamp = Date.now();
