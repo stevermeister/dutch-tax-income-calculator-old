@@ -1,6 +1,6 @@
 {
   "name": "dutch-tax-income-calculator-frontend",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "dutch-tax-income-calculator",
   "main": "app.js",
   "scripts": {

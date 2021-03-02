@@ -201,6 +201,7 @@ let calcComponent = {
         $location.search('retired', +this.salary.older);
         $location.search('ruling', +this.ruling.checked);
         $location.search('rulingChoice', this.ruling.choice);
+        ga('send', 'pageview', $location.path());
 /*        $location.search('hours', +this.salary.hours);
         this.output.forEach((item) => {
           $location.search(item.name, +item.checked);
