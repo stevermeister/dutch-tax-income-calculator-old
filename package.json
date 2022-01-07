@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/stevermeister/dutch-tax-income-calculator",
   "dependencies": {
-    "dutch-tax-income-calculator": "^0.2.1"
+    "dutch-tax-income-calculator": "^22.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.3",
