@@ -1,7 +1,7 @@
 const path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ManifestPlugin = require('webpack-manifest-plugin');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 
 module.exports = {
   mode: 'production',
@@ -31,14 +31,14 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(['dist']),
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: 'index.html',
       inject: 'body',
       favicon: 'favicon.png',
       baseUrl: '/'
     }),
-    new ManifestPlugin()
+    new WebpackManifestPlugin()
   ],
   devServer: {
     contentBase: './dist'
