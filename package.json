@@ -1,6 +1,6 @@
 {
   "name": "dutch-tax-income-calculator-frontend",
-  "version": "22.0.3",
+  "version": "23.1.1",
   "description": "dutch-tax-income-calculator",
   "main": "app.js",
   "scripts": {
@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/stevermeister/dutch-tax-income-calculator",
   "dependencies": {
-    "dutch-tax-income-calculator": "^22.0.0"
+    "dutch-tax-income-calculator": "^23.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.3",
