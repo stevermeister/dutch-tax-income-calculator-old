@@ -1,9 +1,14 @@
 Dutch-Income-Tax-Calculator
 ===========================
 
+# It's an old (AngularJs) deprecated version!
+# Please use the code of a new (Angular) version here - https://github.com/stevermeister/dutch-tax-income-calculator
+
+New version of application is on the same domain - https://thetax.nl (**only be sure that you flushed the cashe**)
+
+
 > Dutch Income Tax Calculator with AngularJS
 
-You can test it here - http://thetax.nl
 
 <p align="center">
   <img width="721" alt="Screenshot 2019-11-02 at 09 58 08" src="https://user-images.githubusercontent.com/1526680/68068657-5a458b80-fd57-11e9-83a8-8c3d2ebac18d.png">
